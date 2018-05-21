@@ -1,8 +1,8 @@
 export enum EPieceType {
+  king,
   pawn,
-  rook,
   knight,
+  rook,
   bishop,
-  queen,
-  king
+  queen
 }
