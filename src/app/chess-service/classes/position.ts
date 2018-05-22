@@ -8,13 +8,13 @@ export class Position implements IPosition {
 
   constructor(readonly x: number, readonly y: number, board?: Board, _piece?: IPiece) { }
 
-  static difference(position: Position, otherPosition: Position): Position {
+  static difference(position: IPosition, otherPosition: IPosition): IPosition {
     return new Position((otherPosition.x - position.x), (otherPosition.x - position.y));
   }
-  static IsSamePosition(position: Position, otherPosition: Position): boolean {
-    return otherPosition.x === position.x && otherPosition.y === position.y;
+  static IsSamePosition(position: IPosition, otherPosition: IPosition): boolean {
+    return otherPosition.x === position.x && otherPosition.y === position.y && position.board === otherPosition.board;
   }
-  difference(position: Position, otherPosition: Position = this): Position { return Position.difference(position, otherPosition); }
+  difference(position: IPosition, otherPosition: IPosition = this): IPosition { return Position.difference(position, otherPosition); }
   IsSamePosition(position: IPosition, otherPosition: IPosition = this): boolean { return Position.IsSamePosition(position, otherPosition); }
 
 

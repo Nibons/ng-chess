@@ -7,22 +7,13 @@ import { Position } from './position';
 import { IPosition } from '../interfaces/iposition';
 
 export class Bishop extends BasePiece implements IPiece {
-  pieceType = EPieceType.bishop;
-  static ProcessBishopThreat(initialPosition: IPosition, board: Board): Position[] {
-    const direction = [1, -1];
-    const position_cache: Position[] = new Array();
-    for (const xDir of direction) {
-      for (const yDir of direction) {
-        let continue_this_direction = true;
-        for (let i = 1; continue_this_direction; i++) {
-          const pos = board.getPositionAt(new Coordinates(((xDir * i) + initialPosition.x), ((yDir * i) + initialPosition.y)));
-          if (pos) {
-            position_cache.push(pos);
-            if (pos.IsOccupied) { continue_this_direction = false; }
-          } else { continue_this_direction = false; }
-        }
-      }
-    }
+  readonly pieceType = EPieceType.bishop;
+  static ProcessBishopThreat(initialPosition: IPosition, board: Board): IPosition[] {
+    const position_cache: IPosition[] = new Array();
+    BasePiece.ProcessThreatInDirection(initialPosition, 1, 1, board).forEach(pos => position_cache.push(pos)); // NE
+    BasePiece.ProcessThreatInDirection(initialPosition, 1, -1, board).forEach(pos => position_cache.push(pos)); // SE
+    BasePiece.ProcessThreatInDirection(initialPosition, -1, 1, board).forEach(pos => position_cache.push(pos)); // NW
+    BasePiece.ProcessThreatInDirection(initialPosition, -1, -1, board).forEach(pos => position_cache.push(pos)); // SW
     return position_cache;
   }
 

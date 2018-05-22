@@ -5,7 +5,7 @@ import { Position } from './position';
 import { EPieceType } from '../enums/e-piece-type.enum';
 
 export class Knight extends BasePiece implements IPiece {
-  pieceType = EPieceType.knight;
+  readonly pieceType = EPieceType.knight;
   IsAlive() { return this._IsAlive; }
 
   private ProcessKnightThreat() {

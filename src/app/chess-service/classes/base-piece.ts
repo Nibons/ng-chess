@@ -7,21 +7,28 @@ import { IPosition } from '../interfaces/iposition';
 import {Coordinates} from './coordinates';
 
 export abstract class BasePiece {
-  constructor(public position: Position, pieceType: EPieceType, public board: Board) { }
+  constructor(public position: Position, public board: Board) { }
   abstract pieceType: EPieceType;
   protected _IsAlive = true;
   protected _HasMoved = false;
   protected _AvailableMoves: Position[];
   protected _ThreatList: Position[];
 
-  static ProcessThreatInDirection(startingPosition: IPosition, deltaX: number, deltaY: number, board:Board, maxCount?:number): IPosition[] {
-    let position_cache: IPosition[] = new Array();
-    let current_position: IPosition = startingPosition;
-    let continue_this_direction = true;
-    do{
-      current_position = new Coordinates((current_position.x + deltaX), (current_position.y + deltaY));
-
-    }while()
+  static ProcessThreatInDirection(
+    starting_position: IPosition,
+    deltaX: number,
+    deltaY: number,
+    board: Board,
+    maxCount: number = board.xMax): IPosition[] {
+    const position_cache: IPosition[] = new Array();
+    let i = 1;
+    for (let current_position = starting_position ; current_position.IsOnBoard && current_position.IsEmpty && i <= maxCount ; i++) {
+      current_position = board.getPositionAt(new Coordinates((current_position.x + deltaX), (current_position.y + deltaY)));
+      if (current_position.IsOnBoard ) {
+        position_cache.push(current_position);
+      }
+    }
+    return position_cache;
   }
 
   move(target_position): void {
@@ -31,11 +38,7 @@ export abstract class BasePiece {
   IsAlive(): boolean { return this._IsAlive; }
   protected setIsAlive(aliveStatus: boolean = false): void { this._IsAlive = aliveStatus; }
 
-
   HasMoved(): boolean { return this._HasMoved; }
-
-
-
 
   getAvailableMoves(): Position[] {
     return this._AvailableMoves;
