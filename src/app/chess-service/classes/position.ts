@@ -1,18 +1,25 @@
-import {Board} from './board'
+import { Board } from './board';
 import { IPiece } from '../interfaces/ipiece';
+import { IPosition } from '../interfaces/iposition';
 
-export class Position {
-  private _piece: IPiece=null;
+export class Position implements IPosition {
+  private _piece: IPiece = null;
+  IsOccupied = false;
 
-  constructor(readonly x: number, readonly y: number, board?: Board, _piece?: IPiece){}
+  constructor(readonly x: number, readonly y: number, board?: Board, _piece?: IPiece) { }
 
-  difference(position: Position): Position {
-    return new Position((this.x - position.x),(this.x - position.y));
+  static difference(position: Position, otherPosition: Position): Position {
+    return new Position((otherPosition.x - position.x), (otherPosition.x - position.y));
   }
-  IsSamePosition(position: Position): boolean {return this.x == position.x && this.y == position.y};
+  static IsSamePosition(position: Position, otherPosition: Position): boolean {
+    return otherPosition.x === position.x && otherPosition.y === position.y;
+  }
+  difference(position: Position, otherPosition: Position = this): Position { return Position.difference(position, otherPosition); }
+  IsSamePosition(position: IPosition, otherPosition: IPosition = this): boolean { return Position.IsSamePosition(position, otherPosition); }
 
-  SetPiece(piece?: IPiece){
-    if(piece){this._piece = piece}else{this._piece=null}
+
+  private SetPiece(piece?: IPiece) {
+    if (piece) { this._piece = piece; } else { this._piece = null; }
   }
 }
 

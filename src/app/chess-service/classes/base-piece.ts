@@ -1,34 +1,40 @@
-import { IPiece } from "../interfaces/ipiece";
-import { ETeam } from "../enums/eteam.enum";
-import { EPieceType } from "../enums/e-piece-type.enum";
-import { Board } from "./board";
+import { IPiece } from '../interfaces/ipiece';
+import { ETeam } from '../enums/eteam.enum';
+import { EPieceType } from '../enums/e-piece-type.enum';
+import { Board } from './board';
+import { Position } from './position';
 
-export abstract class BasePiece implements IPiece { //remove implements IPiece
-  private _alive: boolean = true;
-  IsAlive(): boolean {return this._alive}
-
-
+export abstract class BasePiece {
+  constructor(public position: Position, pieceType: EPieceType, public board: Board) { }
   abstract pieceType: EPieceType;
-  abstract move(target_position): void;
-
-  private _availableMoves: Position[];
-  abstract getAvailableMoves(): void;
-  getavailableMoves(): Position[] {
-    return this._availableMoves;
+  protected _IsAlive = true;
+  protected _HasMoved = false;
+  protected _AvailableMoves: Position[];
+  protected _ThreatList: Position[];
+  move(target_position): void {
+    // if _AvailableMoves -notContain target_position -> throw "Not a Valid Move"
+    // this.position =
   }
+  IsAlive(): boolean { return this._IsAlive; }
+  protected setIsAlive(aliveStatus: boolean = false): void { this._IsAlive = aliveStatus; }
 
 
-  constructor(position: Position, pieceType: EPieceType = EPieceType.pawn, private board: Board) {}
+  HasMoved(): boolean { return this._HasMoved; }
 
-  //inherit or override in child pieces
-  attack(target_position: Position){
-    this.board.getPieceAt(target_position).kill() //try reactive, instead!
-    this.move(target_position)
+
+  getAvailableMoves(): Position[] {
+    return this._AvailableMoves;
   }
-
-  die(){
-    this._alive = false;
+  HasMoves(): boolean {
+    return this._AvailableMoves.length > 0;
   }
-
-
+  getThreatList(): Position[] {
+    return this._ThreatList;
+  }
+  protected testThisPlaceForThreat(XVal: number, YVal: number): void {
+    const potentialPosition = new Position(XVal, YVal);
+    if (this.board.IsValidPosition(potentialPosition)) {
+      this.
+    }
+  }
 }
