@@ -2,6 +2,7 @@ import { IPiece } from '../interfaces/ipiece';
 import { EPieceType } from '../enums/e-piece-type.enum';
 import { Position } from './position';
 import { IPosition } from '../interfaces/iposition';
+import { Coordinates } from './coordinates';
 
 const xMinimum = 1;
 const xMaximum = 8;

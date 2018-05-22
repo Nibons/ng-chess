@@ -15,12 +15,10 @@ export class Bishop extends BasePiece implements IPiece {
       for (const yDir of direction) {
         let continue_this_direction = true;
         for (let i = 1; continue_this_direction; i++) {
-          continue_this_direction = false;
-          const coords_to_check = new Coordinates(((xDir * i) + initialPosition.x), ((yDir * i) + initialPosition.y));
-          if (board.IsValidPosition(coords_to_check)) {
-            const found_position: Position = board.getPositionAt(coords_to_check);
-            position_cache.push(found_position);
-            if (found_position.IsOccupied) { continue_this_direction = false; }
+          const pos = board.getPositionAt(new Coordinates(((xDir * i) + initialPosition.x), ((yDir * i) + initialPosition.y)));
+          if (pos) {
+            position_cache.push(pos);
+            if (pos.IsOccupied) { continue_this_direction = false; }
           } else { continue_this_direction = false; }
         }
       }

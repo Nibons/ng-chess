@@ -12,8 +12,8 @@ export class Knight extends BasePiece implements IPiece {
     const directions = [1, -1];
     for (const XDirection of directions) {
       for (const YDirection of directions) {
-        this.testThisPlaceForThreat((2 * XDirection, YDirection);
-        this.testThisPlaceForThreat(XDirection, 2 * YDirection);
+        this.testThisPlaceForThreat((2 * XDirection), YDirection);
+        this.testThisPlaceForThreat(XDirection, (2 * YDirection));
       }
     }
   }
