@@ -5,14 +5,20 @@ import { Board } from './board';
 import { Position } from './position';
 import { IPosition } from '../interfaces/iposition';
 import { Coordinates } from './coordinates';
+import { Knight } from './knight';
+import { Observable } from 'rxjs';
 
-export abstract class BasePiece {
+export abstract class BasePiece implements IPiece {
   constructor(public position: Position, public board: Board) { }
   abstract pieceType: EPieceType;
   protected _IsAlive = true;
   protected _HasMoved = false;
-  protected _AvailableMoves: Position[];
-  protected _ThreatList: Position[];
+  protected _AvailableMoves: IPosition[];
+  protected _ThreatList: IPosition[];
+  protected _positionHere$: Observable<IPosition>;
+
+  threat$: Observable<IPosition[]> = Observable.create(this._ThreatList);
+
 
   static ProcessThreatInDirection(
     starting_position: IPosition,
@@ -40,15 +46,24 @@ export abstract class BasePiece {
 
   HasMoved(): boolean { return this._HasMoved; }
 
-  getAvailableMoves(): Position[] {
+  getAvailableMoves(): IPosition[] {
     return this._AvailableMoves;
   }
   HasMoves(): boolean {
     return this._AvailableMoves.length > 0;
   }
-  getThreatList(): Position[] {
+  getThreatList(): IPosition[] {
     return this._ThreatList;
   }
 
+  protected subscribeToHerePosition(): void {
+    return 1;
+  }
+  protected pushThreat(): void {
+    let new_threat = this.GetThreatPositionList();
+    this._ThreatList.filter(pos => !new_threat.includes(pos)).forEach(pos => this._ThreatList.)
+  }
 
+
+  abstract GetThreatPositionList(): IPosition[];
 }
