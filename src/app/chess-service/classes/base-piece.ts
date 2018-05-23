@@ -4,7 +4,7 @@ import { EPieceType } from '../enums/e-piece-type.enum';
 import { Board } from './board';
 import { Position } from './position';
 import { IPosition } from '../interfaces/iposition';
-import {Coordinates} from './coordinates';
+import { Coordinates } from './coordinates';
 
 export abstract class BasePiece {
   constructor(public position: Position, public board: Board) { }
@@ -22,9 +22,9 @@ export abstract class BasePiece {
     maxCount: number = board.xMax): IPosition[] {
     const position_cache: IPosition[] = new Array();
     let i = 1;
-    for (let current_position = starting_position ; current_position.IsOnBoard && current_position.IsEmpty && i <= maxCount ; i++) {
+    for (let current_position = starting_position; current_position.IsOnBoard && current_position.IsEmpty && i <= maxCount; i++) {
       current_position = board.getPositionAt(new Coordinates((current_position.x + deltaX), (current_position.y + deltaY)));
-      if (current_position.IsOnBoard ) {
+      if (current_position.IsOnBoard) {
         position_cache.push(current_position);
       }
     }

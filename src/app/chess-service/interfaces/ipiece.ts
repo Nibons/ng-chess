@@ -2,6 +2,7 @@ import { ETeam } from '../enums/eteam.enum';
 import { Position } from '../classes/position';
 import { EPieceType } from '../enums/e-piece-type.enum';
 import { Board } from '../classes/board';
+import {IPosition} from '../interfaces/iposition';
 
 export interface IPiece {
   readonly pieceType: EPieceType;
@@ -9,6 +10,6 @@ export interface IPiece {
   IsAlive(): boolean;
   getAvailableMoves(): Position[];
   HasMoves(): boolean;
-  GetThreatPositionList(): Position[];
+  GetThreatPositionList(): IPosition[];
   HasMoved(): boolean;
 }

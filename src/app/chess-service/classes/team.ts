@@ -1,10 +1,11 @@
 import { EPieceType } from "../enums/e-piece-type.enum";
+import {IPiece} from '../interfaces/ipiece';
 
-export class Team {
+export class Player {
   livingPieces: IPiece[];
   deadPieces: IPiece[];
-  IsInCheck: boolean;
-  IsCurrentTurn: boolean;
+  IsInCheck: boolean = false;
+  IsCurrentTurn: boolean = false;
 
-  constructor(color: e-EPieceType){}
+  constructor(color: EPieceType) { }
 }

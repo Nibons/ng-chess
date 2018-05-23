@@ -17,9 +17,7 @@ export class Bishop extends BasePiece implements IPiece {
     return position_cache;
   }
 
-  private ProcessBishopThreat(): void {
-    const threatLocations = Bishop.ProcessBishopThreat(this.position, this.board);
-  }
+  GetThreatPositionList(): IPosition[] { return Bishop.ProcessBishopThreat(this.position, this.board); }
 }
 
 
