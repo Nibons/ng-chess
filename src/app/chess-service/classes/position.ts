@@ -14,7 +14,9 @@ export class Position implements IPosition {
   static IsSamePosition(position: IPosition, otherPosition: IPosition): boolean {
     return otherPosition.x === position.x && otherPosition.y === position.y && position.board === otherPosition.board;
   }
-  difference(position: IPosition, otherPosition: IPosition = this, board: Board = this.board): IPosition { return Position.difference(position, otherPosition); }
+  difference(position: IPosition, otherPosition: IPosition = this, board: Board = this.board): IPosition {
+    return Position.difference(position, otherPosition);
+  }
   IsSamePosition(position: IPosition, otherPosition: IPosition = this): boolean { return Position.IsSamePosition(position, otherPosition); }
 
 

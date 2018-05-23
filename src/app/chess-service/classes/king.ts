@@ -1,8 +1,8 @@
-import { BasePiece } from "./base-piece";
-import { IPiece } from "../interfaces/ipiece";
+import { BasePiece } from './base-piece';
+import { IPiece } from '../interfaces/ipiece';
 import { IPosition } from '../interfaces/iposition';
 import { Board } from './board';
-import { EPieceType } from "../enums/e-piece-type.enum";
+import { EPieceType } from '../enums/e-piece-type.enum';
 
 export class King extends BasePiece implements IPiece {
   readonly pieceType = EPieceType.king;
@@ -17,5 +17,7 @@ export class King extends BasePiece implements IPiece {
     }
     return position_cache;
   }
-  GetThreatPositionList(initialPosition: IPosition = this.position, board: Board = this.board): IPosition[] { return King.ProcessKingThreat(initialPosition, board); }
+  GetThreatPositionList(initialPosition: IPosition = this.position, board: Board = this.board): IPosition[] {
+    return King.ProcessKingThreat(initialPosition, board);
+  }
 }
