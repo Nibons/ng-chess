@@ -24,6 +24,16 @@ export abstract class BasePiece implements IPiece {
 
   threat$: Observable<IPosition[]> = Observable.create(this._ThreatList);
 
+  static PieceFactory(PieceType: EPieceType, position: Position, board: Board): IPiece {
+    switch (PieceType) {
+      case EPieceType.bishop: { return new Bishop(position, board); }
+      case EPieceType.king: { return new King(position, board); }
+      case EPieceType.knight: { return new Knight(position, board); }
+      case EPieceType.pawn: { return new Pawn(position, board); }
+      case EPieceType.queen: { return new Queen(position, board); }
+      case EPieceType.rook: { return new Rook(position, board); }
+    }
+  }
 
   static ProcessThreatInDirection(
     starting_position: IPosition,
