@@ -1,4 +1,4 @@
-import {Board} from '../classes/board';
+import { Board } from '@chess/board';
 export interface IPosition {
   x: number;
   y: number;

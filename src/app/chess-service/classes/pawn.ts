@@ -1,8 +1,8 @@
-import { BasePiece } from './base-piece';
-import { Board } from './board';
-import { IPiece } from '../interfaces/ipiece';
-import { IPosition } from '../interfaces/iposition';
-import { EPieceType } from '../enums/e-piece-type.enum';
+import { BasePiece } from '@chess/base-piece';
+import { Board } from '@chess/board';
+import { IPiece } from '@chess/ipiece';
+import { IPosition } from '@chess/iposition';
+import { EPieceType } from '@chess/e-piece-type.enum';
 
 export class Pawn extends BasePiece implements IPiece {
   readonly pieceType = EPieceType.pawn;

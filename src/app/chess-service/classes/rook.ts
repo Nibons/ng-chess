@@ -1,10 +1,10 @@
-import { BasePiece } from './base-piece';
-import { IPiece } from '../interfaces/ipiece';
-import { Position } from './position';
-import { Board } from './board';
-import { IPosition } from '../interfaces/iposition';
-import { Coordinates } from './coordinates';
-import { EPieceType } from '../enums/e-piece-type.enum';
+import { BasePiece } from '@chess/base-piece';
+import { IPiece } from '@chess/ipiece';
+import { Position } from '@chess/position';
+import { Board } from '@chess/board';
+import { IPosition } from '@chess/iposition';
+import { Coordinates } from '@chess/coordinates';
+import { EPieceType } from '@chess/e-piece-type.enum';
 
 export class Rook extends BasePiece implements IPiece {
   readonly pieceType = EPieceType.rook;
@@ -16,7 +16,7 @@ export class Rook extends BasePiece implements IPiece {
     BasePiece.ProcessThreatInDirection(initialPosition, 0, -1, board).forEach(pos => position_cache.push(pos)); // South
     return position_cache;
   }
-  private GetThreatPositionList() {
+  GetThreatPositionList() {
     return Rook.ProcessRookThreat(this.position, this.board);
   }
 

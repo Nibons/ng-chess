@@ -15,6 +15,15 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths":{
+      "@app/*":["src/app/*"],
+      "@chess/*":[
+        "src/app/chess-service/interfaces/*",
+        "src/app/chess-service/classes/*",
+        "src/app/chess-service/enums/*",
+        "src/app/chess-service/*"
+      ]
+    }
   }
 }

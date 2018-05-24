@@ -1,5 +1,6 @@
-import { EPieceType } from '../enums/e-piece-type.enum';
-import {IPiece} from '../interfaces/ipiece';
+import { EPieceType } from '@chess/e-piece-type.enum';
+import { IPiece } from '@chess/ipiece';
+import { Board } from '@chess/board';
 
 export class Player {
   livingPieces: IPiece[];

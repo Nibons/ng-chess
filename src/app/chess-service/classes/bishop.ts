@@ -1,10 +1,10 @@
-import { BasePiece } from './base-piece';
-import { IPiece } from '../interfaces/ipiece';
-import { EPieceType } from '../enums/e-piece-type.enum';
-import { Board } from './board';
-import { Coordinates } from './coordinates';
-import { Position } from './position';
-import { IPosition } from '../interfaces/iposition';
+import { BasePiece } from '@chess/base-piece';
+import { IPiece } from '@chess//ipiece';
+import { EPieceType } from '@chess/e-piece-type.enum';
+import { Board } from '@chess/board';
+import { Coordinates } from '@chess/coordinates';
+import { Position } from '@chess/position';
+import { IPosition } from '@chess/iposition';
 
 export class Bishop extends BasePiece implements IPiece {
   readonly pieceType = EPieceType.bishop;

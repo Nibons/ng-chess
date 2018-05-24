@@ -1,7 +1,7 @@
-import { Board } from './board';
-import { IPiece } from '../interfaces/ipiece';
-import { IPosition } from '../interfaces/iposition';
-import { Coordinates } from './coordinates';
+import { Board } from '@chess/board';
+import { IPiece } from '@chess/ipiece';
+import { IPosition } from '@chess/iposition';
+import { Coordinates } from '@chess/coordinates';
 export class Position implements IPosition {
   private _piece: IPiece = null;
   IsOccupied = false;

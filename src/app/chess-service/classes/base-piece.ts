@@ -1,12 +1,17 @@
-import { IPiece } from '../interfaces/ipiece';
-import { ETeam } from '../enums/eteam.enum';
-import { EPieceType } from '../enums/e-piece-type.enum';
-import { Board } from './board';
-import { Position } from './position';
-import { IPosition } from '../interfaces/iposition';
-import { Coordinates } from './coordinates';
-import { Knight } from './knight';
+import { Bishop } from '@chess/bishop';
+import { EPieceType } from '@chess/e-piece-type.enum';
+import { IPiece } from '@chess/ipiece';
+import { ETeam } from '@chess//eteam.enum';
+import { Board } from '@chess//board';
+import { Position } from '@chess//position';
+import { IPosition } from '@chess//iposition';
+import { Coordinates } from '@chess//coordinates';
+import { Knight } from '@chess//knight';
 import { Observable } from 'rxjs';
+import { Rook } from '@chess//rook';
+import { Pawn } from '@chess//pawn';
+import { King } from '@chess//king';
+import { Queen } from '@chess//queen';
 
 export abstract class BasePiece implements IPiece {
   constructor(public position: Position, public board: Board) { }

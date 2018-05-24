@@ -1,8 +1,8 @@
-import { IPiece } from '../interfaces/ipiece';
-import { EPieceType } from '../enums/e-piece-type.enum';
-import { Position } from './position';
-import { IPosition } from '../interfaces/iposition';
-import { Coordinates } from './coordinates';
+import { IPiece } from '@chess/ipiece';
+import { EPieceType } from '@chess/e-piece-type.enum';
+import { Position } from '@chess/position';
+import { IPosition } from '@chess/iposition';
+import { Coordinates } from '@chess/coordinates';
 
 const xMinimum = 1;
 const xMaximum = 8;
@@ -40,8 +40,8 @@ export class Board {
   }
 
   IsValidPosition(position: IPosition, board: Board = this): boolean { return board.IsPositionOnGameBoard(position); }
-  getPositionAt(position: IPosition, board: Board = this): IPosition {return Board.getPositionAt(position, board); }
-  IsPositionOnGameBoard(position: IPosition, board: Board = this): boolean {return Board.IsPositionOnGameBoard(position, board); }
+  getPositionAt(position: IPosition, board: Board = this): IPosition { return Board.getPositionAt(position, board); }
+  IsPositionOnGameBoard(position: IPosition, board: Board = this): boolean { return Board.IsPositionOnGameBoard(position, board); }
 
   // Create all the places on the board
   private CreateAllBoardPositions(xMin: number, xMax: number, yMax: number, yMin: number) {
