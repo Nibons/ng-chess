@@ -1,9 +1,9 @@
+import { Board } from '@chess//board';
 import { Rook } from '@chess/rook';
 import { Bishop } from '@chess/bishop';
 import { BasePiece } from '@chess/base-piece';
 import { Position } from '@chess/position';
 import { IPosition } from '@chess/iposition';
-import { Board } from '@chess/board';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { IPiece } from '@chess/ipiece';
 
@@ -19,4 +19,6 @@ export class Queen extends BasePiece implements IPiece {
   ProcessThreat(): void {
     Queen.ProcessQueenThreat(this.position, this.board);
   }
+
+  GetThreatPositionList(): IPosition[] { return Queen.ProcessQueenThreat(this.position, this.board); }
 }
