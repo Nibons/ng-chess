@@ -1,6 +1,6 @@
 export enum EPlayerType {
-  localhuman,
-  localcomputer,
+  human,
+  computer,
   remotehuman,
   remotecomputer
 }
