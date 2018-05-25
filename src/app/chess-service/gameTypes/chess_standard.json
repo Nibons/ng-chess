@@ -5,13 +5,15 @@
       "name": "white",
       "color": "white",
       "playerId": 0,
-      "isCurrentTurn": true
+      "isCurrentTurn": true,
+      "playerType": "human"
     },
     {
       "name": "black",
       "color": "black",
       "playerId": 1,
-      "isCurrentTurn": false
+      "isCurrentTurn": false,
+      "playerType": "human"
     }
   ],
   "board": {

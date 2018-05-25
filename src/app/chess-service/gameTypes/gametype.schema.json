@@ -47,6 +47,15 @@
               0
             ]
           },
+          "playerType": {
+            "$id": "/properties/players/items/properties/playerId",
+            "type": "string",
+            "title": "Type of Player",
+            "default": "human",
+            "enum": [
+              "human", "computer", "remoteHuman", "remoteComputer"
+            ]
+          },
           "isCurrentTurn": {
             "$id": "/properties/players/items/properties/isCurrentTurn",
             "type": "boolean",
@@ -56,7 +65,11 @@
               true
             ]
           }
-        }
+
+        },
+        "required": [
+          "name", "color", "playerId", "playerType"
+        ]
       }
     },
     "board": {
