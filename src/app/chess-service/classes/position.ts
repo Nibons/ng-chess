@@ -2,11 +2,14 @@ import { Board } from '@chess/board';
 import { IPiece } from '@chess/ipiece';
 import { IPosition } from '@chess/iposition';
 import { Coordinates } from '@chess/coordinates';
-export class Position implements IPosition {
+import { ChessObject } from '@chess/chess-object';
+export class Position extends ChessObject implements IPosition {
   private _piece: IPiece = null;
   IsOccupied = false;
 
-  constructor(readonly x: number, readonly y: number, public board: Board, _piece?: IPiece) { }
+  constructor(readonly x: number, readonly y: number, public board: Board, _piece?: IPiece) {
+    super();
+  }
 
   static difference(position: IPosition, otherPosition: IPosition): IPosition {
     return new Coordinates((otherPosition.x - position.x), (otherPosition.x - position.y));

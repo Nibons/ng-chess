@@ -1,5 +1,5 @@
 import { Guid } from 'guid-typescript';
-export class ChessObject {
+export abstract class ChessObject {
   readonly id: Guid = Guid.create();
 }
 

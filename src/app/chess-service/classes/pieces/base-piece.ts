@@ -12,9 +12,12 @@ import { Rook } from '@chess//rook';
 import { Pawn } from '@chess//pawn';
 import { King } from '@chess//king';
 import { Queen } from '@chess//queen';
+import { ChessObject } from '@chess/chess-object';
 
-export abstract class BasePiece implements IPiece {
-  constructor(public position: Position, public board: Board) { }
+export abstract class BasePiece extends ChessObject implements IPiece {
+  constructor(public position: Position, public board: Board) {
+    super();
+  }
   abstract pieceType: EPieceType;
   protected _IsAlive = true;
   protected _HasMoved = false;
@@ -76,7 +79,7 @@ export abstract class BasePiece implements IPiece {
   }
   protected pushThreat(): void {
     let new_threat = this.GetThreatPositionList();
-    this._ThreatList.filter(pos => !new_threat.includes(pos)).forEach(pos => this._ThreatList.)
+    this._ThreatList.filter(pos => !new_threat.includes(pos)).forEach(pos => this._ThreatList.);
   }
 
 

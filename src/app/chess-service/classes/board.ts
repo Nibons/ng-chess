@@ -3,13 +3,14 @@ import { EPieceType } from '@chess/e-piece-type.enum';
 import { Position } from '@chess/position';
 import { IPosition } from '@chess/iposition';
 import { Coordinates } from '@chess/coordinates';
+import { ChessObject } from '@chess/chess-object';
 
 const xMinimum = 1;
 const xMaximum = 8;
 const yMinimum = 1;
 const yMaximum = 8;
 
-export class Board {
+export class Board extends ChessObject {
   activePieces: IPiece[];
   positionList: Position[];
 
@@ -36,6 +37,7 @@ export class Board {
     readonly yMax: number = yMinimum,
     readonly yMin: number = yMaximum
   ) {
+    super();
     this.CreateAllBoardPositions(xMin, xMax, yMin, yMax);
   }
 
