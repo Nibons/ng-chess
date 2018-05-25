@@ -43,7 +43,7 @@ export abstract class BasePiece extends ChessObject implements IPiece {
     deltaX: number,
     deltaY: number,
     board: Board,
-    maxCount: number = board.xMax): IPosition[] {
+    maxCount: number = board.dimensions.max.x): IPosition[] {
     const position_cache: IPosition[] = new Array();
     let i = 1;
     for (let current_position = starting_position; current_position.IsOnBoard && current_position.IsEmpty && i <= maxCount; i++) {
@@ -78,7 +78,7 @@ export abstract class BasePiece extends ChessObject implements IPiece {
     return 1;
   }
   protected pushThreat(): void {
-    let new_threat = this.GetThreatPositionList();
+    const new_threat = this.GetThreatPositionList();
     this._ThreatList.filter(pos => !new_threat.includes(pos)).forEach(pos => this._ThreatList.);
   }
 

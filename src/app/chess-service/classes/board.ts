@@ -51,18 +51,15 @@ export class Board extends ChessObject {
     this.CreateAllBoardPositions();
   }
 
-  IsValidPosition(position: IPosition, board: Board = this): boolean { return board.IsPositionOnGameBoard(position); }
+
+  IsValidPosition(position: IPosition, board: Board = this): boolean { return Board.IsPositionOnGameBoard(position, board); }
   getPositionAt(position: IPosition, board: Board = this): IPosition { return Board.getPositionAt(position, board); }
   PositionOnGameBoard(position: IPosition, board: Board = this): boolean { return Board.IsPositionOnGameBoard(position, board); }
 
-  //Create all the places on the board
-  pivate CreateAllBoardPositions(
-    xMin: number = this.dimensions.min.x,
-    ax: number = this.dimensions.max.x,
-      : number = this.dimensions.min.y,
-    ax: number = this.dimensions.max.x) {
-    for (let xPosition = xMin; xPosition <= xMax; xPosition++) {
-      for (let yPosition = yMin; yPosition <= yMax; yPosition++) {
+  // Create all the places on the board
+  private CreateAllBoardPositions(): void {
+    for (let xPosition = this.dimensions.min.x; xPosition <= this.dimensions.max.x; xPosition++) {
+      for (let yPosition = this.dimensions.min.y; yPosition <= this.dimensions.max.y; yPosition++) {
         this.positionList.push(new Position(xPosition, yPosition, this));
       }
     }
