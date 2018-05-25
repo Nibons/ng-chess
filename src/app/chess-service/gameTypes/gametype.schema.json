@@ -1,0 +1,240 @@
+{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "name": {
+      "$id": "/properties/name",
+      "type": "string",
+      "title": "Name of the game type",
+      "default": "",
+      "examples": [
+        "chess_standard_pvp_local"
+      ]
+    },
+    "players": {
+      "$id": "/properties/players",
+      "type": "array",
+      "items": {
+        "$id": "/properties/players/items",
+        "type": "object",
+        "properties": {
+          "name": {
+            "$id": "/properties/players/items/properties/name",
+            "type": "string",
+            "title": "The Name Schema ",
+            "default": "",
+            "examples": [
+              "white"
+            ]
+          },
+          "color": {
+            "$id": "/properties/players/items/properties/color",
+            "type": "string",
+            "title": "The Color Schema ",
+            "default": "",
+            "examples": [
+              "white"
+            ]
+          },
+          "playerId": {
+            "$id": "/properties/players/items/properties/playerId",
+            "type": "integer",
+            "title": "The Playerid Schema ",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "isCurrentTurn": {
+            "$id": "/properties/players/items/properties/isCurrentTurn",
+            "type": "boolean",
+            "title": "The Iscurrentturn Schema ",
+            "default": false,
+            "examples": [
+              true
+            ]
+          }
+        }
+      }
+    },
+    "board": {
+      "$id": "/properties/board",
+      "type": "object",
+      "properties": {
+        "dimensions": {
+          "$id": "/properties/board/properties/dimensions",
+          "type": "object",
+          "properties": {
+            "x": {
+              "$id": "/properties/board/properties/dimensions/properties/x",
+              "type": "object",
+              "properties": {
+                "min": {
+                  "$id": "/properties/board/properties/dimensions/properties/x/properties/min",
+                  "type": "integer",
+                  "title": "Minimum Dimensions of board",
+                  "default": 0,
+                  "examples": [
+                    0
+                  ]
+                },
+                "max": {
+                  "$id": "/properties/board/properties/dimensions/properties/x/properties/max",
+                  "type": "integer",
+                  "title": "Maximum Dimensions of board",
+                  "default": 7,
+                  "examples": [
+                    7
+                  ]
+                }
+              }
+            },
+            "y": {
+              "$id": "/properties/board/properties/dimensions/properties/y",
+              "type": "object",
+              "properties": {
+                "min": {
+                  "$id": "/properties/board/properties/dimensions/properties/y/properties/min",
+                  "type": "integer",
+                  "title": "Minimum Dimensions of board",
+                  "default": 0,
+                  "examples": [
+                    0
+                  ]
+                },
+                "max": {
+                  "$id": "/properties/board/properties/dimensions/properties/y/properties/max",
+                  "type": "integer",
+                  "title": "Maximum Dimensions of board",
+                  "default": 7,
+                  "examples": [
+                    7
+                  ]
+                }
+              }
+            },
+            "dark-space": {
+              "$id": "/properties/board/properties/dimensions/properties/dark-space",
+              "type": "string",
+              "title": "The Dark-space Schema ",
+              "default": "function(x,y){(x+y)%1 == 0}",
+              "examples": [
+                "function(x,y){(x+y)%1 == 0}"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "options": {
+      "$id": "/properties/options",
+      "type": "object",
+      "properties": {
+        "win-conditions": {
+          "$id": "/properties/options/properties/win-conditions",
+          "type": "array",
+          "items": {
+            "$id": "/properties/options/properties/win-conditions/items",
+            "type": "string",
+            "title": "Conditions under which the game is won",
+            "default": "checkmate",
+            "examples": [
+              "checkmate"
+            ]
+          }
+        },
+        "stalemate-conditions": {
+          "$id": "/properties/options/properties/stalemate-conditions",
+          "type": "array",
+          "items": {
+            "$id": "/properties/options/properties/stalemate-conditions/items",
+            "type": "string",
+            "title": "Conditions under which the game is a stalemate",
+            "default": "no-moves",
+            "examples": [
+              "no-moves"
+            ]
+          }
+        },
+        "timer": {
+          "$id": "/properties/options/properties/timer",
+          "type": "boolean",
+          "title": "The Timer Schema ",
+          "default": false,
+          "examples": [
+            false
+          ]
+        },
+        "friendly-fire": {
+          "$id": "/properties/options/properties/friendly-fire",
+          "type": "boolean",
+          "title": "Friendly Fire enabled",
+          "default": false,
+          "examples": [
+            false
+          ]
+        }
+      }
+    },
+    "pieces": {
+      "$id": "/properties/pieces",
+      "type": "array",
+      "items": {
+        "$id": "/properties/pieces/items",
+        "type": "object",
+        "properties": {
+          "position": {
+            "$id": "/properties/pieces/items/properties/position",
+            "type": "object",
+            "required": [
+              "x", "y"
+            ],
+            "properties": {
+              "x": {
+                "$id": "/properties/pieces/items/properties/position/properties/x",
+                "type": "integer",
+                "title": "Pieces' position on the x-axis",
+                "default": 0,
+                "examples": [
+                  0
+                ]
+              },
+              "y": {
+                "$id": "/properties/pieces/items/properties/position/properties/y",
+                "type": "integer",
+                "title": "Pieces' position on the y-axis",
+                "default": 0,
+                "examples": [
+                  0
+                ]
+              }
+            }
+          },
+          "type": {
+            "$id": "/properties/pieces/items/properties/type",
+            "type": "string",
+            "title": "Piece Type",
+            "default": "",
+            "enum": [
+              "rook", "knight", "bishop", "queen", "king", "pawn"
+            ]
+          },
+          "playerNumber": {
+            "$id": "/properties/pieces/items/properties/playerNumber",
+            "type": "integer",
+            "title": "Which player owns the piece",
+            "default": 0,
+            "examples": [
+              0, 1
+            ]
+          }
+        }
+      },
+      "required": [
+        "position", "type", "playerNumber"
+      ]
+    }
+  }
+}

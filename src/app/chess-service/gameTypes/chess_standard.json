@@ -1,0 +1,293 @@
+{
+  "$schema": ".\\gametype.schema.json",
+  "name": "chess_standard_pvp_local",
+  "players": [{
+      "name": "white",
+      "color": "white",
+      "playerId": 0,
+      "isCurrentTurn": true
+    },
+    {
+      "name": "black",
+      "color": "black",
+      "playerId": 1,
+      "isCurrentTurn": false
+    }
+  ],
+  "board": {
+    "dimensions": {
+      "x": {
+        "min": 0,
+        "max": 7
+      },
+      "y": {
+        "min": 0,
+        "max": 7
+      },
+      "dark-space": "function(x,y){(x+y)%1 == 0}"
+    }
+  },
+  "options": {
+    "win-conditions": ["checkmate"],
+    "stalemate-conditions": ["no-moves"],
+    "timer": false,
+    "friendly-fire": false
+  },
+  "pieces": [{
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "type": "rook",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 1,
+        "y": 0
+      },
+      "type": "knight",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 2,
+        "y": 0
+      },
+      "type": "bishop",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 3,
+        "y": 0
+      },
+      "type": "queen",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 4,
+        "y": 0
+      },
+      "type": "king",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 5,
+        "y": 0
+      },
+      "type": "bishop",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 6,
+        "y": 0
+      },
+      "type": "knight",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 7,
+        "y": 0
+      },
+      "type": "rook",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 0,
+        "y": 1
+      },
+      "type": "pawn",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 1,
+        "y": 1
+      },
+      "type": "pawn",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 2,
+        "y": 1
+      },
+      "type": "pawn",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 3,
+        "y": 1
+      },
+      "type": "pawn",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 4,
+        "y": 1
+      },
+      "type": "pawn",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 5,
+        "y": 1
+      },
+      "type": "pawn",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 6,
+        "y": 1
+      },
+      "type": "pawn",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 7,
+        "y": 1
+      },
+      "type": "pawn",
+      "playerNumber": 0
+    },
+    {
+      "position": {
+        "x": 0,
+        "y": 6
+      },
+      "type": "rook",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 1,
+        "y": 6
+      },
+      "type": "knight",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 2,
+        "y": 6
+      },
+      "type": "bishop",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 3,
+        "y": 6
+      },
+      "type": "queen",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 4,
+        "y": 6
+      },
+      "type": "king",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 5,
+        "y": 6
+      },
+      "type": "bishop",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 6,
+        "y": 6
+      },
+      "type": "knight",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 7,
+        "y": 6
+      },
+      "type": "rook",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 0,
+        "y": 7
+      },
+      "type": "pawn",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 1,
+        "y": 7
+      },
+      "type": "pawn",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 2,
+        "y": 7
+      },
+      "type": "pawn",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 3,
+        "y": 7
+      },
+      "type": "pawn",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 4,
+        "y": 7
+      },
+      "type": "pawn",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 5,
+        "y": 7
+      },
+      "type": "pawn",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 6,
+        "y": 7
+      },
+      "type": "pawn",
+      "playerNumber": 1
+    },
+    {
+      "position": {
+        "x": 7,
+        "y": 7
+      },
+      "type": "pawn",
+      "playerNumber": 1
+    }
+  ]
+}
