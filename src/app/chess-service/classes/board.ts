@@ -1,3 +1,5 @@
+import { IPlayer } from './../interfaces/iplayer.model';
+import { BasePiece } from '@chess/base-piece';
 import { CPiece } from './config/cpiece';
 import { CBoard } from './config/cboard';
 import { IPiece } from '@chess/ipiece';
@@ -10,12 +12,9 @@ import { IDimensions } from '@chess/idimensions.model';
 
 export class Board extends ChessObject {
   readonly dimensions: IDimensions;
+  players: IPlayer[];
   activePieces: IPiece[];
   positionList: Position[];
-
-  static PlacePiece(CPiece, board: Board): void {
-
-  }
 
   static getPositionAt(position: IPosition, board: Board): IPosition {
     return board.positionList.filter(
@@ -43,24 +42,21 @@ export class Board extends ChessObject {
 
   constructor(
     boardConfig: CBoard,
-    piecesConfig: CPiece[]
+    piecesConfig: CPiece[],
+    players: IPlayer[],
   ) {
     super();
     this.dimensions = boardConfig.dimensions;
+    this.players = players;
     this.CreateAllBoardPositions();
-
-    piecesConfig.forEach(pieceInfo => {
-      Board.PlacePiece(pieceInfo.)
-    });
-
   }
 
   IsValidPosition(position: IPosition, board: Board = this): boolean { return board.IsPositionOnGameBoard(position); }
   getPositionAt(position: IPosition, board: Board = this): IPosition { return Board.getPositionAt(position, board); }
   PositionOnGameBoard(position: IPosition, board: Board = this): boolean { return Board.IsPositionOnGameBoard(position, board); }
 
-  Create all the places on the board
-  ivate CreateAllBoardPositions(
+  //Create all the places on the board
+  pivate CreateAllBoardPositions(
     xMin: number = this.dimensions.min.x,
     ax: number = this.dimensions.max.x,
       : number = this.dimensions.min.y,

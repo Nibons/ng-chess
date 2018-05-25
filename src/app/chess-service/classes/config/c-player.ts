@@ -6,5 +6,4 @@ export class CPlayer {
   readonly playerId: number;
   isCurrentTurn: boolean;
   playerType: EPlayerType;
-
 }
