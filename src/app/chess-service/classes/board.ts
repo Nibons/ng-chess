@@ -5,10 +5,10 @@ import { Position } from '@chess/position';
 import { IPosition } from '@chess/iposition';
 import { Coordinates } from '@chess/coordinates';
 import { ChessObject } from '@chess/chess-object';
-import { Dimensions } from '@chess/dimensions';
+import { IDimensions } from '@chess/idimensions.model';
 
 export class Board extends ChessObject {
-  readonly dimensions: Dimensions;
+  readonly dimensions: IDimensions;
   activePieces: IPiece[];
   positionList: Position[];
 
