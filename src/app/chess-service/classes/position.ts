@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Board } from '@chess/board';
 import { IPiece } from '@chess/ipiece';
 import { IPosition } from '@chess/iposition';
@@ -7,6 +8,7 @@ export class Position extends ChessObject implements IPosition {
   private _piece: IPiece = null;
   IsOccupied = false;
 
+  threaten_here: Observable<IPiece>; //pieces threatening this position
   constructor(readonly x: number, readonly y: number, public board: Board, _piece?: IPiece) {
     super();
   }

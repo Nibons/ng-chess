@@ -21,9 +21,9 @@ export abstract class BasePiece extends ChessObject implements IPiece {
   abstract pieceType: EPieceType;
   protected _IsAlive = true;
   protected _HasMoved = false;
-  protected _AvailableMoves: IPosition[];
-  protected _ThreatList: IPosition[];
-  protected _positionHere$: Observable<IPosition>;
+  protected _PotentialMoves: IPosition[];
+  protected _ThreatList: IPosition[]; //which positions this piece is the threat
+  protected _positionHere$: Observable<IPosition>; //position where this piece is at's threat status
 
   threat$: Observable<IPosition[]> = Observable.create(this._ThreatList);
 
@@ -75,7 +75,7 @@ export abstract class BasePiece extends ChessObject implements IPiece {
   }
 
   protected subscribeToHerePosition(): void {
-    return 1;
+    this._positionHere$ = position.
   }
   protected pushThreat(): void {
     const new_threat = this.GetThreatPositionList();
