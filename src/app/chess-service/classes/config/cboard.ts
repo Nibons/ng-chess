@@ -1,4 +1,7 @@
 import { IPosition } from '@chess/iposition';
+import { Coordinates } from '@chess/coordinates';
+import { Dimensions } from '@chess/dimensions';
+
 export class CBoard {
-  dimensions: { min: IPosition; max: IPosition }[];
+  constructor(public dimensions: Dimensions = new Dimensions()) { }
 }
