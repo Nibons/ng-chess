@@ -80,7 +80,7 @@
           "$id": "/properties/board/properties/dimensions",
           "type": "object",
           "properties": {
-            "x": {
+            "min": {
               "$id": "/properties/board/properties/dimensions/properties/x",
               "type": "object",
               "properties": {
@@ -92,38 +92,20 @@
                   "examples": [
                     0
                   ]
-                },
-                "max": {
-                  "$id": "/properties/board/properties/dimensions/properties/x/properties/max",
-                  "type": "integer",
-                  "title": "Maximum Dimensions of board",
-                  "default": 7,
-                  "examples": [
-                    7
-                  ]
                 }
               }
             },
-            "y": {
+            "max": {
               "$id": "/properties/board/properties/dimensions/properties/y",
               "type": "object",
               "properties": {
                 "min": {
                   "$id": "/properties/board/properties/dimensions/properties/y/properties/min",
                   "type": "integer",
-                  "title": "Minimum Dimensions of board",
-                  "default": 0,
-                  "examples": [
-                    0
-                  ]
-                },
-                "max": {
-                  "$id": "/properties/board/properties/dimensions/properties/y/properties/max",
-                  "type": "integer",
                   "title": "Maximum Dimensions of board",
                   "default": 7,
                   "examples": [
-                    7
+                    0
                   ]
                 }
               }

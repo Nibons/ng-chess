@@ -18,22 +18,22 @@
   ],
   "board": {
     "dimensions": {
-      "x": {
-        "min": 0,
-        "max": 7
+      "min": {
+        "x": 0,
+        "y": 0
       },
-      "y": {
-        "min": 0,
-        "max": 7
+      "max": {
+        "x": 7,
+        "y": 7
       },
       "dark-space": "function(x,y){(x+y)%1 == 0}"
     }
   },
   "options": {
-    "win-conditions": ["checkmate"],
-    "stalemate-conditions": ["no-moves"],
+    "win_conditions": ["checkmate"],
+    "stalemate_conditions": ["no-moves"],
     "timer": false,
-    "friendly-fire": false
+    "friendly_fire": false
   },
   "pieces": [{
       "position": {
