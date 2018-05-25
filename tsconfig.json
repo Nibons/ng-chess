@@ -21,6 +21,7 @@
       "@chess/*":[
         "src/app/chess-service/interfaces/*",
         "src/app/chess-service/classes/*",
+        "src/app/chess-service/classes/pieces/*",
         "src/app/chess-service/enums/*",
         "src/app/chess-service/*"
       ]
