@@ -1,3 +1,4 @@
+import { CPiece } from './config/cpiece';
 import { CBoard } from './config/cboard';
 import { IPiece } from '@chess/ipiece';
 import { EPieceType } from '@chess/e-piece-type.enum';
@@ -11,6 +12,10 @@ export class Board extends ChessObject {
   readonly dimensions: IDimensions;
   activePieces: IPiece[];
   positionList: Position[];
+
+  static PlacePiece(CPiece, board: Board): void {
+
+  }
 
   static getPositionAt(position: IPosition, board: Board): IPosition {
     return board.positionList.filter(
@@ -37,27 +42,34 @@ export class Board extends ChessObject {
   }
 
   constructor(
-    boardConfig: CBoard
+    boardConfig: CBoard,
+    piecesConfig: CPiece[]
   ) {
     super();
     this.dimensions = boardConfig.dimensions;
     this.CreateAllBoardPositions();
+
+    piecesConfig.forEach(pieceInfo => {
+      Board.PlacePiece(pieceInfo.)
+    });
+
   }
 
   IsValidPosition(position: IPosition, board: Board = this): boolean { return board.IsPositionOnGameBoard(position); }
   getPositionAt(position: IPosition, board: Board = this): IPosition { return Board.getPositionAt(position, board); }
-  IsPositionOnGameBoard(position: IPosition, board: Board = this): boolean { return Board.IsPositionOnGameBoard(position, board); }
+  PositionOnGameBoard(position: IPosition, board: Board = this): boolean { return Board.IsPositionOnGameBoard(position, board); }
 
-  // Create all the places on the board
-  private CreateAllBoardPositions(
+  Create all the places on the board
+  ivate CreateAllBoardPositions(
     xMin: number = this.dimensions.min.x,
-    xMax: number = this.dimensions.max.x,
-    yMin: number = this.dimensions.min.y,
-    yMax: number = this.dimensions.max.x) {
+    ax: number = this.dimensions.max.x,
+      : number = this.dimensions.min.y,
+    ax: number = this.dimensions.max.x) {
     for (let xPosition = xMin; xPosition <= xMax; xPosition++) {
       for (let yPosition = yMin; yPosition <= yMax; yPosition++) {
         this.positionList.push(new Position(xPosition, yPosition, this));
       }
     }
   }
+
 }

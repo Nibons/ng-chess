@@ -1,6 +1,6 @@
 import { CPlayer } from '@chess/c-player';
 import { CBoard } from '@chess/cboard';
-import { CPieces } from '@chess/config/cpieces';
+import { CPiece } from '@chess/config/cpiece';
 import { COptions } from '@chess/config/coptions';
 
 export class GameConfig {
@@ -8,5 +8,5 @@ export class GameConfig {
   players: CPlayer[];
   board: CBoard;
   options: COptions;
-  pieces: CPieces[];
+  pieces: CPiece[];
 }
