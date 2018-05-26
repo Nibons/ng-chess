@@ -12,7 +12,6 @@ import { IDimensions } from '@chess/idimensions.model';
 
 export class Board extends ChessObject {
   readonly dimensions: IDimensions;
-  players: IPlayer[];
   activePieces: IPiece[];
   positionList: Position[];
 
@@ -40,17 +39,31 @@ export class Board extends ChessObject {
     return testNumber >= lowerBound && testNumber <= upperBound;
   }
 
+  static CreateBoardFromPieces(pieces: IPiece[], players: IPlayer[], boardConfig: CBoard): Board {
+    let newBoard = new Board(boardConfig, players);
+
+    return newBoard;
+  }
+
+
+
   constructor(
-    boardConfig: CBoard,
-    piecesConfig: CPiece[],
-    players: IPlayer[],
+    public boardConfig: CBoard,
+    public players: IPlayer[],
+    public piecesConfig?: CPiece[],
   ) {
     super();
     this.dimensions = boardConfig.dimensions;
-    this.players = players;
     this.CreateAllBoardPositions();
   }
 
+  private AddPiece(piece: IPiece): void {
+
+  }
+
+  private PopulatePieces(pieces: (IPiece[] | CPiece[])): void {
+
+  }
 
   IsValidPosition(position: IPosition, board: Board = this): boolean { return Board.IsPositionOnGameBoard(position, board); }
   getPositionAt(position: IPosition, board: Board = this): IPosition { return Board.getPositionAt(position, board); }

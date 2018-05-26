@@ -13,9 +13,12 @@ import { Pawn } from '@chess//pawn';
 import { King } from '@chess//king';
 import { Queen } from '@chess//queen';
 import { ChessObject } from '@chess/chess-object';
+import { CPiece } from '@chess/config/cpiece';
+import { IPlayer } from '@chess/iplayer.model';
+import { BasePlayer } from '@chess/base-player';
 
 export abstract class BasePiece extends ChessObject implements IPiece {
-  constructor(public position: Position, public board: Board) {
+  constructor(public position: Position, public player: IPlayer, public board: Board) {
     super();
   }
   abstract pieceType: EPieceType;
@@ -27,15 +30,26 @@ export abstract class BasePiece extends ChessObject implements IPiece {
 
   threat$: Observable<IPosition[]> = Observable.create(this._ThreatList);
 
-  static PieceFactory(PieceType: EPieceType, position: Position, board: Board): IPiece {
+  static PieceFactory(PieceType: EPieceType, position: IPosition, player: IPlayer, board: Board): IPiece {
     switch (PieceType) {
-      case EPieceType.bishop: { return new Bishop(position, board); }
-      case EPieceType.king: { return new King(position, board); }
-      case EPieceType.knight: { return new Knight(position, board); }
-      case EPieceType.pawn: { return new Pawn(position, board); }
-      case EPieceType.queen: { return new Queen(position, board); }
-      case EPieceType.rook: { return new Rook(position, board); }
+      case EPieceType.bishop: { return new Bishop(position, player, board); }
+      case EPieceType.king: { return new King(position, player, board); }
+      case EPieceType.knight: { return new Knight(position, player, board); }
+      case EPieceType.pawn: { return new Pawn(position, player, board); }
+      case EPieceType.queen: { return new Queen(position, player, board); }
+      case EPieceType.rook: { return new Rook(position, player, board); }
     }
+  }
+
+  static CreateFromConfig(piecesConfig: CPiece, board: Board): IPiece[] {
+    const player = board.players.filter((p: IPlayer) => p.playerNumber === piecesConfig.playerNumber);
+    const position = board.positionList.filter((p: IPosition) => p.)
+    return BasePiece.PieceFactory(
+      piecesConfig.type,
+      piecesConfig.position,
+      player,
+      board
+    );
   }
 
   static ProcessThreatInDirection(

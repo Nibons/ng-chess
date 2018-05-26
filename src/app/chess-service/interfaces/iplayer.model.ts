@@ -4,6 +4,7 @@ import { IMove } from '@chess/imove.model';
 import { IPiece } from '@chess/ipiece';
 
 export interface IPlayer {
+  playerNumber: number;
   type: EPlayerType;
   pieces: IPiece[];
   moves: IMove[];
