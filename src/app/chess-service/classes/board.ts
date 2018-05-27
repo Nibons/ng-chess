@@ -14,6 +14,7 @@ export class Board extends ChessObject {
   readonly dimensions: IDimensions;
   activePieces: IPiece[];
   positionList: Position[];
+  friendlyFire: Boolean = false;
 
   static getPositionAt(position: IPosition, board: Board): IPosition {
     return board.positionList.filter(
@@ -40,13 +41,10 @@ export class Board extends ChessObject {
   }
 
   static CreateBoardFromPieces(pieces: IPiece[], players: IPlayer[], boardConfig: CBoard): Board {
-    let newBoard = new Board(boardConfig, players);
+    const newBoard = new Board(boardConfig, players);
 
     return newBoard;
   }
-
-
-
   constructor(
     public boardConfig: CBoard,
     public players: IPlayer[],
@@ -77,5 +75,4 @@ export class Board extends ChessObject {
       }
     }
   }
-
 }
