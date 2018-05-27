@@ -1,5 +1,6 @@
 import { Board } from '@chess/board';
 import { IPiece } from '@chess/ipiece';
+import { ChessObject } from '@chess/chess-object';
 export interface IPosition {
   x: number;
   y: number;

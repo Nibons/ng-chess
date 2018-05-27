@@ -59,8 +59,12 @@ export class Board extends ChessObject {
 
   }
 
+
   private PopulatePieces(pieces: (IPiece[] | CPiece[])): void {
 
+  }
+  RemovePiece(piece: IPiece): void {
+    this.activePieces = this.activePieces.filter(boardPiece => piece.id !== boardPiece.id);
   }
 
   IsValidPosition(position: IPosition, board: Board = this): boolean { return Board.IsPositionOnGameBoard(position, board); }

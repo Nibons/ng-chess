@@ -13,11 +13,11 @@ export class Pawn extends BasePiece implements IPiece {
     BasePiece.ProcessThreatInDirection(initialPosition, 1, 1, board, 1).forEach(pos => position_cache.push(pos)); // NorthEast
     return position_cache;
   }
-  GetThreatPositionList(): IPosition[] {
+  GetThreatList(): IPosition[] {
     return Pawn.ProcessPawnThreat(this.position, this.board);
   }
   SetPotentialMoves(): void {
-    const maxSteps = this.HasMoved ? 2 : 1;
+    const maxSteps = this.hasMoved ? 2 : 1;
     this._PotentialMoves = BasePiece.ProcessThreatInDirection(
       this.position, this.player.orientation.x, this.player.orientation.y, this.board, maxSteps);
   }

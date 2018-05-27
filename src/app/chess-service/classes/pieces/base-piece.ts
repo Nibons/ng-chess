@@ -16,6 +16,7 @@ import { ChessObject } from '@chess/chess-object';
 import { CPiece } from '@chess/config/cpiece';
 import { IPlayer } from '@chess/iplayer.model';
 import { BasePlayer } from '@chess/base-player';
+import { IMove } from '@chess/imove.model';
 
 export abstract class BasePiece extends ChessObject implements IPiece {
   _AvailableMoves: any;
@@ -27,9 +28,15 @@ export abstract class BasePiece extends ChessObject implements IPiece {
   protected _HasMoved = false;
   protected _PotentialMoves: IPosition[];
   protected _ThreatList: IPosition[]; // which positions this piece is the threat
+  protected _availableMoves: IMove[];
+  public get threatList(): IPosition[] { return this._ThreatList; }
+  public get potentialMoves(): IPosition[] { return this._PotentialMoves; }
+  public get availableMoves(): IMove[] { return this._availableMoves; }
+  public get hasMoved(): boolean { return this._HasMoved; }
+  public get isAlive(): boolean { return this._IsAlive; }
+
 
   threat$: Observable<IPosition[]> = Observable.create(this._ThreatList);
-
   static PieceFactory(PieceType: EPieceType, position: IPosition, player: IPlayer, board: Board): IPiece {
     switch (PieceType) {
       case EPieceType.bishop: { return new Bishop(position, player, board); }
@@ -49,7 +56,10 @@ export abstract class BasePiece extends ChessObject implements IPiece {
     maxCount: number = board.dimensions.max.x): IPosition[] {
     const position_cache: IPosition[] = new Array();
     let i = 1;
-    for (let current_position = starting_position; current_position.IsOnBoard && current_position.IsEmpty && i <= maxCount; i++) {
+    for (let current_position = starting_position;
+      current_position.IsOnBoard && current_position.IsEmpty && i <= maxCount;
+      i++
+    ) {
       current_position = board.getPositionAt(new Coordinates((current_position.x + deltaX), (current_position.y + deltaY)));
       if (current_position.IsOnBoard) {
         position_cache.push(current_position);
@@ -58,45 +68,43 @@ export abstract class BasePiece extends ChessObject implements IPiece {
     return position_cache;
   }
 
-  move(target_position): void {
+  Move(target_position): void {
+    this._HasMoved = true;
     // if _AvailableMoves -notContain target_position -> throw "Not a Valid Move"
     // this.position =
   }
 
-  threatList() {
-    return this._ThreatList;
+  CopyToBoard(board: Board) {
+    const newPiece = BasePiece.PieceFactory(this.pieceType, this.position, this.player, board);
+    newPiece.SetThreat(this._ThreatList);
   }
 
-  copyToBoard(board: Board) {
-    const newPiece = BasePiece.PieceFactory(this.pieceType, this.position, this.player, board);
-    newPiece.setThreat(this._ThreatList);
-  }
-  setThreat(positions: IPosition[] = this.GetThreatPositionList()): void {
-    this._ThreatList = positions;
-  }
-  IsAlive(): boolean { return this._IsAlive; }
+
   protected setIsAlive(aliveStatus: boolean = false): void { this._IsAlive = aliveStatus; }
 
-  HasMoved(): boolean { return this._HasMoved; }
-
-  getAvailableMoves(): IPosition[] {
+  GetAvailableMoves(): IPosition[] {
     return this._AvailableMoves;
   }
   HasMoves(): boolean {
-    return this._AvailableMoves.length > 0;
+    return this._AvailableMoves.length > 0 && this.isAlive;
   }
   // protected pushThreat(): void {
   //   const new_threat = this.GetThreatPositionList();
   //   this._ThreatList.filter(pos => !new_threat.includes(pos)).forEach(pos => this._ThreatList.);
   // }
-  GetThreatPositionList(): IPosition[] {
-    return this._PotentialMoves;
+  SetThreat(positions: IPosition[] = this.GetThreatList()): void {
+    this._ThreatList = positions;
   }
+  abstract GetThreatList(): IPosition[];
   SetPotentialMoves(): void {
     // override for pawns, rooks(for castling), kings (for castling)
     this._PotentialMoves = this._ThreatList.filter(
-      pos => pos.IsEmpty || pos.piece.player === this.player || this.board.friendlyFire
+      position => position.IsEmpty || position.piece.player === this.player || this.board.friendlyFire
     );
   }
-  GetPotentialMoves(): IPosition[] { return this._PotentialMoves; }
+  Kill(): void {
+    this._IsAlive = false;
+    this.board.RemovePiece(this);
+  }
+
 }
