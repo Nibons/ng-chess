@@ -17,7 +17,7 @@ export class King extends BasePiece implements IPiece {
     }
     return position_cache;
   }
-  GetThreatPositionList(initialPosition: IPosition = this.position, board: Board = this.board): IPosition[] {
+  GetThreatList(initialPosition: IPosition = this.position, board: Board = this.board): IPosition[] {
     return King.ProcessKingThreat(initialPosition, board);
   }
 }

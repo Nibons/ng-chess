@@ -20,5 +20,5 @@ export class Queen extends BasePiece implements IPiece {
     Queen.ProcessQueenThreat(this.position, this.board);
   }
 
-  GetThreatPositionList(): IPosition[] { return Queen.ProcessQueenThreat(this.position, this.board); }
+  GetThreatList(): IPosition[] { return Queen.ProcessQueenThreat(this.position, this.board); }
 }

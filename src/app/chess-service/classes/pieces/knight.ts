@@ -23,5 +23,5 @@ export class Knight extends BasePiece implements IPiece {
     return position_cache;
   }
   IsAlive() { return this._IsAlive; }
-  GetThreatPositionList(): IPosition[] { return Knight.ProcessKnightThreat(this.position, this.board); }
+  GetThreatList(): IPosition[] { return Knight.ProcessKnightThreat(this.position, this.board); }
 }

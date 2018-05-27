@@ -16,7 +16,7 @@ export class Rook extends BasePiece implements IPiece {
     BasePiece.ProcessThreatInDirection(initialPosition, 0, -1, board).forEach(pos => position_cache.push(pos)); // South
     return position_cache;
   }
-  GetThreatPositionList() {
+  GetThreatList() {
     return Rook.ProcessRookThreat(this.position, this.board);
   }
 
