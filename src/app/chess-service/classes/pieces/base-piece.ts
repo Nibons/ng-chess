@@ -38,6 +38,7 @@ export abstract class BasePiece extends ChessObject implements IPiece {
 
   threat$: Observable<IPosition[]> = Observable.create(this._ThreatList);
   static PieceFactory(PieceType: EPieceType, position: IPosition, player: IPlayer, board: Board): IPiece {
+    if (position.IsOccupied) { position.piece.Kill(); }
     switch (PieceType) {
       case EPieceType.bishop: { return new Bishop(position, player, board); }
       case EPieceType.king: { return new King(position, player, board); }
@@ -68,10 +69,14 @@ export abstract class BasePiece extends ChessObject implements IPiece {
     return position_cache;
   }
 
-  Move(target_position): void {
-    this._HasMoved = true;
-    // if _AvailableMoves -notContain target_position -> throw "Not a Valid Move"
-    // this.position =
+  Move(target_position): boolean { // false if this position is not a valid move
+    if (this.IsWithinValidMoves(target_position)) {
+      this._HasMoved = true;
+      this.position.SetPiece(); // position the piece is coming from
+      Board.getPositionAt(target_position, this.board).SetPiece(this); // where the piece is going
+      this.position = target_position;
+      return true;
+    } else { return false; }
   }
 
   CopyToBoard(board: Board) {
@@ -105,6 +110,10 @@ export abstract class BasePiece extends ChessObject implements IPiece {
   Kill(): void {
     this._IsAlive = false;
     this.board.RemovePiece(this);
+  }
+  private IsWithinValidMoves(position: IPosition) {
+    const ValidMovesThatMatchThis = this._availableMoves.filter(moves => Position.IsSamePosition(moves.position, position));
+    return ValidMovesThatMatchThis.length >= 1;
   }
 
 }

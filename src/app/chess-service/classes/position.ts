@@ -6,9 +6,11 @@ import { Coordinates } from '@chess/coordinates';
 import { ChessObject } from '@chess/chess-object';
 export class Position extends ChessObject implements IPosition {
   private _piece: IPiece = null;
-  IsOccupied = false;
 
-  threaten_here: Observable<IPiece>; //pieces threatening this position
+  public get IsOccupied(): boolean { return this.IsEmpty === false; }
+  public get IsEmpty(): boolean { return this._piece === null; } // oposite of IsOccupied (i don't like double negatives anywhere)
+
+  threaten_here: Observable<IPiece>; // pieces threatening this position
   constructor(readonly x: number, readonly y: number, public board: Board, _piece?: IPiece) {
     super();
   }
@@ -23,10 +25,11 @@ export class Position extends ChessObject implements IPosition {
     return Position.difference(position, otherPosition);
   }
   IsSamePosition(position: IPosition, otherPosition: IPosition = this): boolean { return Position.IsSamePosition(position, otherPosition); }
-
-
-  private SetPiece(piece?: IPiece) {
-    if (piece) { this._piece = piece; } else { this._piece = null; }
+  SetPiece(piece: IPiece = null): void {
+    this._piece = piece;
+    if (piece !== null) {
+      piece.position = this;
+    }
   }
 }
 

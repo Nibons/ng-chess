@@ -19,6 +19,7 @@ export interface IPiece extends ChessObject {
   isAlive: boolean;
   GetAvailableMoves(): IPosition[];
   HasMoves(): boolean;
+  Move(position): boolean;
   GetThreatList(): IPosition[];
   SetThreat(positions: IPosition[]): void;
   SetPotentialMoves(): void;

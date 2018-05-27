@@ -5,7 +5,9 @@ export interface IPosition {
   x: number;
   y: number;
   IsOnBoard?: boolean;
+  IsOccupied?: boolean;
   IsEmpty?: boolean;
   board?: Board;
   piece?: IPiece;
+  SetPiece?(piece?: IPiece): void;
 }
