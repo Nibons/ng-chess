@@ -6,8 +6,9 @@ import { IMove } from '@chess/imove.model';
 import { Board } from '@chess/board';
 import { Game } from '@chess/game';
 export abstract class BasePlayer extends ChessObject implements IPlayer {
-  absract playerNumber: number;
+  abstract playerNumber: number;
   abstract readonly type;
+  readonly orientation;
   pieces: IPiece[];
   moves: IMove[];
   board: Board;
