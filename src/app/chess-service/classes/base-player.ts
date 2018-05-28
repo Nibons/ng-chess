@@ -11,7 +11,7 @@ export abstract class BasePlayer extends ChessObject implements IPlayer {
   playerNumber: number;
   abstract readonly type;
   readonly orientation;
-  public get value(): number {
+  public get SumPieceValue(): number {
     let running_total = 0;
     this.pieces.forEach(p => running_total += p.value);
     return running_total;

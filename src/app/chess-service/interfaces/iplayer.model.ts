@@ -11,7 +11,7 @@ export interface IPlayer extends ChessObject {
   type: EPlayerType;
   color: string;
   pieces: IPiece[];
-  value: number;
+  SumPieceValue: number;
   moves: IMove[];
   orientation: IPosition; // white:{x:0,y:1}, black{x:0,y:-1}
   graveYard: IPiece[];
