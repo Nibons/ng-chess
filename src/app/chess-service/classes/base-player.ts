@@ -8,7 +8,7 @@ import { Game } from '@chess/game';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { BasePiece } from '@chess/pieces/base-piece';
 export abstract class BasePlayer extends ChessObject implements IPlayer {
-  abstract playerNumber: number;
+  playerNumber: number;
   abstract readonly type;
   readonly orientation;
   pieces: IPiece[];
