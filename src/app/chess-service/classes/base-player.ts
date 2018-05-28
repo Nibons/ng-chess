@@ -11,10 +11,24 @@ export abstract class BasePlayer extends ChessObject implements IPlayer {
   playerNumber: number;
   abstract readonly type;
   readonly orientation;
+  color: string;
   pieces: IPiece[];
-  moves: IMove[];
   board: Board;
   graveYard: IPiece[];
+
+  get moves(): IMove[] {
+    const list: IMove[] = new Array();
+    this.pieces.forEach(
+      each_piece => {
+        each_piece.availableMoves.forEach(
+          each_move => {
+            list.push(each_move);
+          }
+        );
+      }
+    );
+    return list;
+  }
   static getPlayerByNumber(playerNumber: number, game: Game): IPlayer {
     return game.playerList.filter((player: IPlayer) => player.playerNumber === playerNumber)[0];
   }
