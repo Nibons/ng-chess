@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { PieceComponent } from './components/piece/piece.component';
 import { PositionComponent } from './components/position/position.component';
 import { BoardComponent } from './components/board/board.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { BoardComponent } from './components/board/board.component';
     BoardComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
