@@ -2,16 +2,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { BoardComponent } from './board/board.component';
-import { PositionComponent } from './position/position.component';
-import { PieceComponent } from './piece/piece.component';
+import { PieceComponent } from './components/piece/piece.component';
+import { PositionComponent } from './components/position/position.component';
+import { BoardComponent } from './components/board/board.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BoardComponent,
+    PieceComponent,
     PositionComponent,
-    PieceComponent
+    BoardComponent
   ],
   imports: [
     BrowserModule
