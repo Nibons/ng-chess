@@ -6,6 +6,7 @@ import { EPieceType } from '@chess/e-piece-type.enum';
 import { BasePlayer } from '@chess/base-player';
 
 export class Pawn extends BasePiece implements IPiece {
+  readonly value = 1;
   readonly pieceType = EPieceType.pawn;
   static ProcessPawnThreat(initialPosition: IPosition, board: Board): IPosition[] {
     const position_cache: IPosition[] = new Array();

@@ -7,6 +7,7 @@ import { Position } from '@chess/position';
 import { EPieceType } from '@chess/e-piece-type.enum';
 
 export class Knight extends BasePiece implements IPiece {
+  readonly value = 3;
   readonly pieceType = EPieceType.knight;
 
 

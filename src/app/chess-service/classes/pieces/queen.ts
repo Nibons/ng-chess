@@ -8,8 +8,8 @@ import { EPieceType } from '@chess/e-piece-type.enum';
 import { IPiece } from '@chess/ipiece';
 
 export class Queen extends BasePiece implements IPiece {
+  readonly value = 9;
   readonly pieceType = EPieceType.queen;
-
   static ProcessQueenThreat(initialPosition: IPosition, board: Board): IPosition[] {
     const position_cache: IPosition[] = new Array();
     Bishop.ProcessBishopThreat(initialPosition, board).forEach(pos => position_cache.push(pos));

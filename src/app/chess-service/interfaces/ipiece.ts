@@ -9,6 +9,7 @@ import { IMove } from '@chess/imove.model';
 import { ChessObject } from '@chess/chess-object';
 
 export interface IPiece extends ChessObject {
+  readonly value: number;
   readonly pieceType: EPieceType;
   player: IPlayer;
   position: IPosition;

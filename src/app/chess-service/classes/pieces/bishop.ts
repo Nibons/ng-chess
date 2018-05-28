@@ -7,6 +7,7 @@ import { Position } from '@chess/position';
 import { IPosition } from '@chess/iposition';
 
 export class Bishop extends BasePiece implements IPiece {
+  readonly value = 3;
   readonly pieceType = EPieceType.bishop;
   static ProcessBishopThreat(initialPosition: IPosition, board: Board): IPosition[] {
     const position_cache: IPosition[] = new Array();

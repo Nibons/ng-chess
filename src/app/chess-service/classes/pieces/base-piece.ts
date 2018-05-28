@@ -19,11 +19,14 @@ import { BasePlayer } from '@chess/base-player';
 import { IMove } from '@chess/imove.model';
 
 export abstract class BasePiece extends ChessObject implements IPiece {
+  abstract readonly value: number;
+  static get value(): number { return this.value; }
   _AvailableMoves: any;
   constructor(public position: IPosition, public player: IPlayer, public board?: Board) {
     super();
   }
   abstract pieceType: EPieceType;
+
   protected _IsAlive = true;
   protected _HasMoved = false;
   protected _PotentialMoves: IPosition[];

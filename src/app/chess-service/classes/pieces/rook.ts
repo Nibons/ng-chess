@@ -7,6 +7,7 @@ import { Coordinates } from '@chess/coordinates';
 import { EPieceType } from '@chess/e-piece-type.enum';
 
 export class Rook extends BasePiece implements IPiece {
+  readonly value = 5;
   readonly pieceType = EPieceType.rook;
   static ProcessRookThreat(initialPosition: IPosition, board: Board): IPosition[] {
     const position_cache: IPosition[] = new Array();
