@@ -93,10 +93,6 @@ export abstract class BasePiece extends ChessObject implements IPiece {
   HasMoves(): boolean {
     return this._AvailableMoves.length > 0 && this.isAlive;
   }
-  // protected pushThreat(): void {
-  //   const new_threat = this.GetThreatPositionList();
-  //   this._ThreatList.filter(pos => !new_threat.includes(pos)).forEach(pos => this._ThreatList.);
-  // }
   SetThreat(positions: IPosition[] = this.GetThreatList()): void {
     this._ThreatList = positions;
   }

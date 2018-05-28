@@ -9,6 +9,7 @@ import { ChessObject } from '@chess/chess-object';
 export interface IPlayer extends ChessObject {
   playerNumber: number;
   type: EPlayerType;
+  color: string;
   pieces: IPiece[];
   moves: IMove[];
   orientation: IPosition; // white:{x:0,y:1}, black{x:0,y:-1}

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IPiece } from '@chess/IPiece';
+import { IPlayer } from '@chess/iplayer.model';
 
 @Component({
   selector: 'app-piece',
@@ -12,7 +13,7 @@ export class PieceComponent implements OnInit {
   playerColor = this.player.color;
   moves = this.piece.availableMoves;
   direction = this.player.orientation; // 1 for white, -1 for black
-  constructor(MatIconRegistry) { }
+  constructor() { }
   ngOnInit() {
   }
 }
