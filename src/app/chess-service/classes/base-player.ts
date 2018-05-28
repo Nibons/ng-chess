@@ -16,6 +16,7 @@ export abstract class BasePlayer extends ChessObject implements IPlayer {
     this.pieces.forEach(p => running_total += p.value);
     return running_total;
   }
+
   color: string;
   pieces: IPiece[];
   board: Board;
@@ -36,6 +37,9 @@ export abstract class BasePlayer extends ChessObject implements IPlayer {
   }
   static getPlayerByNumber(playerNumber: number, game: Game): IPlayer {
     return game.playerList.filter((player: IPlayer) => player.playerNumber === playerNumber)[0];
+  }
+  PieceCount(pieceType: EPieceType = null): number {
+    return this.pieces.filter(piece => pieceType === null || piece.pieceType === pieceType).length;
   }
 
   MovePiece(move: IMove): void {

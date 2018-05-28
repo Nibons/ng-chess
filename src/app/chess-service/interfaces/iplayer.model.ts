@@ -16,6 +16,7 @@ export interface IPlayer extends ChessObject {
   orientation: IPosition; // white:{x:0,y:1}, black{x:0,y:-1}
   graveYard: IPiece[];
   MovePiece(move: IMove): void;
+  PieceCount(pieceType: EPieceType): number;
   Forfiet(): void;
   PromoteMove(move: IMove): void;
 }

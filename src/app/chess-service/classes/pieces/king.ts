@@ -11,12 +11,7 @@ import { Queen } from '@chess/pieces/queen';
 
 export class King extends BasePiece implements IPiece {
   readonly pieceType = EPieceType.king;
-  readonly value = (8 * Pawn.value) +
-    (2 * Rook.value) +
-    (2 * Knight.value) +
-    (2 * Bishop.value) +
-    (1 * Queen.value) +
-    1; // king value is 1 above all other pieces values
+  readonly value = 100; // should be waaaay lower on normal games
 
   static ProcessKingThreat(initialPosition: IPosition, board: Board): IPosition[] {
     const position_cache: IPosition[] = new Array();
