@@ -9,11 +9,25 @@
             "problemMatcher": []
         },
         {
+            "label": "Build",
             "type": "npm",
             "script": "build",
+            "group": "build",
             "problemMatcher": [
                 "$eslint-stylish"
             ]
+        },
+        {
+            "label": "Build-Prod",
+            "type": "shell",
+            "command": "ng",
+            "args": [
+              "build --prod"
+            ],
+            "problemMatcher": [
+              "$eslint-stylish"
+          ],
+          "group": "build"
         }
     ]
 }
