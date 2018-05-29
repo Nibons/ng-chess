@@ -4,9 +4,23 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label":"ng start",
             "type": "npm",
             "script": "start",
-            "problemMatcher": []
+            "problemMatcher": ["$tslint5"],
+            "auto": true
+        },
+        {
+          "type": "npm",
+          "label":"Lint",
+          "script":"lint",
+          "problemMatcher":["$tslint5"]
+        },
+        {
+          "type":"npm",
+          "label":"Test",
+          "script":"test",
+          "problemMatcher":["$tslint5"]
         },
         {
             "label": "Build",
@@ -14,7 +28,7 @@
             "script": "build",
             "group": "build",
             "problemMatcher": [
-                "$eslint-stylish"
+              "$tslint5"
             ]
         },
         {
@@ -25,7 +39,7 @@
               "build --prod"
             ],
             "problemMatcher": [
-              "$eslint-stylish"
+              "$tslint5"
           ],
           "group": "build"
         }
