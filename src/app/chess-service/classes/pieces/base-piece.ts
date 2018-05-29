@@ -64,7 +64,7 @@ export abstract class BasePiece extends ChessObject implements IPiece {
       current_position.IsOnBoard && current_position.IsEmpty && i <= maxCount;
       i++
     ) {
-      current_position = board.getPositionAt(new Coordinates((current_position.x + deltaX), (current_position.y + deltaY)));
+      current_position = board.getPositionAt(new Coordinates([(current_position.x + deltaX), (current_position.y + deltaY)]));
       if (current_position.IsOnBoard) {
         position_cache.push(current_position);
       }

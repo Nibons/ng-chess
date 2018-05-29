@@ -1,4 +1,6 @@
-import { IPlayer } from './../interfaces/iplayer.model';
+import { IBoardConstructor } from '@chess/i-board-constructor.model';
+import { Game } from '@chess/game';
+import { IPlayer } from '@chess/iplayer.model';
 import { BasePiece } from '@chess/base-piece';
 import { CPiece } from './config/cpiece';
 import { CBoard } from './config/cboard';
@@ -9,12 +11,15 @@ import { IPosition } from '@chess/iposition';
 import { Coordinates } from '@chess/coordinates';
 import { ChessObject } from '@chess/chess-object';
 import { IDimensions } from '@chess/idimensions.model';
+import { BasePlayer } from '@chess/base-player';
+import { IPieceConstructor } from '@chess/ipiece-constructor.model';
 
 export class Board extends ChessObject {
+  readonly friendlyFire;
   readonly dimensions: IDimensions;
+  readonly playerColors: string[];
   activePieces: IPiece[];
   positionList: Position[];
-  friendlyFire: Boolean = false;
 
   static getPositionAt(position: IPosition, board: Board): IPosition {
     return board.positionList.filter(
@@ -40,28 +45,31 @@ export class Board extends ChessObject {
     return testNumber >= lowerBound && testNumber <= upperBound;
   }
 
-  static CreateBoardFromPieces(pieces: IPiece[], players: IPlayer[], boardConfig: CBoard): Board {
-    const newBoard = new Board(boardConfig, players);
-
-    return newBoard;
-  }
   constructor(
-    public boardConfig: CBoard,
+    boardConfig: IBoardConstructor,
+    piecesConfig: IPieceConstructor[],
     public players: IPlayer[],
-    public piecesConfig?: CPiece[],
+    public game: Game
   ) {
     super();
+    this.friendlyFire = boardConfig.friendlyFire;
     this.dimensions = boardConfig.dimensions;
     this.CreateAllBoardPositions();
+    this.PopulatePieces(piecesConfig, game);
   }
 
-  private AddPiece(piece: IPiece): void {
-
+  private AddPiece(
+    template: IPieceConstructor,
+    game: Game
+  ): void {
+    const position = this.getPositionAt(new Coordinates(template.positionArray));
+    const player = BasePlayer.getPlayerByNumber(template.playerNumber, game);
+    const piece = BasePiece.PieceFactory(template.pieceType, position, player, this);
   }
 
 
-  private PopulatePieces(pieces: (IPiece[] | CPiece[])): void {
-
+  private PopulatePieces(pieces: IPieceConstructor[], game: Game): void {
+    pieces.forEach(pieceTemplate => this.AddPiece(pieceTemplate, game));
   }
   RemovePiece(piece: IPiece): void {
     this.activePieces = this.activePieces.filter(boardPiece => piece.id !== boardPiece.id);

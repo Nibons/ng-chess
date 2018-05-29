@@ -16,7 +16,7 @@ export class Position extends ChessObject implements IPosition {
   }
 
   static difference(position: IPosition, otherPosition: IPosition): IPosition {
-    return new Coordinates((otherPosition.x - position.x), (otherPosition.x - position.y));
+    return new Coordinates([(otherPosition.x - position.x), (otherPosition.x - position.y)]);
   }
   static IsSamePosition(position: IPosition, otherPosition: IPosition): boolean {
     return otherPosition.x === position.x && otherPosition.y === position.y && position.board === otherPosition.board;

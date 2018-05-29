@@ -1,0 +1,165 @@
+{
+  "boardType": "standardChess",
+  "pieces": [{
+      "playerNumber": 0,
+      "pieceType": "rook",
+      "position": [0, 0]
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "knight",
+      "position": [1, 0]
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "bishop",
+      "position": [2, 0]
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "queen",
+      "position": [3, 0]
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "king",
+      "position": [4, 0],
+      "primaryPiece": true
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "bishop",
+      "position": [5, 0]
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "knight",
+      "position": [6, 0]
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "rook",
+      "position": [6, 0]
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "pawn",
+      "position": [0, 1]
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "pawn",
+      "position": [1, 1]
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "pawn",
+      "position": [2, 1]
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "pawn",
+      "position": [3, 1]
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "pawn",
+      "position": [4, 1]
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "pawn",
+      "position": [5, 1]
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "pawn",
+      "position": [6, 1]
+    },
+    {
+      "playerNumber": 0,
+      "pieceType": "pawn",
+      "position": [7, 1]
+    }, {
+      "playerNumber": 1,
+      "pieceType": "rook",
+      "position": [0, 7]
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "knight",
+      "position": [1, 7]
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "bishop",
+      "position": [2, 7]
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "queen",
+      "position": [3, 7]
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "king",
+      "position": [4, 7],
+      "primaryPiece": true
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "bishop",
+      "position": [5, 7]
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "knight",
+      "position": [6, 7]
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "rook",
+      "position": [6, 7]
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "pawn",
+      "position": [0, 6]
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "pawn",
+      "position": [1, 6]
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "pawn",
+      "position": [2, 6]
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "pawn",
+      "position": [3, 6]
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "pawn",
+      "position": [4, 6]
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "pawn",
+      "position": [5, 6]
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "pawn",
+      "position": [6, 6]
+    },
+    {
+      "playerNumber": 1,
+      "pieceType": "pawn",
+      "position": [7, 6]
+    }
+  ]
+}
