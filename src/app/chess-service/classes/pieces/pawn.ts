@@ -20,6 +20,6 @@ export class Pawn extends BasePiece implements IPiece {
   SetPotentialMoves(): void {
     const maxSteps = this.hasMoved ? 2 : 1;
     this._PotentialMoves = BasePiece.ProcessThreatInDirection(
-      this.position, this.player.orientation.x, this.player.orientation.y, this.board, maxSteps);
+      this.position, this.player.forward.x, this.player.forward.y, this.board, maxSteps);
   }
 }

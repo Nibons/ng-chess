@@ -15,7 +15,7 @@ export class PieceComponent implements OnInit {
   player = this.piece.player;
   playerColor = this.player.color;
   moves = this.piece.availableMoves;
-  direction = this.player.orientation; // 1 for white, -1 for black
+  direction = this.player.forward; // 1 for white, -1 for black
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     this.importPieceIcon(iconRegistry, sanitizer);
   }

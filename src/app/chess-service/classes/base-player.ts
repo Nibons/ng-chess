@@ -9,8 +9,9 @@ import { EPieceType } from '@chess/e-piece-type.enum';
 import { BasePiece } from '@chess/pieces/base-piece';
 export abstract class BasePlayer extends ChessObject implements IPlayer {
   playerNumber: number;
+  pieceOrientation = 0;
   abstract readonly type;
-  readonly orientation;
+  readonly forward;
   public get SumPieceValue(): number {
     let running_total = 0;
     this.pieces.forEach(p => running_total += p.value);
