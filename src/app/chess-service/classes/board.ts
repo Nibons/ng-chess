@@ -13,14 +13,23 @@ import { ChessObject } from '@chess/chess-object';
 import { IDimensions } from '@chess/idimensions.model';
 import { BasePlayer } from '@chess/base-player';
 import { IPieceConstructor } from '@chess/ipiece-constructor.model';
+import { from, Observable } from 'rxjs';
+import { IMove } from '@chess/imove.model';
 
 export class Board extends ChessObject {
   readonly friendlyFire;
   readonly dimensions: IDimensions;
   readonly playerColors: string[];
-  activePieces: IPiece[];
-  positionList: Position[];
-  public players: IPlayer[];
+  private activePieces: IPiece[];
+  private positionList: IPosition[];
+  private players: IPlayer[];
+  private turnHistory: IMove[];
+  private current_player_turn = -2;
+
+  turnHistory$: Observable<IMove> = from(this.turnHistory);
+  positionList$: Observable<IPosition> = from(this.positionList);
+  activePieces$: Observable<IPiece> = from(this.activePieces);
+  players$: Observable<IPlayer> = from(this.players);
 
   static getPositionAt(position: IPosition, board: Board): IPosition {
     return board.positionList.filter(
@@ -45,14 +54,14 @@ export class Board extends ChessObject {
   static IsWithinRange(testNumber: Number, lowerBound: number, upperBound: number): boolean {
     return testNumber >= lowerBound && testNumber <= upperBound;
   }
-  static PopulatePieces(pieces: IPieceConstructor[], board: Board, game: Game) {
+  PopulatePieces(pieces: IPieceConstructor[], board: Board = this, game: Game) {
     const taskList: Promise<void>[] = new Array();
-    pieces.forEach(pieceTemplate => taskList.push(Board.AddPiece(pieceTemplate, board, game)));
+    pieces.forEach(pieceTemplate => taskList.push(board.AddPiece(pieceTemplate, board, game)));
     taskList.forEach(task => async () => await task);
   }
-  static AddPiece(
+  private AddPiece(
     template: IPieceConstructor,
-    board: Board,
+    board: Board = this,
     game: Game
   ): Promise<void> {
     const position = board.getPositionAt(new Coordinates(template.positionArray));
@@ -61,7 +70,7 @@ export class Board extends ChessObject {
   }
 
   constructor(
-    boardConfig: IBoardConstructor,
+    public boardConfig: IBoardConstructor,
     public game: Game
   ) {
     super();
@@ -69,10 +78,6 @@ export class Board extends ChessObject {
     this.dimensions = boardConfig.dimensions;
     this.CreateAllBoardPositions();
   }
-
-
-
-
 
   RemovePiece(piece: IPiece): void {
     this.activePieces = this.activePieces.filter(boardPiece => piece.id !== boardPiece.id);

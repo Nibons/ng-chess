@@ -8,7 +8,6 @@ import { Game } from '@chess/game';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { BasePiece } from '@chess/pieces/base-piece';
 export abstract class BasePlayer extends ChessObject implements IPlayer {
-  playerNumber: number;
   pieceOrientation = 0;
   abstract readonly type;
   readonly forward;
@@ -22,6 +21,10 @@ export abstract class BasePlayer extends ChessObject implements IPlayer {
   pieces: IPiece[];
   board: Board;
   graveYard: IPiece[];
+
+  constructor(readonly playerNumber: number) {
+    super();
+  }
 
   get moves(): IMove[] {
     const list: IMove[] = new Array();
