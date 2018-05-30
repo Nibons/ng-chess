@@ -9,12 +9,13 @@ import { Game } from '@chess/game';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { map, take } from 'rxjs/operators';
 
-const game_template_directory = 'assets/game_templates';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
+  private readonly game_template_directory = 'assets/game_templates';
 
   public gameList: Game[];
   public playerList: IPlayer[];
@@ -23,7 +24,7 @@ export class GameService {
     // this.readGameTypeList();
   }
   newGame(name: string): Game {
-    return new Game(this.getBoardConfig(name), this.getPieceList(name), this.playerList);
+    return new Game(this.GetBoardConfig(name), this.GetPiecesConfig(name), this.playerList);
   }
   saveGame(name: string) {
 
@@ -39,7 +40,7 @@ export class GameService {
   // }
 
   private GetBoardConfig(name: string): Observable<IBoardConstructor> {
-    const url = `${game_template_directory}/${name}.board.json`;
+    const url = `${this.game_template_directory}/${name}.board.json`;
     return this._http.get(url)
       .pipe(
         map((res: Response) => res.json()),
@@ -47,7 +48,7 @@ export class GameService {
   }
 
   private GetPiecesConfig(name: string): Observable<IPieceConstructor[]> {
-    const url = `${game_template_directory}/${name}.pieces.json`;
+    const url = `${this.game_template_directory}/${name}.pieces.json`;
     return this._http.get(url).pipe(map((res: Response) => res.json()), map(json => json as any as IPieceConstructor[]));
   }
 }
