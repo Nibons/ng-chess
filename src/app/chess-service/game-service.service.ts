@@ -39,17 +39,26 @@ export class GameService {
   //   );
   // }
 
-  private GetBoardConfig(name: string): Observable<IBoardConstructor> {
+  private GetBoardConfig(name: string): IBoardConstructor {
     const url = `${this.game_template_directory}/${name}.board.json`;
-    return this._http.get(url)
+    const json_response = this._http.get(url)
       .pipe(
-        map((res: Response) => res.json()),
-        map(json => json as any as IBoardConstructor));
+        map((res: Response) => {
+          return res.json();
+        })
+      );
+    return json_response as any as IBoardConstructor;
   }
 
-  private GetPiecesConfig(name: string): Observable<IPieceConstructor[]> {
+  private GetPiecesConfig(name: string): IPieceConstructor[] {
     const url = `${this.game_template_directory}/${name}.pieces.json`;
-    return this._http.get(url).pipe(map((res: Response) => res.json()), map(json => json as any as IPieceConstructor[]));
+    const json_response = this._http.get(url)
+      .pipe(
+        map((res: Response) => {
+          return res.json();
+        })
+      );
+    return json_response as any as IPieceConstructor[];
   }
 }
 

@@ -8,6 +8,7 @@ export class Game extends ChessObject {
   public board: Board;
   constructor(boardConfig: IBoardConstructor, piecesConfig: IPieceConstructor[], public playerList: IPlayer[]) {
     super();
-    this.board = new Board(boardConfig, piecesConfig, playerList, this);
+    this.board = new Board(boardConfig, this);
+    Board.PopulatePieces(piecesConfig, this.board, this);
   }
 }

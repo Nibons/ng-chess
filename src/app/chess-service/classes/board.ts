@@ -20,6 +20,7 @@ export class Board extends ChessObject {
   readonly playerColors: string[];
   activePieces: IPiece[];
   positionList: Position[];
+  public players: IPlayer[];
 
   static getPositionAt(position: IPosition, board: Board): IPosition {
     return board.positionList.filter(
@@ -44,33 +45,35 @@ export class Board extends ChessObject {
   static IsWithinRange(testNumber: Number, lowerBound: number, upperBound: number): boolean {
     return testNumber >= lowerBound && testNumber <= upperBound;
   }
+  static PopulatePieces(pieces: IPieceConstructor[], board: Board, game: Game) {
+    const taskList: Promise<void>[] = new Array();
+    pieces.forEach(pieceTemplate => taskList.push(Board.AddPiece(pieceTemplate, board, game)));
+    taskList.forEach(task => async () => await task);
+  }
+  static AddPiece(
+    template: IPieceConstructor,
+    board: Board,
+    game: Game
+  ): Promise<void> {
+    const position = board.getPositionAt(new Coordinates(template.positionArray));
+    const player = BasePlayer.getPlayerByNumber(template.playerNumber, game);
+    return new Promise<void>(resolve => BasePiece.PieceFactory(template.pieceType, position, player, board));
+  }
 
   constructor(
     boardConfig: IBoardConstructor,
-    piecesConfig: IPieceConstructor[],
-    public players: IPlayer[],
     public game: Game
   ) {
     super();
     this.friendlyFire = boardConfig.friendlyFire;
     this.dimensions = boardConfig.dimensions;
     this.CreateAllBoardPositions();
-    this.PopulatePieces(piecesConfig, game);
-  }
-
-  private AddPiece(
-    template: IPieceConstructor,
-    game: Game
-  ): void {
-    const position = this.getPositionAt(new Coordinates(template.positionArray));
-    const player = BasePlayer.getPlayerByNumber(template.playerNumber, game);
-    const piece = BasePiece.PieceFactory(template.pieceType, position, player, this);
   }
 
 
-  private PopulatePieces(pieces: IPieceConstructor[], game: Game): void {
-    pieces.forEach(pieceTemplate => this.AddPiece(pieceTemplate, game));
-  }
+
+
+
   RemovePiece(piece: IPiece): void {
     this.activePieces = this.activePieces.filter(boardPiece => piece.id !== boardPiece.id);
   }
