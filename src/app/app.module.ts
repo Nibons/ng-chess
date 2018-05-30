@@ -6,6 +6,7 @@ import { PieceComponent } from './components/piece/piece.component';
 import { PositionComponent } from './components/position/position.component';
 import { BoardComponent } from './components/board/board.component';
 import { MatIconModule } from '@angular/material/icon';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   imports: [
     BrowserModule,
-    MatIconModule
+    MatIconModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
