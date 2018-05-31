@@ -13,25 +13,25 @@ import { Pawn } from '@chess/pawn';
 import { King } from '@chess/king';
 import { Queen } from '@chess/queen';
 import { ChessObject } from '@chess/chess-object';
-import { CPiece } from '@chess/config/cpiece';
 import { IPlayer } from '@chess/iplayer.model';
 import { BasePlayer } from '@chess/base-player';
 import { IMove } from '@chess/imove.model';
 
 export abstract class BasePiece extends ChessObject implements IPiece {
   abstract readonly value: number;
+  abstract pieceType: EPieceType;
+  abstract GetThreatList(): IPosition[];
+
   static get value(): number { return this.value; }
   _AvailableMoves: any;
-  constructor(public position: IPosition, public player: IPlayer, public board?: Board) {
-    super();
-  }
-  abstract pieceType: EPieceType;
-
   protected _IsAlive = true;
   protected _HasMoved = false;
   protected _PotentialMoves: IPosition[];
   protected _ThreatList: IPosition[]; // which positions this piece is the threat
   protected _availableMoves: IMove[];
+  constructor(public position: IPosition, public player: IPlayer, public board?: Board) {
+    super();
+  }
   public get threatList(): IPosition[] { return this._ThreatList; }
   public get potentialMoves(): IPosition[] { return this._PotentialMoves; }
   public get availableMoves(): IMove[] { return this._availableMoves; }
@@ -86,8 +86,6 @@ export abstract class BasePiece extends ChessObject implements IPiece {
     const newPiece = BasePiece.PieceFactory(this.pieceType, this.position, this.player, board);
     newPiece.SetThreat(this._ThreatList);
   }
-
-
   protected setIsAlive(aliveStatus: boolean = false): void { this._IsAlive = aliveStatus; }
 
   GetAvailableMoves(): IPosition[] {
@@ -99,7 +97,7 @@ export abstract class BasePiece extends ChessObject implements IPiece {
   SetThreat(positions: IPosition[] = this.GetThreatList()): void {
     this._ThreatList = positions;
   }
-  abstract GetThreatList(): IPosition[];
+
   SetPotentialMoves(): void {
     // override for pawns, rooks(for castling), kings (for castling)
     this._PotentialMoves = this._ThreatList.filter(

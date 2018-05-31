@@ -11,7 +11,7 @@ import { ChessObject } from '@chess/chess-object';
 export interface IPiece extends ChessObject {
   readonly value: number;
   readonly pieceType: EPieceType;
-  player: IPlayer;
+  playerNumber: number;
   position: IPosition;
   threatList: IPosition[];
   potentialMoves: IPosition[];

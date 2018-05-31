@@ -2,7 +2,6 @@ import { IBoardConstructor } from '@chess/i-board-constructor.model';
 import { IPieceConstructor } from '@chess/ipiece-constructor.model';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { GameConfig } from '@chess/GameConfig';
 import { Board } from '@chess/board';
 import { IPlayer } from '@chess/iplayer.model';
 import { Game } from '@chess/game';

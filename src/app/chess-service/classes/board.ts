@@ -2,8 +2,6 @@ import { IBoardConstructor } from '@chess/i-board-constructor.model';
 import { Game } from '@chess/game';
 import { IPlayer } from '@chess/iplayer.model';
 import { BasePiece } from '@chess/base-piece';
-import { CPiece } from './config/cpiece';
-import { CBoard } from './config/cboard';
 import { IPiece } from '@chess/ipiece';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { Position } from '@chess/position';
@@ -22,14 +20,8 @@ export class Board extends ChessObject {
   readonly playerColors: string[];
   private activePieces: IPiece[];
   private positionList: IPosition[];
-  private players: IPlayer[];
-  private turnHistory: IMove[];
-  private current_player_turn = -2;
-
-  turnHistory$: Observable<IMove> = from(this.turnHistory);
   positionList$: Observable<IPosition> = from(this.positionList);
   activePieces$: Observable<IPiece> = from(this.activePieces);
-  players$: Observable<IPlayer> = from(this.players);
 
   static getPositionAt(position: IPosition, board: Board): IPosition {
     return board.positionList.filter(
@@ -54,7 +46,7 @@ export class Board extends ChessObject {
   static IsWithinRange(testNumber: Number, lowerBound: number, upperBound: number): boolean {
     return testNumber >= lowerBound && testNumber <= upperBound;
   }
-  PopulatePieces(pieces: IPieceConstructor[], board: Board = this, game: Game) {
+  PopulatePieces(pieces: IPieceConstructor[], game: Game, board: Board = this) {
     const taskList: Promise<void>[] = new Array();
     pieces.forEach(pieceTemplate => taskList.push(board.AddPiece(pieceTemplate, board, game)));
     taskList.forEach(task => async () => await task);
@@ -70,8 +62,7 @@ export class Board extends ChessObject {
   }
 
   constructor(
-    public boardConfig: IBoardConstructor,
-    public game: Game
+    public boardConfig: IBoardConstructor
   ) {
     super();
     this.friendlyFire = boardConfig.friendlyFire;

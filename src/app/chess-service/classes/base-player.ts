@@ -1,3 +1,4 @@
+import { Player } from './team';
 import { IPiece } from '@chess/ipiece';
 import { IPlayer } from '@chess/iplayer.model';
 import { EPlayerType } from '@chess/eplayer-type.enum';
@@ -8,25 +9,19 @@ import { Game } from '@chess/game';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { BasePiece } from '@chess/pieces/base-piece';
 export abstract class BasePlayer extends ChessObject implements IPlayer {
-  pieceOrientation = 0;
   abstract readonly type;
   readonly forward;
+  pieceOrientation = 0;
+  playerNumber: number;
+  color: string;
+  pieces: IPiece[];
+  graveYard: IPiece[];
   public get SumPieceValue(): number {
     let running_total = 0;
     this.pieces.forEach(p => running_total += p.value);
     return running_total;
   }
-
-  color: string;
-  pieces: IPiece[];
-  board: Board;
-  graveYard: IPiece[];
-
-  constructor(readonly playerNumber: number) {
-    super();
-  }
-
-  get moves(): IMove[] {
+  public get moves(): IMove[] {
     const list: IMove[] = new Array();
     this.pieces.forEach(
       each_piece => {
@@ -39,11 +34,21 @@ export abstract class BasePlayer extends ChessObject implements IPlayer {
     );
     return list;
   }
+
+  constructor(playerNumber: number) {
+    super();
+    this.playerNumber = playerNumber;
+  }
+
+
   static getPlayerByNumber(playerNumber: number, game: Game): IPlayer {
     return game.playerList.filter((player: IPlayer) => player.playerNumber === playerNumber)[0];
   }
   PieceCount(pieceType: EPieceType = null): number {
     return this.pieces.filter(piece => pieceType === null || piece.pieceType === pieceType).length;
+  }
+  OwnPiece(piece: IPiece) {
+    this.pieces.push(piece);
   }
 
   MovePiece(move: IMove): void {
@@ -59,10 +64,8 @@ export abstract class BasePlayer extends ChessObject implements IPlayer {
   }
   PromoteMove(move: IMove): void {
     this.MovePiece(move); // PieceFactory should automatically kill the piece after it gets there!
-    BasePiece.PieceFactory(move.type, move.position, this, this.board);
+    BasePiece.PieceFactory(move.piece.pieceType, move.position, move.piece.player, move.piece.position.board);
   }
-
   Forfiet(): void {
-
   }
 }
