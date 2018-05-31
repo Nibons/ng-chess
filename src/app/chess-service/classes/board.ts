@@ -13,6 +13,7 @@ import { BasePlayer } from '@chess/base-player';
 import { IPieceConstructor } from '@chess/ipiece-constructor.model';
 import { from, Observable } from 'rxjs';
 import { IMove } from '@chess/imove.model';
+import { PieceFactory } from '@chess/pieces/piece-factory';
 
 export class Board extends ChessObject {
   readonly friendlyFire;
@@ -46,23 +47,24 @@ export class Board extends ChessObject {
   static IsWithinRange(testNumber: Number, lowerBound: number, upperBound: number): boolean {
     return testNumber >= lowerBound && testNumber <= upperBound;
   }
-  PopulatePieces(pieces: IPieceConstructor[], game: Game, board: Board = this) {
+  PopulatePieces(pieces: IPieceConstructor[], game: Game, board: Board = this): Observable<IPiece> {
     const taskList: Promise<void>[] = new Array();
     pieces.forEach(pieceTemplate => taskList.push(board.AddPiece(pieceTemplate, board, game)));
     taskList.forEach(task => async () => await task);
+    return this.activePieces$;
   }
-  private AddPiece(
+  AddPiece(
     template: IPieceConstructor,
     board: Board = this,
     game: Game
   ): Promise<void> {
     const position = board.getPositionAt(new Coordinates(template.positionArray));
-    const player = BasePlayer.getPlayerByNumber(template.playerNumber, game);
-    return new Promise<void>(resolve => BasePiece.PieceFactory(template.pieceType, position, player, board));
+    return new Promise<void>(resolve => PieceFactory.Create(template.pieceType, position, template.playerNumber, board));
   }
 
   constructor(
-    public boardConfig: IBoardConstructor
+    public boardConfig: IBoardConstructor,
+    game: Game
   ) {
     super();
     this.friendlyFire = boardConfig.friendlyFire;

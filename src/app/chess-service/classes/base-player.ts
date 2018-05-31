@@ -8,6 +8,9 @@ import { Board } from '@chess/board';
 import { Game } from '@chess/game';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { BasePiece } from '@chess/pieces/base-piece';
+import { PieceFactory } from '@chess/pieces/piece-factory';
+import { Observable, merge } from 'rxjs';
+import { map } from 'rxjs/operators';
 export abstract class BasePlayer extends ChessObject implements IPlayer {
   abstract readonly type;
   readonly forward;
@@ -16,23 +19,14 @@ export abstract class BasePlayer extends ChessObject implements IPlayer {
   color: string;
   pieces: IPiece[];
   graveYard: IPiece[];
+  moves$: Observable<IMove>;
   public get SumPieceValue(): number {
     let running_total = 0;
     this.pieces.forEach(p => running_total += p.value);
     return running_total;
   }
-  public get moves(): IMove[] {
-    const list: IMove[] = new Array();
-    this.pieces.forEach(
-      each_piece => {
-        each_piece.availableMoves.forEach(
-          each_move => {
-            list.push(each_move);
-          }
-        );
-      }
-    );
-    return list;
+  public get moves(): Observable<IMove> {
+    return this.moves$;
   }
 
   constructor(playerNumber: number) {
@@ -47,8 +41,9 @@ export abstract class BasePlayer extends ChessObject implements IPlayer {
   PieceCount(pieceType: EPieceType = null): number {
     return this.pieces.filter(piece => pieceType === null || piece.pieceType === pieceType).length;
   }
-  OwnPiece(piece: IPiece) {
+  TakeOwnPiece(piece: IPiece) {
     this.pieces.push(piece);
+    this.moves$ = merge(this.moves$, piece.moves$);
   }
 
   MovePiece(move: IMove): void {
@@ -64,7 +59,7 @@ export abstract class BasePlayer extends ChessObject implements IPlayer {
   }
   PromoteMove(move: IMove): void {
     this.MovePiece(move); // PieceFactory should automatically kill the piece after it gets there!
-    BasePiece.PieceFactory(move.piece.pieceType, move.position, move.piece.player, move.piece.position.board);
+    PieceFactory.Create(move.piece.pieceType, move.position, move.piece.playerNumber, move.piece.position.board);
   }
   Forfiet(): void {
   }

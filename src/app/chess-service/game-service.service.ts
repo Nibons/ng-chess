@@ -23,7 +23,9 @@ export class GameService {
     // this.readGameTypeList();
   }
   newGame(name: string): Game {
-    return new Game(this.GetBoardConfig(name), this.GetPiecesConfig(name), this.playerList);
+    return new Game(this.playerList)
+      .CreateBoard(this.GetBoardConfig(name))
+      .PlacePieces(this.GetPiecesConfig(name));
   }
   saveGame(name: string) {
 

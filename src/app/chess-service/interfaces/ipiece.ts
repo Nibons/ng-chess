@@ -1,4 +1,3 @@
-import { ETeam } from '@chess/eteam.enum';
 import { Position } from '@chess/position';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { Board } from '@chess/board';
@@ -15,10 +14,9 @@ export interface IPiece extends ChessObject {
   position: IPosition;
   threatList: IPosition[];
   potentialMoves: IPosition[];
-  availableMoves: IMove[];
+  moves$: Observable<IMove>;
   hasMoved: boolean;
   isAlive: boolean;
-  GetAvailableMoves(): IPosition[];
   HasMoves(): boolean;
   Move(position): boolean;
   GetThreatList(): IPosition[];

@@ -12,7 +12,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class PieceComponent implements OnInit {
   @Input() piece: IPiece = null;
-  player = this.piece.player;
+  player = this.piece.playerNumber;
   playerColor = this.player.color;
   moves = this.piece.availableMoves;
   direction = this.player.forward; // 1 for white, -1 for black

@@ -9,16 +9,16 @@ import { EPieceType } from '@chess/e-piece-type.enum';
 export class Rook extends BasePiece implements IPiece {
   readonly value = 5;
   readonly pieceType = EPieceType.rook;
-  static ProcessRookThreat(initialPosition: IPosition, board: Board): IPosition[] {
+  static ProcessRookThreat(initialPosition: IPosition): IPosition[] {
     const position_cache: IPosition[] = new Array();
-    BasePiece.ProcessThreatInDirection(initialPosition, 1, 0, board).forEach(pos => position_cache.push(pos)); // East
-    BasePiece.ProcessThreatInDirection(initialPosition, -1, 0, board).forEach(pos => position_cache.push(pos)); // West
-    BasePiece.ProcessThreatInDirection(initialPosition, 0, 1, board).forEach(pos => position_cache.push(pos)); // North
-    BasePiece.ProcessThreatInDirection(initialPosition, 0, -1, board).forEach(pos => position_cache.push(pos)); // South
+    BasePiece.ProcessThreatInDirection(initialPosition, 1, 0).forEach(pos => position_cache.push(pos)); // East
+    BasePiece.ProcessThreatInDirection(initialPosition, -1, 0).forEach(pos => position_cache.push(pos)); // West
+    BasePiece.ProcessThreatInDirection(initialPosition, 0, 1).forEach(pos => position_cache.push(pos)); // North
+    BasePiece.ProcessThreatInDirection(initialPosition, 0, -1).forEach(pos => position_cache.push(pos)); // South
     return position_cache;
   }
   GetThreatList() {
-    return Rook.ProcessRookThreat(this.position, this.board);
+    return Rook.ProcessRookThreat(this.position);
   }
 
 }
