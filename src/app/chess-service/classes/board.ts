@@ -1,3 +1,4 @@
+import { IBoard } from './../interfaces/iboard.model';
 import { IBoardConstructor } from '@chess/i-board-constructor.model';
 import { Game } from '@chess/game';
 import { IPlayer } from '@chess/iplayer.model';
@@ -15,8 +16,10 @@ import { from, Observable } from 'rxjs';
 import { IMove } from '@chess/imove.model';
 import { PieceFactory } from '@chess/pieces/piece-factory';
 
-export class Board extends ChessObject {
+export class Board extends ChessObject implements IBoard {
   readonly friendlyFire;
+  // player0 = direction[0] for direction!
+  readonly direction: IPosition[] = [{ x: 0, y: 1 }, { x: 0, y: -1 }];
   readonly dimensions: IDimensions;
   readonly playerColors: string[];
   private activePieces: IPiece[];
