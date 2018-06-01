@@ -1,3 +1,4 @@
+import { Board } from '@chess/board';
 import { Component, OnInit, Input } from '@angular/core';
 import { MatIconModule, MatIcon } from '@angular/material/icon';
 import { IPiece } from '@chess/IPiece';
@@ -12,10 +13,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class PieceComponent implements OnInit {
   @Input() piece: IPiece = null;
-  player = this.piece.playerNumber;
-  playerColor = this.player.color;
-  moves = this.piece.availableMoves;
-  direction = this.player.forward; // 1 for white, -1 for black
+  playerNumber = this.piece.playerNumber;
+  playerColor = ['white', 'black'].filter((colorText, index) => index === this.playerNumber);
+  moves = this.piece.moves$.subscribe();
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     this.importPieceIcon(iconRegistry, sanitizer);
   }
