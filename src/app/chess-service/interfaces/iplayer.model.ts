@@ -21,5 +21,5 @@ export interface IPlayer extends ChessObject {
   PromoteMove(move: IMove): void;
   PieceCount(pieceType: EPieceType): number;
   Forfiet(): void;
-  TakeOwnPiece(piece: IPiece): void;
+  AddPiece(piece: IPiece): void;
 }

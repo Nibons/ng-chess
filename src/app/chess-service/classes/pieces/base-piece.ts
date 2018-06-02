@@ -1,21 +1,22 @@
+import { IBoard } from '@chess/iboard.model';
+import { ICoordinates } from '@chess/icoordinates.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { IPiece } from '@chess/ipiece';
-import { Board } from '@chess/board';
-import { Position } from '@chess/position';
 import { IPosition } from '@chess/iposition';
 import { Coordinates } from '@chess/coordinates';
 import { Observable, from } from 'rxjs';
 import { ChessObject } from '@chess/chess-object';
 import { IPlayer } from '@chess/iplayer.model';
-import { BasePlayer } from '@chess/base-player';
 import { IMove } from '@chess/imove.model';
 import { Guid } from '@chess/guid';
-import { Game } from '@chess/game';
 import { IGame } from '@chess/igame';
 
 export abstract class BasePiece extends ChessObject implements IPiece {
-  get player(): IPlayer {
+  public get owner(): IPlayer {
     return this.game.GetPlayerById(this.playerId);
+  }
+  public get board(): IBoard {
+    return this.game.GetBoardById(this.boardId);
   }
 
   abstract readonly value: number;
@@ -23,24 +24,29 @@ export abstract class BasePiece extends ChessObject implements IPiece {
   abstract GetThreatList(): IPosition[];
 
   static get value(): number { return this.value; }
-  _AvailableMoves: IMove[];
   protected _IsAlive = true;
+  public get IsAlive() { return this._IsAlive; }
   protected _HasMoved = false;
+
+  public get HasMoved(): boolean { return this._HasMoved; }
+
   protected _PotentialMoves: IPosition[];
+  public get potentialMoves(): IPosition[] { return this._PotentialMoves; }
+
   protected _ThreatList: IPosition[]; // which positions this piece is the threat
+  public get threatList(): IPosition[] { return this._ThreatList; }
+
   protected _availableMoves: IMove[];
+  public get availableMoves(): IMove[] { return this._availableMoves; }
+  public get HasMoves(): boolean { return (this._availableMoves.length > 0) && (this._IsAlive); }
+
   constructor(
-    public position: IPosition,
+    public position: ICoordinates,
     readonly playerId: Guid,
     readonly boardId: Guid,
     public game: IGame) {
     super();
   }
-  public get threatList(): IPosition[] { return this._ThreatList; }
-  public get potentialMoves(): IPosition[] { return this._PotentialMoves; }
-  public get availableMoves(): IMove[] { return this._availableMoves; }
-  public get hasMoved(): boolean { return this._HasMoved; }
-  public get isAlive(): boolean { return this._IsAlive; }
   threat$: Observable<IPosition> = from(this._ThreatList);
   moves$: Observable<IMove> = from(this._availableMoves);
 
@@ -48,7 +54,7 @@ export abstract class BasePiece extends ChessObject implements IPiece {
     starting_position: IPosition,
     deltaX: number,
     deltaY: number,
-    board: Board = starting_position.board,
+    board: IBoard = starting_position.board,
     maxCount: number = board.dimensions.max.x): IPosition[] {
     const position_cache: IPosition[] = new Array();
     let i = 1;
@@ -73,11 +79,7 @@ export abstract class BasePiece extends ChessObject implements IPiece {
       return true;
     } else { return false; }
   }
-  protected setIsAlive(aliveStatus: boolean = false): void { this._IsAlive = aliveStatus; }
 
-  HasMoves(): boolean {
-    return this._AvailableMoves.length > 0 && this.isAlive;
-  }
   SetThreat(positions: IPosition[] = this.GetThreatList()): void {
     this._ThreatList = positions;
   }
@@ -96,5 +98,4 @@ export abstract class BasePiece extends ChessObject implements IPiece {
     const ValidMovesThatMatchThis = this._availableMoves.filter(moves => Position.IsSamePosition(moves.position, position));
     return ValidMovesThatMatchThis.length >= 1;
   }
-
 }
