@@ -1,5 +1,7 @@
-import { Guid } from 'guid-typescript';
+import { Guid } from "@chess/guid";
+
 export abstract class ChessObject {
-  readonly id: Guid = Guid.create();
+  readonly id: Guid = Guid.newGuid();
+
 }
 
