@@ -1,4 +1,4 @@
-import { ICoordinates } from './../interfaces/icoordinates.model';
+import { ICoordinates } from '@chess/icoordinates.model';
 import { IBoard } from '@chess/iboard.model';
 import { IGame } from '@chess/igame';
 import { Observable } from 'rxjs';
@@ -18,9 +18,6 @@ export class Position extends ChessObject implements IPosition {
   }
 
   public get IsOccupied(): boolean { return this.IsEmpty === false; }
-  public get IsOnBoard(): boolean {
-    return this.board.IsWithinBounds(this.position);
-  }
   public get IsEmpty(): boolean { return this._piece === null; } // oposite of IsOccupied (i don't like double negatives anywhere)
 
   constructor(public coordinates: ICoordinates, public boardId: Guid, public game: IGame) {

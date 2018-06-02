@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export interface IPlayer extends ChessObject {
   playerNumber: number;
   type: EPlayerType;
-  pieceOrientation: number;
+  pieceOrientation: number; // 0 to 359 (degrees)
   color: string;
   pieces: IPiece[];
   SumPieceValue: number;
@@ -18,8 +18,8 @@ export interface IPlayer extends ChessObject {
   forward: IPosition; // white:{x:0,y:1}, black{x:0,y:-1}
   graveYard: IPiece[];
   MovePiece(move: IMove): void;
+  PromoteMove(move: IMove): void;
   PieceCount(pieceType: EPieceType): number;
   Forfiet(): void;
-  PromoteMove(move: IMove): void;
   TakeOwnPiece(piece: IPiece): void;
 }

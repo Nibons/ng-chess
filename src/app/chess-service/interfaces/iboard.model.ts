@@ -1,3 +1,4 @@
+import { ICoordinates } from '@chess/icoordinates.model';
 import { IPosition } from '@chess/iposition';
 import { Observable } from 'rxjs';
 import { IPiece } from '@chess/ipiece';
@@ -7,6 +8,5 @@ export interface IBoard extends IGameItem {
   direction: IPosition[];
   positionList$: Observable<IPosition>;
   activePieces$: Observable<IPiece>;
-  IsWithinBounds(coordinates: IPosition): boolean;
-  GetPositionAt(coordinates: IPosition): IPosition;
+  GetPositionAt(coordinates: ICoordinates): IPosition;
 }

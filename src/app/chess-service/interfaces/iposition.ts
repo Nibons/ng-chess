@@ -1,9 +1,11 @@
+import { IGame } from './igame';
 import { IPiece } from '@chess/ipiece';
 import { Guid } from '@chess/guid';
 import { Coordinates } from '@chess/coordinates';
 import { IBoard } from '@chess/iboard.model';
 import { IGameItem } from '@chess/igame-item.model';
 export interface IPosition extends IGameItem {
+  game: IGame;
   boardId: Guid;
   board: IBoard;
   coordinates: Coordinates;
@@ -12,6 +14,5 @@ export interface IPosition extends IGameItem {
   IsEmpty: boolean;
   piece: IPiece;
   SetPiece(piece?: IPiece): void;
-  ConvertToPosition(coordinates: Coordinates, boardId: Guid): IPosition;
-  GetAdjacentPosition(delta: Coordinates, boardId: Guid): IPosition;
+  GetPosition(coordinates: Coordinates, boardId: Guid): IPosition;
 }

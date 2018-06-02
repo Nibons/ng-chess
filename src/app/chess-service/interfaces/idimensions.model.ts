@@ -1,6 +1,6 @@
-import { IPosition } from '@chess/iposition';
+import { ICoordinates } from '@chess/icoordinates.model';
 
 export interface IDimensions {
-  min: IPosition;
-  max: IPosition;
+  min: ICoordinates;
+  max: ICoordinates;
 }
