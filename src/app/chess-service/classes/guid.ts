@@ -1,6 +1,6 @@
 export class Guid {
   private constructor(private _guid = Guid.newGuid()) { }
-  get this() {
+  public toString() {
     return this._guid;
   }
   static newGuid() {

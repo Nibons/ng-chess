@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Guid } from '@chess/guid';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  guid = Guid.newGuid().toString();
 }
