@@ -1,14 +1,15 @@
 import { IPieceConstructor } from '@chess/ipiece-constructor.model';
 import { IBoardConstructor } from '@chess/i-board-constructor.model';
-import { Board } from '@chess/board';
 import { ChessObject } from '@chess/chess-object';
 import { IPlayer } from '@chess/iplayer.model';
 import { from, Observable } from 'rxjs';
 import { IMove } from '@chess/imove.model';
 import { IPiece } from '@chess/ipiece';
+import { IGame } from '@chess/igame';
+import { IBoard } from '@chess/iboard.model';
 
-export class Game extends ChessObject {
-  public board: Board;
+export class Game extends ChessObject implements IGame {
+  public board: IBoard;
   public turnList: IMove[];
   public turnList$: Observable<IMove> = from(this.turnList);
   public playerList: IPlayer[];

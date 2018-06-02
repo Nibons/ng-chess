@@ -9,8 +9,15 @@ import { ChessObject } from '@chess/chess-object';
 import { IPlayer } from '@chess/iplayer.model';
 import { BasePlayer } from '@chess/base-player';
 import { IMove } from '@chess/imove.model';
+import { Guid } from '@chess/guid';
+import { Game } from '@chess/game';
+import { IGame } from '@chess/igame';
 
 export abstract class BasePiece extends ChessObject implements IPiece {
+  get player(): IPlayer {
+    return this.game.GetPlayerById(this.playerId);
+  }
+
   abstract readonly value: number;
   abstract pieceType: EPieceType;
   abstract GetThreatList(): IPosition[];
@@ -22,7 +29,11 @@ export abstract class BasePiece extends ChessObject implements IPiece {
   protected _PotentialMoves: IPosition[];
   protected _ThreatList: IPosition[]; // which positions this piece is the threat
   protected _availableMoves: IMove[];
-  constructor(public position: IPosition, public playerNumber: number, public board?: Board) {
+  constructor(
+    public position: IPosition,
+    readonly playerId: Guid,
+    readonly boardId: Guid,
+    public game: IGame) {
     super();
   }
   public get threatList(): IPosition[] { return this._ThreatList; }
