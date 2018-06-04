@@ -7,8 +7,20 @@ import { IMove } from '@chess/imove.model';
 import { IPiece } from '@chess/ipiece';
 import { IGame } from '@chess/igame';
 import { IBoard } from '@chess/iboard.model';
+import { IPosition } from '@chess/iposition';
+import { Guid } from '@chess/guid';
 
 export class Game extends ChessObject implements IGame {
+  pieces: IPiece[];
+  GetPlayerById(playerId: Guid): IPlayer {
+    throw new Error('Method not implemented.');
+  }
+  GetBoardById(boardId: Guid): IBoard {
+    throw new Error('Method not implemented.');
+  }
+  GetPositionById(positionId: Guid): IPosition {
+    throw new Error('Method not implemented.');
+  }
   public board: IBoard;
   public turnList: IMove[];
   public turnList$: Observable<IMove> = from(this.turnList);

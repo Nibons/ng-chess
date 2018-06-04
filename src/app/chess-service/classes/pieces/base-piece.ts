@@ -12,6 +12,8 @@ import { Guid } from '@chess/guid';
 import { IGame } from '@chess/igame';
 
 export abstract class BasePiece extends ChessObject implements IPiece {
+  protected positionId: Guid;
+  protected pieceId: Guid;
   public get owner(): IPlayer {
     return this.game.GetPlayerById(this.playerId);
   }
@@ -47,7 +49,7 @@ export abstract class BasePiece extends ChessObject implements IPiece {
     public game: IGame) {
     super();
   }
-  threat$: Observable<IPosition> = from(this._ThreatList);
+  threatList$: Observable<IPosition> = from(this._ThreatList);
   moves$: Observable<IMove> = from(this._availableMoves);
 
   static ProcessThreatInDirection(
@@ -62,7 +64,7 @@ export abstract class BasePiece extends ChessObject implements IPiece {
       current_position.IsOnBoard && current_position.IsEmpty && i <= maxCount;
       i++
     ) {
-      current_position = board.getPositionAt(new Coordinates([(current_position.x + deltaX), (current_position.y + deltaY)]));
+      current_position = board.GetPositionAt(new Coordinates([(current_position.x + deltaX), (current_position.y + deltaY)]));
       if (current_position.IsOnBoard) {
         position_cache.push(current_position);
       }

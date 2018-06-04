@@ -15,9 +15,9 @@ export interface IPiece extends IGameItem {
   positionId: Guid;
   position: IPosition;
   threatList: IPosition[];
-  threatList$: Observable<IMove[]>;
+  threatList$: Observable<IMove>;
   potentialMoves: IPosition[];
-  moves$: Observable<IMove[]>;
+  moves$: Observable<IMove>;
   hasMoved: boolean;
   IsAlive: boolean;
   IsPrimary: boolean;

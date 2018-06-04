@@ -50,16 +50,14 @@ export abstract class BasePlayer extends ChessObject implements IPlayer {
     if (move.piece.Move(move.position)) {
       if (move.position.IsOccupied) {
         move.position.piece.Kill();
-        console.log(`Player #${this.playerNumber} killed ${move.piece.pieceType.toString} at (${move.position.x},${move.position.y})`);
       }
-      console.log(`Player #${this.playerNumber} moved ${move.piece.pieceType} to (${move.position.x},${move.position.y})`);
     } else {
       console.error('invalid move:' + move.toString());
     }
   }
   PromoteMove(move: IMove): void {
     this.MovePiece(move); // PieceFactory should automatically kill the piece after it gets there!
-    PieceFactory.Create(move.piece.pieceType, move.position, move.piece.playerNumber, move.piece.position.board);
+    PieceFactory.Create(move.piece.pieceType, move.position, move.piece.owner.playerNumber, move.position.board);
   }
   Forfiet(): void {
   }
