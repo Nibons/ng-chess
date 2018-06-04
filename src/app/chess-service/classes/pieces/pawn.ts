@@ -1,9 +1,7 @@
-import { BasePiece } from '@chess/base-piece';
+import { BasePiece } from '@chess/pieces/base-piece';
 import { IPiece } from '@chess/ipiece';
-import { IPosition } from '@chess/iposition';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { BasePlayer } from '@chess/base-player';
-import { Player } from '@chess/team';
+import { IPosition } from '@chess/iposition';
 
 export class Pawn extends BasePiece implements IPiece {
   readonly value = 1;

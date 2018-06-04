@@ -2,7 +2,6 @@ import { BasePiece } from '@chess/base-piece';
 import { Coordinates } from '@chess/coordinates';
 import { IPiece } from '@chess/ipiece';
 import { IPosition } from '@chess/iposition';
-import { Position } from '@chess/position';
 import { EPieceType } from '@chess/e-piece-type.enum';
 
 export class Knight extends BasePiece implements IPiece {

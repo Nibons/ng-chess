@@ -1,7 +1,6 @@
 import { EPieceType } from "@chess/e-piece-type.enum";
 import { IPlayer } from "@chess/iplayer.model";
 import { IPosition } from "@chess/iposition";
-import { Board } from "@chess/board";
 import { IPiece } from "@chess/ipiece";
 import { Bishop } from "@chess/pieces/bishop";
 import { King } from "@chess/pieces/king";
@@ -9,9 +8,10 @@ import { Knight } from "@chess/pieces/knight";
 import { Pawn } from "@chess/pieces/pawn";
 import { Queen } from "@chess/pieces/queen";
 import { Rook } from "@chess/pieces/rook";
+import { IBoard } from "@chess/iboard.model";
 
 export class PieceFactory {
-  static Create(PieceType: EPieceType, position: IPosition, playerNumber: number, board: Board): IPiece {
+  static Create(PieceType: EPieceType, position: IPosition, playerNumber: number, board: IBoard): IPiece {
     if (position.IsOccupied) { position.piece.Kill(); }
     switch (PieceType) {
       case EPieceType.bishop: { return new Bishop(position, playerNumber, board); }

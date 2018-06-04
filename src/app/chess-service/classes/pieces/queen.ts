@@ -1,7 +1,6 @@
 import { Rook } from '@chess/rook';
 import { Bishop } from '@chess/bishop';
 import { BasePiece } from '@chess/base-piece';
-import { Position } from '@chess/position';
 import { IPosition } from '@chess/iposition';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { IPiece } from '@chess/ipiece';
