@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "C:\\Temp\\ng-chess"
+		}
+	],
+	"settings": {
+		"typescript.tsdk": "node_modules\\typescript\\lib"
+	}
+}
