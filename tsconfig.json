@@ -25,6 +25,7 @@
         "src/app/chess-service/enums/*",
         "src/app/chess-service/*"
       ],
+      "@store":["src/app/store/state","src/app/store/models","src/app/store/actions"],
       "@app/*":["src/app/*"],
       "@templates":["src/assets/game_templates/*"]
     }
