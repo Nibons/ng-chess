@@ -1,6 +1,8 @@
-import { State } from '@ngxs/store';
+import { CreateBoard } from '@store/create-board';
+import { State, StateContext } from '@ngxs/store';
 import { BoardStateModel } from '@chess/iboard.model';
 import { Guid } from '@chess/guid';
+import { Action } from '@ngxs/store';
 
 @State<BoardStateModel>({
   name: 'boards',
@@ -19,4 +21,8 @@ import { Guid } from '@chess/guid';
   }
 })
 export class BoardState {
+  @Action(CreateBoard)
+  CreateBoard(context: StateContext<BoardStateModel>, action: CreateBoard) {
+
+  }
 }
