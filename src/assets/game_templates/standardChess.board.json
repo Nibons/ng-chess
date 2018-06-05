@@ -1,15 +1,10 @@
 {
   "currentTurnPlayerNumber": 0,
   "friendlyFire": false,
+  "direction": [0, 1],
   "dimensions": {
-    "min": {
-      "x": 0,
-      "y": 0
-    },
-    "max": {
-      "x": 7,
-      "y": 7
-    }
+    "min": [0, 0],
+    "max": [7, 7]
   },
   "playerColors": ["white", "black"]
 }
