@@ -1,17 +1,19 @@
-import { EPieceType } from "@chess/e-piece-type.enum";
-import { IPlayer } from "@chess/iplayer.model";
-import { IPosition } from "@chess/iposition";
-import { IPiece } from "@chess/ipiece";
-import { Bishop } from "@chess/pieces/bishop";
-import { King } from "@chess/pieces/king";
-import { Knight } from "@chess/pieces/knight";
-import { Pawn } from "@chess/pieces/pawn";
-import { Queen } from "@chess/pieces/queen";
-import { Rook } from "@chess/pieces/rook";
-import { IBoard } from "@chess/iboard.model";
+import { Guid } from '@chess/guid';
+import { ICoordinates } from '@chess/icoordinates.model';
+import { EPieceType } from '@chess/e-piece-type.enum';
+import { IPlayer } from '@chess/iplayer.model';
+import { IPosition } from '@chess/iposition';
+import { IPiece } from '@chess/ipiece';
+import { Bishop } from '@chess/pieces/bishop';
+import { King } from '@chess/pieces/king';
+import { Knight } from '@chess/pieces/knight';
+import { Pawn } from '@chess/pieces/pawn';
+import { Queen } from '@chess/pieces/queen';
+import { Rook } from '@chess/pieces/rook';
+import { IBoard } from '@chess/iboard.model';
 
 export class PieceFactory {
-  static Create(PieceType: EPieceType, position: IPosition, playerNumber: number, board: IBoard): IPiece {
+  static Create(PieceType: EPieceType, coordinates: ICoordinates, playerNumber: number, boardId: Guid): IPiece {
     if (position.IsOccupied) { position.piece.Kill(); }
     switch (PieceType) {
       case EPieceType.bishop: { return new Bishop(position, playerNumber, board); }

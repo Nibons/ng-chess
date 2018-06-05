@@ -1,12 +1,7 @@
-import { Bishop } from '@chess/bishop';
-import { Rook } from '@chess/rook';
-import { Pawn } from '@chess/pawn';
 import { BasePiece } from '@chess/base-piece';
-import { IPiece } from '@chess/ipiece';
-import { IPosition } from '@chess/iposition';
+import { IPiece } from '@chess/ipiece.model';
+import { IPosition } from '@chess/iposition.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { Knight } from '@chess/pieces/knight';
-import { Queen } from '@chess/pieces/queen';
 
 export class King extends BasePiece implements IPiece {
   readonly pieceType = EPieceType.king;
