@@ -1,7 +1,8 @@
+import { ICoordinates } from '@chess/icoordinates.model';
 import { BasePiece } from '@chess/base-piece';
 import { Coordinates } from '@chess/coordinates';
-import { IPiece } from '@chess/ipiece';
-import { IPosition } from '@chess/iposition';
+import { IPiece } from '@chess/ipiece.model';
+import { IPosition } from '@chess/iposition.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
 
 export class Knight extends BasePiece implements IPiece {
@@ -21,6 +22,18 @@ export class Knight extends BasePiece implements IPiece {
     }
     return position_cache;
   }
-  IsAlive() { return this._IsAlive; }
+  RefreshThreatList(): void {
+    const position_cache: IPosition[] = new Array();
+    const board = this.game.GetBoardById(this.game.GetPositionById(this.positionId).boardId);
+    const directions = [1, -1];
+    for (const XDirection of directions) {
+      for (const YDirection of directions) {
+        [Coordinates.GetDelta(this.coordinates, { dimensions: [(2 * XDirection), YDirection] }),
+        Coordinates.GetDelta(this.coordinates, { dimensions: [XDirection, (2 * YDirection)] })]
+          .filter((c: ICoordinates) =>
+            Coordinates.IsCoordinatesWithin(c, board.range.min, board.range.max));
+      }
+    }
+  }
   GetThreatList(): IPosition[] { return Knight.ProcessKnightThreat(this.position); }
 }

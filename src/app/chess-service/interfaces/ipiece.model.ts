@@ -1,3 +1,5 @@
+import { PieceStateModel } from '@chess/ipiece.model';
+import { GameItemStateModel } from './igame-item.model';
 import { Coordinates } from '@chess/coordinates';
 import { Guid } from './../classes/guid';
 import { EPieceType } from '@chess/e-piece-type.enum';
@@ -7,28 +9,27 @@ import { IPlayer } from '@chess/iplayer.model';
 import { IMove } from '@chess/imove.model';
 import { IGameItem } from '@chess/igame-item.model';
 
-export interface IPiece extends IGameItem {
+export interface PieceStateModel extends GameItemStateModel {
   playerNumber: number;
+  playerId: Guid;
   readonly pieceType: EPieceType;
   IsPrimary: boolean;
   coordinates: Coordinates;
-  readonly value: number;
-  playerId: Guid;
-  owner: IPlayer;
-  positionId: Guid;
-  position: IPosition;
-  threatList: IPosition[];
-  threatList$: Observable<IMove>;
-  potentialMoves: IPosition[];
-  moves$: Observable<IMove>;
-  hasMoved: boolean;
   IsAlive: boolean;
-  HasMoves: boolean;
-  Move(position: IPosition): boolean;
-  RefreshMoveList(): void;
-  GetThreatList(): IPosition[];
+  HasMoved: boolean;
+  positionId: Guid;
+  threatList: Guid[];
+  potentialMoves: Guid[];
+  readonly value: number;
+}
+
+export interface IPiece extends IGameItem, PieceStateModel {
+  position: IPosition;
+  owner(): IPlayer;
+  HasMoves(): boolean;
   RefreshThreatList(): void;
-  SetThreat(positions: IPosition[]): void;
-  SetPotentialMoves(): void;
+  RefreshMoveList(): void;
+  Move(position: IPosition): boolean;
+  GetThreatList(): IPosition[];
   Kill(): void;
 }
