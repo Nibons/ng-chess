@@ -1,15 +1,18 @@
+import { Coordinates } from '@chess/coordinates';
 import { Guid } from './../classes/guid';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { IPosition } from '@chess/iposition';
+import { IPosition } from '@chess/iposition.model';
 import { Observable } from 'rxjs';
 import { IPlayer } from '@chess/iplayer.model';
 import { IMove } from '@chess/imove.model';
-import { ChessObject } from '@chess/chess-object';
 import { IGameItem } from '@chess/igame-item.model';
 
 export interface IPiece extends IGameItem {
-  readonly value: number;
+  playerNumber: number;
   readonly pieceType: EPieceType;
+  IsPrimary: boolean;
+  coordinates: Coordinates;
+  readonly value: number;
   playerId: Guid;
   owner: IPlayer;
   positionId: Guid;
@@ -20,7 +23,6 @@ export interface IPiece extends IGameItem {
   moves$: Observable<IMove>;
   hasMoved: boolean;
   IsAlive: boolean;
-  IsPrimary: boolean;
   HasMoves: boolean;
   Move(position: IPosition): boolean;
   RefreshMoveList(): void;

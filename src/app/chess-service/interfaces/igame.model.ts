@@ -1,9 +1,10 @@
 import { IBoard } from './iboard.model';
 import { IPlayer } from '@chess/iplayer.model';
-import { IPiece } from '@chess/ipiece';
+import { IPiece } from '@chess/ipiece.model';
 import { Guid } from '@chess/guid';
-import { IPosition } from '@chess/iposition';
+import { IPosition } from '@chess/iposition.model';
 export interface IGame {
+  Id: Guid;
   playerList: IPlayer[];
   board: IBoard;
   pieces: IPiece[];

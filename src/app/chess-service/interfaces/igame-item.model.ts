@@ -1,8 +1,7 @@
 import { Guid } from '@chess/guid';
-import { IGame } from '@chess/igame';
+import { IGame } from '@chess/igame.model';
 
 export interface IGameItem {
+  Id: Guid;
   gameId: Guid;
-  game: IGame;
-  GetFromId(id: Guid): IGameItem;
 }
