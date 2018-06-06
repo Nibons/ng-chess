@@ -16,7 +16,7 @@ export interface PieceStateModel extends GameItemStateModel {
   playerId: Guid;
   readonly pieceType: EPieceType;
   IsPrimary: boolean;
-  coordinates: Coordinates;
+  coordinates: ICoordinates;
   IsAlive: boolean;
   HasMoved: boolean;
   positionId: Guid;
@@ -27,6 +27,7 @@ export interface PieceStateModel extends GameItemStateModel {
 
 export interface IPiece extends IGameItem, PieceStateModel {
   position: IPosition;
+  board: IBoard;
   owner(): IPlayer;
   HasMoves(): boolean;
   RefreshThreatList(): void;

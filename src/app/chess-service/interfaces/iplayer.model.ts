@@ -7,15 +7,19 @@ import { IPosition } from '@chess/IPosition.model';
 import { Observable } from 'rxjs';
 import { Guid } from '@chess/guid';
 import { ICoordinates } from '@chess/icoordinates.model';
+export interface PlayerStateModel extends GameItemStateModel {
   readonly playerNumber: number;
-  type: EPlayerType;
+  playerType: EPlayerType;
   playerColor: string;
-  readonly pieceOrientation: Coordinates;
+  readonly pieceOrientation: ICoordinates;
   viewOrienation: number; // 0 to 359 degrees, 180 = upside-down
   pieces: IPiece[];
   SumPieceValue: number;
-  moves: Observable<IMove>;
+  moves: IMove[];
   graveYard: IPiece[];
+}
+
+export interface IPlayer extends PlayerStateModel, IGameItem {
   MovePiece(move: IMove): void;
   PromoteMove(move: IMove): void;
   PieceCount(pieceType: EPieceType): number;

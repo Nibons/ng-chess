@@ -4,12 +4,16 @@ import { BoardStateModel, IBoard } from '@chess/iboard.model';
 import { PositionStateModel, IPosition } from '@chess/iposition.model';
 import { PlayerStateModel, IPlayer } from '@chess/iplayer.model';
 import { Guid } from '@chess/guid';
-import { IPosition } from '@chess/iposition.model';
+export interface GameServiceDataModel {
+  game: GameItemStateModel[];
+}
+
 export interface GameStateModel {
   Id: Guid;
-  playerList: IPlayer[];
-  board: IBoard;
-  pieces: IPiece[];
+  playerList?: PlayerStateModel[];
+  board?: BoardStateModel[];
+  positions?: PositionStateModel[];
+  pieces?: PieceStateModel[];
 }
 export interface IGame extends GameStateModel {
   GetPlayerById(playerId: Guid): IPlayer;
