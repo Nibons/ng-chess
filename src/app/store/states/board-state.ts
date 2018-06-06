@@ -1,4 +1,4 @@
-import { CreateBoard } from '@store/create-board';
+import { CreateBoard } from '@chess/board.actions';
 import { State, StateContext } from '@ngxs/store';
 import { BoardStateModel } from '@chess/iboard.model';
 import { Guid } from '@chess/guid';

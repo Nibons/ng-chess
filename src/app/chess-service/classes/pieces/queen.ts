@@ -1,9 +1,10 @@
 import { Rook } from '@chess/rook';
 import { Bishop } from '@chess/bishop';
-import { BasePiece } from '@chess/base-piece';
-import { IPosition } from '@chess/iposition';
+import { Piece } from '@chess/piece';
+import { IPosition } from '@chess/iposition.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { IPiece } from '@chess/ipiece';
+import { IPiece } from '@chess/ipiece.model';
+import { Guid } from '@chess/guid';
 
 export class Queen extends BasePiece implements IPiece {
   readonly value = 9;

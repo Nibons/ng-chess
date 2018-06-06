@@ -1,5 +1,5 @@
-import { Guid } from './../../chess-service/classes/guid';
-import { PositionStateModel } from './../../chess-service/interfaces/iposition.model';
+import { Guid } from '@chess/guid';
+import { PositionStateModel } from '@chess/iposition.model';
 import { State } from '@ngxs/store';
 @State<PositionStateModel>({
   name: 'positions',

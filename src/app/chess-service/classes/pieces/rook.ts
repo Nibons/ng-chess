@@ -1,10 +1,9 @@
-import { BasePiece } from '@chess/base-piece';
-import { IPiece } from '@chess/ipiece';
+import { Piece } from '@chess/piece';
 import { Position } from '@chess/position';
-import { Board } from '@chess/board';
-import { IPosition } from '@chess/iposition';
 import { Coordinates } from '@chess/coordinates';
 import { EPieceType } from '@chess/e-piece-type.enum';
+import { IPiece } from '@chess/ipiece.model';
+import { Guid } from '@chess/guid';
 
 export class Rook extends BasePiece implements IPiece {
   readonly value = 5;

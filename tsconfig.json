@@ -23,9 +23,11 @@
         "src/app/chess-service/classes/config/*",
         "src/app/chess-service/classes/pieces/*",
         "src/app/chess-service/enums/*",
-        "src/app/chess-service/*"
+        "src/app/chess-service/*",
+        "src/app/store/states/*",
+        "src/app/store/models/*",
+        "src/app/store/actions/*"
       ],
-      "@store":["src/app/store/states","src/app/store/models","src/app/store/actions"],
       "@app/*":["src/app/*"],
       "@templates":["src/assets/game_templates/*"]
     }

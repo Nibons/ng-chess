@@ -1,5 +1,5 @@
 import { ICoordinates } from '@chess/icoordinates.model';
-import { BasePiece } from '@chess/base-piece';
+import { Piece } from '@chess/piece';
 import { Coordinates } from '@chess/coordinates';
 import { IPiece } from '@chess/ipiece.model';
 import { IPosition } from '@chess/iposition.model';

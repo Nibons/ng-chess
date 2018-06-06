@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 import { IPlayer } from '@chess/iplayer.model';
 import { IMove } from '@chess/imove.model';
 import { IGameItem } from '@chess/igame-item.model';
+import { ICoordinates } from '@chess/icoordinates.model';
+import { IBoard } from '@chess/iboard.model';
 
 export interface PieceStateModel extends GameItemStateModel {
   playerNumber: number;

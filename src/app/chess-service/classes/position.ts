@@ -3,6 +3,7 @@ import { IGame } from '@chess/igame.model';
 import { Guid } from '@chess/guid';
 import { IPiece } from '@chess/ipiece.model';
 import { IBoard } from '@chess/iboard.model';
+import { ICoordinates } from '@chess/icoordinates.model';
 export class Position implements IPosition {
   Id: Guid;
   gameId: Guid;

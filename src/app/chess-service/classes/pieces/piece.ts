@@ -1,3 +1,4 @@
+import { Coordinates } from '@chess/coordinates';
 import { IBoard } from '@chess/iboard.model';
 import { ICoordinates } from '@chess/icoordinates.model';
 import { IPiece } from '@chess/ipiece.model';
