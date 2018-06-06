@@ -9,7 +9,8 @@ export class Position implements IPosition {
   gameId: Guid;
   game: IGame;
   boardId: Guid;
-  coordinates: Coordinates;
+  pieceId: Guid;
+  coordinates: ICoordinates;
   IsOnBoard: boolean;
   piece: IPiece = null;
   get IsOccupied(): boolean { return this.piece === null; }

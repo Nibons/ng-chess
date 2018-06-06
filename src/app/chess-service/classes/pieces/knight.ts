@@ -5,35 +5,24 @@ import { IPiece } from '@chess/ipiece.model';
 import { IPosition } from '@chess/iposition.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
 
-export class Knight extends BasePiece implements IPiece {
+export class Knight extends Piece implements IPiece {
   readonly value = 3;
   readonly pieceType = EPieceType.knight;
-
-
-  static ProcessKnightThreat(initialPosition: IPosition): IPosition[] {
-    const position_cache: IPosition[] = new Array();
-    const directions = [1, -1];
-    for (const XDirection of directions) {
-      for (const YDirection of directions) {
-        [initialPosition.board.getPositionAt(new Coordinates([(2 * XDirection), YDirection])), // 2n-Right, 1n-Up (for first iteration of directions)
-        initialPosition.board.getPositionAt(new Coordinates([XDirection, (2 * YDirection)]))] // 1n-Right, 2n-UP (for first iteration of directions)
-          .filter((pos: IPosition) => pos.IsOnBoard).forEach(pos => position_cache.push(pos));
-      }
-    }
-    return position_cache;
-  }
   RefreshThreatList(): void {
-    const position_cache: IPosition[] = new Array();
-    const board = this.game.GetBoardById(this.game.GetPositionById(this.positionId).boardId);
+    this.threatList = [];
     const directions = [1, -1];
     for (const XDirection of directions) {
       for (const YDirection of directions) {
         [Coordinates.GetDelta(this.coordinates, { dimensions: [(2 * XDirection), YDirection] }),
         Coordinates.GetDelta(this.coordinates, { dimensions: [XDirection, (2 * YDirection)] })]
           .filter((c: ICoordinates) =>
-            Coordinates.IsCoordinatesWithin(c, board.range.min, board.range.max));
+            // filter down to coordinates on the board
+            Coordinates.IsCoordinatesWithin(c, this.board.range.min, this.board.range.max))
+          .forEach(
+            // add the coordinates to this piece's threatList
+            (c: ICoordinates) => this.threatList.push(this.board.GetPositionAt(c).Id)
+          );
       }
     }
   }
-  GetThreatList(): IPosition[] { return Knight.ProcessKnightThreat(this.position); }
 }

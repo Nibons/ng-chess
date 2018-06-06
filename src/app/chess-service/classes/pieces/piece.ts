@@ -7,35 +7,68 @@ import { Guid } from '@chess/guid';
 import { IPlayer } from '@chess/iplayer.model';
 import { IPosition } from '@chess/iposition.model';
 import { IGame } from '@chess/igame.model';
-export abstract class BasePiece implements IPiece {
+export abstract class Piece implements IPiece {
   Id: Guid;
   gameId: Guid;
   game: IGame;
   playerNumber: number;
   abstract pieceType: EPieceType;
   IsPrimary: boolean;
-  coordinates: ICoordinates;
   value: number;
   playerId: Guid;
   positionId: Guid;
-  threatList: IPosition[];
-  potentialMoves: IPosition[];
+  threatList: Guid[];
+  potentialMoves: Guid[];
   moves: IPosition[];
   IsAlive = true;
-  protected _HasMoved = false;
-  protected get board(): IBoard { return this.position.Board; }
+  HasMoved = false;
+  get board(): IBoard {
+    return this.game.GetBoardById(this.position.Id);
+  }
+  get coordinates(): ICoordinates { return this.game.GetPositionById(this.positionId).coordinates; }
+  set coordinates(coordinates: ICoordinates) { this.positionId = this.board.GetPositionAt(coordinates).Id; }
   get position(): IPosition { return this.game.GetPositionById(this.positionId); }
   owner(): IPlayer { return this.game.GetPlayerById(this.playerId); }
   HasMoves(): boolean { return this.moves.length > 0; }
-  HasMoved(): boolean { return this._HasMoved; }
-  GetThreatList(): IPosition[] { return this.threatList; }
+  GetThreatList(): IPosition[] {
+    const position_cache = new Array();
+    this.threatList.forEach(
+      (positionId: Guid) =>
+        position_cache.push(this.game.GetPositionById(positionId))
+    );
+    return position_cache;
+  }
   abstract RefreshThreatList();
-  abstract RefreshMoveList();
+
+  RefreshPotentialMoveList() { // overridden in pawn(threat != move), rook(+castling), king(+castling)
+    this.RefreshThreatList();
+    this.potentialMoves = this.threatList;
+  }
+  static GetPositionsInDirectionUntilEmpty(piece: IPiece, direction: ICoordinates, count = Number.MAX_SAFE_INTEGER): Guid[] {
+    const position_cache: Guid[] = [];
+    const coordinates_in_direction = Coordinates.GetCoordinatesInDirection(
+      piece.coordinates,
+      direction,
+      piece.board.range.min,
+      piece.board.range.max,
+      count
+    );
+    let continue_this_direction = true;
+    for (let i = 0; continue_this_direction; i++) {
+      const pos = piece.board.GetPositionAt(coordinates_in_direction[i]);
+      position_cache.push(pos.Id);
+      continue_this_direction = pos.IsEmpty;
+    }
+    return position_cache;
+  }
+  RefreshMoveList() {
+    throw new Error('Method not implemented.');
+  }
   Move(position: IPosition): boolean {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 
   Kill(): void {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 }
