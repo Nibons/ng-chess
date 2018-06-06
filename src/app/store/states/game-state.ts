@@ -8,10 +8,8 @@ import { State } from '@ngxs/store';
 @State<GameStateModel>({
   name: 'games',
   defaults: {
-    Id: Guid.newGuid(),
-    playerList: null,
-    board: null,
-    pieces: null
-  }
+    Id: Guid.newGuid()
+  },
+  children: [BoardState, PositionState, PositionState, PlayerState]
 })
 export class GameState { }
