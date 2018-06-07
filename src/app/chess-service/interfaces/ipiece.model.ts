@@ -11,6 +11,10 @@ import { IGameItem } from '@chess/igame-item.model';
 import { ICoordinates } from '@chess/icoordinates.model';
 import { IBoard } from '@chess/iboard.model';
 
+export interface PieceStateModelList {
+  pieces: PieceStateModel[];
+}
+
 export interface PieceStateModel extends GameItemStateModel {
   playerNumber: number;
   playerId: Guid;
@@ -19,9 +23,9 @@ export interface PieceStateModel extends GameItemStateModel {
   coordinates: ICoordinates;
   IsAlive: boolean;
   HasMoved: boolean;
-  positionId: Guid;
-  threatList: Guid[];
-  potentialMoves: Guid[];
+  positionId: number;
+  threatList: number[];
+  potentialMoves: number[];
   readonly value: number;
 }
 

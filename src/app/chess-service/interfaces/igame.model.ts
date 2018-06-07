@@ -10,13 +10,10 @@ export interface GameServiceDataModel {
 
 export interface GameStateModel {
   Id: Guid;
-  playerList?: PlayerStateModel[];
-  board?: BoardStateModel[];
-  positions?: PositionStateModel[];
-  pieces?: PieceStateModel[];
+  IdCounter: number;
 }
 export interface IGame extends GameStateModel {
-  GetPlayerById(playerId: Guid): IPlayer;
-  GetBoardById(boardId: Guid): IBoard;
-  GetPositionById(positionId: Guid): IPosition;
+  GetPlayerById(playerId: number): IPlayer;
+  GetBoardById(boardId: number): IBoard;
+  GetPositionById(positionId: number): IPosition;
 }

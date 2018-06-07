@@ -6,18 +6,19 @@ import { Coordinates } from '@chess/coordinates';
 import { IBoard } from '@chess/iboard.model';
 import { IGameItem, GameItemStateModel } from '@chess/igame-item.model';
 import { ICoordinates } from '@chess/icoordinates.model';
+export interface PositionStateModelList {
+  positions: PositionStateModel[];
+}
 export interface PositionStateModel extends GameItemStateModel {
-  boardId: Guid;
-  pieceId: Guid;
-  gameId: Guid;
+  boardId: number;
+  pieceId: number;
   coordinates: ICoordinates;
 }
 export interface IPosition extends PositionStateModel, IGameItem {
-  game: IGame;
   IsOnBoard: boolean;
   IsOccupied: boolean;
   IsEmpty: boolean;
   piece: IPiece;
   Board: IBoard;
-  SetPiece(piece?: IPiece): void;
+  SetPiece(pieceId: number): void;
 }

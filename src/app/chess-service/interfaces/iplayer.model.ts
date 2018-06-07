@@ -1,3 +1,4 @@
+import { PlayerStateModel } from './iplayer.model';
 import { IGameItem, GameItemStateModel } from '@chess/igame-item.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { EPlayerType } from '@chess/eplayer-type.enum';
@@ -7,6 +8,10 @@ import { IPosition } from '@chess/IPosition.model';
 import { Observable } from 'rxjs';
 import { Guid } from '@chess/guid';
 import { ICoordinates } from '@chess/icoordinates.model';
+
+export interface PlayerStateModelList {
+  players: PlayerStateModel[];
+}
 export interface PlayerStateModel extends GameItemStateModel {
   readonly playerNumber: number;
   playerType: EPlayerType;

@@ -1,12 +1,17 @@
 import { ICoordinates, IBoardDimensions } from '@chess/icoordinates.model';
 import { Guid } from '@chess/guid';
-import { BoardStateModel } from '@chess/iboard.model';
+import { BoardStateModel, IBoard } from '@chess/iboard.model';
 export class CreateBoard {
   static readonly type = '[Board] CreateBoard';
+  public payload: BoardStateModel;
   constructor(
-    gameId: Guid = Guid.newGuid(),
-    currentTurnPlayerNumber: number = 0,
-    range: IBoardDimensions,
-    playerColors = ['white', 'black'],
-  ) { }
+    board: IBoard
+  ) {
+    this.payload = board;
+  }
+}
+export class DeleteBoard {
+  static readonly type = '[Board] DeleteBoard';
+  public payload: number;
+  constructor(boardId: number) { this.payload = boardId; }
 }

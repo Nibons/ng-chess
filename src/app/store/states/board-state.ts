@@ -1,28 +1,32 @@
-import { CreateBoard } from '@chess/board.actions';
-import { State, StateContext } from '@ngxs/store';
-import { BoardStateModel } from '@chess/iboard.model';
+import { CreateBoard, DeleteBoard } from '@chess/board.actions';
+import { State, StateContext, Selector } from '@ngxs/store';
+import { BoardStateModelList, BoardStateModel } from '@chess/iboard.model';
 import { Guid } from '@chess/guid';
 import { Action } from '@ngxs/store';
+import { getMatScrollStrategyAlreadyAttachedError } from '@angular/cdk/overlay/typings/scroll/scroll-strategy';
+import { patch } from 'webdriver-js-extender';
 
-@State<BoardStateModel>({
+@State<BoardStateModelList>({
   name: 'boards',
-  defaults: {
-    Id: Guid.newGuid(),
-    gameId: null,
-    currentTurnPlayerNumber: 0,
-    direction: null,
-    range: {
-      min: { dimensions: [0, 0] },
-      max: { dimensions: [7, 7] }
-    },
-    playerColors: [],
-    positionList: [],
-    activePieceList: []
-  }
+  defaults: { boards: [] }
 })
 export class BoardState {
+  @Selector() static getBoardById(Id: number, { getState }: StateContext<BoardStateModelList>) {
+    return getState().boards.filter((b: BoardStateModel) => b.Id === Id);
+  }
   @Action(CreateBoard)
-  CreateBoard(context: StateContext<BoardStateModel>, action: CreateBoard) {
+  CreateBoard({ getState, patchState }: StateContext<BoardStateModelList>, { payload }: CreateBoard) {
+    const state = getState();
+    patchState({
+      boards: [...state.boards, payload]
+    });
+  }
 
+
+  @Action(DeleteBoard)
+  DeleteBoard({ getState, patchState }: StateContext<BoardStateModelList>, { payload }: DeleteBoard) {
+    patchState({
+      boards: getState().boards.filter((b: BoardStateModel) => b.Id !== payload)
+    });
   }
 }

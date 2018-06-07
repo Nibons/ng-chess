@@ -1,15 +1,9 @@
 import { Guid } from '@chess/guid';
-import { PositionStateModel } from '@chess/iposition.model';
+import { PositionStateModelList } from '@chess/iposition.model';
 import { State } from '@ngxs/store';
-@State<PositionStateModel>({
+@State<PositionStateModelList>({
   name: 'positions',
-  defaults: {
-    Id: Guid.newGuid(),
-    boardId: null,
-    pieceId: null,
-    gameId: null,
-    coordinates: { dimensions: [0, 0] }
-  }
+  defaults: { positions: [] }
 })
 export class PositionState {
 }

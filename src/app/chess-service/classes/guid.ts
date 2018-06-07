@@ -1,3 +1,6 @@
+import { GameStateModel } from '@chess/igame.model';
+import { StateContext } from '@ngxs/store';
+
 export class Guid {
   private constructor(private _guid = Guid.newGuid()) { }
   public toString() {
