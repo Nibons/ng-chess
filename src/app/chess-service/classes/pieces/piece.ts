@@ -1,7 +1,7 @@
 import { Coordinates } from '@chess/coordinates';
 import { IBoard } from '@chess/iboard.model';
 import { ICoordinates } from '@chess/icoordinates.model';
-import { IPiece } from '@chess/ipiece.model';
+import { IPiece, PieceStateModel } from '@chess/ipiece.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { Guid } from '@chess/guid';
 import { IPlayer } from '@chess/iplayer.model';
@@ -60,6 +60,18 @@ export abstract class Piece implements IPiece {
       continue_this_direction = pos.IsEmpty;
     }
     return position_cache;
+  }
+  static Create(PieceType: EPieceType, coordinates: ICoordinates, playerNumber: number, boardId: Guid, game: IGame): IPiece {
+    const board = game.GetBoardById(boardId);
+    const position = board.GetPositionAt(coordinates);
+    switch (PieceType) {
+      case EPieceType.bishop: { return new Bishop(position, playerNumber, board); }
+      case EPieceType.king: { return new King(position, playerNumber, board); }
+      case EPieceType.knight: { return new Knight(position, playerNumber, board); }
+      case EPieceType.pawn: { return new Pawn(position, playerNumber, board); }
+      case EPieceType.queen: { return new Queen(position, playerNumber, board); }
+      case EPieceType.rook: { return new Rook(position, playerNumber, board); }
+    }
   }
   RefreshMoveList() {
     throw new Error('Method not implemented.');

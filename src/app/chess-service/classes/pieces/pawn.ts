@@ -1,25 +1,31 @@
 import { Piece } from '@chess/pieces/piece';
 import { IPiece } from '@chess/ipiece.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { IPosition } from '@chess/iposition.model';
+import { Guid } from '@chess/guid';
+import { Coordinates } from '@chess/coordinates';
 
 export class Pawn extends Piece implements IPiece {
   readonly value = 1;
   readonly pieceType = EPieceType.pawn;
-  static ProcessPawnThreat(initialPosition: IPosition): IPosition[] {
-    const position_cache: IPosition[] = new Array();
-    Piece.ProcessThreatInDirection(initialPosition, -1, 1, initialPosition.board, 1).forEach(pos => position_cache.push(pos)); // NorthWest
-    Piece.ProcessThreatInDirection(initialPosition, 1, 1, initialPosition.board, 1).forEach(pos => position_cache.push(pos)); // NorthEast
+  static RefreshPawnThreat(piece: IPiece): Guid[] {
+    const position_cache: Guid[] = [];
+    Piece.GetPositionsInDirectionUntilEmpty(piece, { dimensions: [-1, 1] }, 1).forEach(pos => position_cache.push(pos));
+    Piece.GetPositionsInDirectionUntilEmpty(piece, { dimensions: [1, -1] }, 1).forEach(pos => position_cache.push(pos));
     return position_cache;
   }
-  GetThreatList(): IPosition[] {
-    return Pawn.ProcessPawnThreat(this.position);
-  }
+  RefreshThreatList() { Pawn.RefreshPawnThreat(this); }
   SetPotentialMoves(): void {
-    const maxSteps = this.hasMoved ? 2 : 1;
-    const direction = this.position.board.direction[this.playerNumber];
-
-    this._PotentialMoves = Piece.ProcessThreatInDirection(
-      this.position, direction.x, direction.y, this.board, maxSteps);
+    this.potentialMoves = [];
+    const direction = this.position.Board.direction[this.playerNumber];
+    const position1 = this.board.GetPositionAt(Coordinates.GetDelta(this.coordinates, { dimensions: direction }));
+    if (position1.IsEmpty) {
+      this.potentialMoves.push(position1.Id);
+      if (!this.HasMoved) {
+        const position2 = this.board.GetPositionAt(Coordinates.GetDelta(position1.coordinates, { dimensions: direction }));
+        if (position2.IsEmpty) {
+          this.potentialMoves.push(position2.Id);
+        }
+      }
+    }
   }
 }

@@ -1,8 +1,6 @@
 import { Queen } from '@chess/queen';
-import { Coordinates } from '@chess/coordinates';
 import { Piece } from '@chess/piece';
 import { IPiece } from '@chess/ipiece.model';
-import { IPosition } from '@chess/iposition.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { Guid } from '@chess/guid';
 

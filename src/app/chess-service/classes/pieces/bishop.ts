@@ -1,7 +1,6 @@
 import { Piece } from '@chess/piece';
 import { IPiece } from '@chess/ipiece.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { Coordinates } from '@chess/coordinates';
 import { Guid } from '@chess/guid';
 
 export class Bishop extends Piece implements IPiece {

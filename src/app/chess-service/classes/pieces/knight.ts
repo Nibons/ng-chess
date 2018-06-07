@@ -2,7 +2,6 @@ import { ICoordinates } from '@chess/icoordinates.model';
 import { Piece } from '@chess/piece';
 import { Coordinates } from '@chess/coordinates';
 import { IPiece } from '@chess/ipiece.model';
-import { IPosition } from '@chess/iposition.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
 
 export class Knight extends Piece implements IPiece {
