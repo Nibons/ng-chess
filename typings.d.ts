@@ -1,12 +1,11 @@
-import { IBoardConstructor } from '@chess/i-board-constructor.model';
-import { IPieceConstructor } from '@chess/ipiece-constructor.model';
-
+import { BoardStateModel } from '@chess/iboard.model';
+import { PieceStateModel } from '@chess/ipiece.model';
 declare module "*.pieces.json" {
-  const value: IPieceConstructor[];
+  const value: PieceStateModel[];
   export default value;
 }
 
 declare module "*.board.json" {
-  const value: IBoardConstructor;
+  const value: BoardStateModel;
   export default value;
 }
