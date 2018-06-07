@@ -1,5 +1,5 @@
 import { IBoardConstructor } from '@chess/i-board-constructor.model';
-import { IPieceConstructor } from "@chess/ipiece-constructor.model";
+import { IPieceConstructor } from '@chess/ipiece-constructor.model';
 
 declare module "*.pieces.json" {
   const value: IPieceConstructor[];
