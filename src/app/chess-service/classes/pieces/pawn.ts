@@ -1,19 +1,24 @@
+import { PieceActions } from '@chess/pieces/piece-actions';
+import { IPieceActions } from '@chess/ipiece-actions.model';
 import { Piece } from '@chess/pieces/piece';
-import { IPiece } from '@chess/ipiece.model';
+import { IPiece, PieceStateModel } from '@chess/ipiece.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { Guid } from '@chess/guid';
 import { Coordinates } from '@chess/coordinates';
 
-export class Pawn extends Piece implements IPiece {
+export class Pawn extends PieceActions implements IPieceActions {
+  GetThreatPositionIds(piece: PieceStateModel): number[] {
+    return Pawn.GetPawnThreat(piece);
+  }
   readonly value = 1;
   readonly pieceType = EPieceType.pawn;
-  static RefreshPawnThreat(piece: IPiece): Guid[] {
-    const position_cache: Guid[] = [];
-    Piece.GetPositionsInDirectionUntilEmpty(piece, { dimensions: [-1, 1] }, 1).forEach(pos => position_cache.push(pos));
-    Piece.GetPositionsInDirectionUntilEmpty(piece, { dimensions: [1, -1] }, 1).forEach(pos => position_cache.push(pos));
+  static GetPawnThreat(piece: PieceStateModel): number[] {
+    const position_cache = [];
+    PieceActions.GetPositionsInDirectionUntilEmpty(piece, { dimensions: [-1, 1] }, 1).forEach(pos => position_cache.push(pos));
+    PieceActions.GetPositionsInDirectionUntilEmpty(piece, { dimensions: [1, -1] }, 1).forEach(pos => position_cache.push(pos));
     return position_cache;
   }
-  RefreshThreatList() { Pawn.RefreshPawnThreat(this); }
+
   SetPotentialMoves(): void {
     this.potentialMoves = [];
     const direction = this.position.Board.direction[this.playerNumber];

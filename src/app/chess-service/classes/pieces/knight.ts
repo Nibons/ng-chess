@@ -1,10 +1,12 @@
+import { IPieceActions } from '@chess/ipiece-actions.model';
+import { PieceActions } from './piece-actions';
 import { ICoordinates } from '@chess/icoordinates.model';
 import { Piece } from '@chess/piece';
 import { Coordinates } from '@chess/coordinates';
 import { IPiece } from '@chess/ipiece.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
 
-export class Knight extends Piece implements IPiece {
+export class Knight extends PieceActions implements IPieceActions {
   readonly value = 3;
   readonly pieceType = EPieceType.knight;
   RefreshThreatList(): void {
