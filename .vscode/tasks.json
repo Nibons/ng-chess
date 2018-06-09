@@ -7,7 +7,7 @@
             "label":"ng start",
             "type": "npm",
             "script": "start",
-            "problemMatcher": ["$tslint5","$tsc-watch","$tsc"]
+            "problemMatcher": ["$tsc"]
         },
         {
           "label":"Typescript compile",
