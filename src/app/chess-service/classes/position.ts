@@ -1,4 +1,4 @@
-import { State } from '@ngxs/store';
+import { State, Store } from '@ngxs/store';
 import { GameItem } from '@chess/game-item';
 import { IPosition, PositionStateModel } from '@chess/iposition.model';
 import { IGame } from '@chess/igame.model';
@@ -14,7 +14,7 @@ export class Position extends GameItem implements IPosition {
   piece: IPiece = null;
   get IsOccupied(): boolean { return this.piece === null; }
   get IsEmpty(): boolean { return this.IsOccupied === false; }
-  get Board(): IBoard { return this.game$.GetBoardById(this.boardId); }
-  SetPiece(pieceId: number = null): void { this.piece = piece; }
-  constructor(stateModel: PositionStateModel, state: State) { }
+  get Board(): IBoard { return this.game.GetBoardById(this.boardId); }
+  SetPiece(pieceId: number = null): void { this.pieceId = pieceId; }
+  constructor(stateModel: PositionStateModel, gameId: Guid, store: Store) { super(gameId, store); }
 }

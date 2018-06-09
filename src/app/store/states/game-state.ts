@@ -12,7 +12,7 @@ import { BoardStateModel } from '@chess/iboard.model';
 import { PositionStateModel } from '@chess/iposition.model';
 @State<GameStateModel[]>({
   name: 'games',
-  defaults: [{ Id: Guid.newGuid(), IdCounter: 0 }],
+  defaults: [{ Id: Guid.newGuid(), IdCounter: 0, colorList: ['white', 'black'] }],
   children: [BoardState, PieceState, PositionState, PlayerState]
 })
 export class GameState {
@@ -33,6 +33,9 @@ export class GameState {
       ...pieces.filter(x => x.gameId === gameId),
       ...players.filter(x => x.gameId === gameId)
     ];
+  }
+  @Selector() static getColors(state: GameStateModel) {
+    return state.colorList;
   }
   @Action(IncrementIdCounter) incrementIdCounter(context: StateContext<GameStateModel>, action: IncrementIdCounter) {
     const current_state = context.getState();

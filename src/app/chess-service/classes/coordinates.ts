@@ -2,7 +2,7 @@ import { ICoordinates } from '@chess/icoordinates.model';
 export abstract class Coordinates {
   static IsSameCoordinates(
     coordinates: ICoordinates,
-    compareCoordinates: ICoordinates): Boolean {
+    compareCoordinates: ICoordinates): boolean {
     let test = true;
     coordinates.dimensions.forEach(
       (value, axis) => test = value === compareCoordinates.dimensions[axis]

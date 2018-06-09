@@ -7,13 +7,15 @@ import { PositionComponent } from './components/position/position.component';
 import { BoardComponent } from './components/board/board.component';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
+import { GameComponent } from './components/game/game.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PieceComponent,
     PositionComponent,
-    BoardComponent
+    BoardComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,

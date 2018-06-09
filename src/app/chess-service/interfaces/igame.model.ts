@@ -11,6 +11,7 @@ export interface GameServiceDataModel {
 export interface GameStateModel {
   Id: Guid;
   IdCounter: number;
+  colorList: string[];
 }
 export interface IGame extends GameStateModel {
   GetPlayerById(playerId: number): IPlayer;

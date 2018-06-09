@@ -1,7 +1,7 @@
 <table>
   <tr *ngFor="let x of columns">
     <td *ngFor="let y of rows">
-      <app-position *ngFor="let p of this.board.getPositionAt(x,y);" [position]=p></app-position>
+      <app-position *ngFor="let p of this.getPositionAt({dimensions:[x,y]});" [positionId]=p | async></app-position>
     </td>
   </tr>>
 </table>
