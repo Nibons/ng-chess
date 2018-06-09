@@ -26,6 +26,11 @@ export class PositionState {
       ).Id;
     };
   }
+  @Selector() static GetPositionByPieceId(state: PositionStateModelList) {
+    return (pieceId: number) => {
+      return state.positions.find((position: PositionStateModel) => position.pieceId === pieceId);
+    };
+  }
   @Selector() static GetPositionById(state) {
     return (Id: number) => {
       return state.filter((p: PositionStateModel) => p.Id === Id);
