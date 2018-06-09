@@ -9,6 +9,7 @@ import { IPiece } from '@chess/ipiece.model';
 export class Game implements IGame {
   public Id: Guid;
   public IdCounter = 0;
+  public colorList = ['white', 'black'];
   constructor({ Id, IdCounter }: GameStateModel, public store: Store) {
     this.Id = Id;
     this.IdCounter = IdCounter;
