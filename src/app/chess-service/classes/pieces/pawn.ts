@@ -1,3 +1,4 @@
+import { Piece } from './../piece';
 import { PieceActions } from '@chess/pieces/piece-actions';
 import { IPieceActions } from '@chess/ipiece-actions.model';
 import { IPiece, PieceStateModel } from '@chess/ipiece.model';
@@ -8,10 +9,10 @@ import { ICoordinates } from '@chess/icoordinates.model';
 import { Store } from '@ngxs/store';
 
 export class Pawn extends PieceActions implements IPieceActions {
-  GetThreatPositionIds(piece: PieceActions): number[] {
+  GetThreatPositionIds(piece: Piece): number[] {
     return Pawn.GetPawnThreat(piece);
   }
-  GetPotentialMovePositionIds(piece: PieceActions): number[] {
+  GetPotentialMovePositionIds(piece: Piece): number[] {
     throw new Error('Method not implemented.');
     // const potentialMoves = [];
     // const direction = this.board.direction[this.playerNumber];
@@ -29,10 +30,10 @@ export class Pawn extends PieceActions implements IPieceActions {
   }
   readonly value = 1;
   readonly pieceType = EPieceType.pawn;
-  static GetPawnThreat(piece: PieceActions): number[] {
+  static GetPawnThreat(piece: Piece): number[] {
     const position_cache = [];
-    piece.GetPositionsInDirectionUntilEmpty({ dimensions: [-1, 1] }, 1).forEach(pos => position_cache.push(pos));
-    piece.GetPositionsInDirectionUntilEmpty({ dimensions: [1, -1] }, 1).forEach(pos => position_cache.push(pos));
+    PieceActions.GetPositionsInDirectionUntilEmpty(piece, { dimensions: [-1, 1] }, 1).forEach(pos => position_cache.push(pos));
+    PieceActions.GetPositionsInDirectionUntilEmpty(piece, { dimensions: [1, -1] }, 1).forEach(pos => position_cache.push(pos));
     return position_cache;
   }
 

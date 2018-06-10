@@ -8,15 +8,12 @@ import { ICoordinates } from '@chess/icoordinates.model';
 import { Store } from '@ngxs/store';
 
 export class Rook extends PieceActions implements IPieceActions {
-  GetThreatPositionIds(piece: PieceActions): number[] {
+  GetThreatPositionIds(piece: Piece): number[] {
     return Rook.GetRookThreatList(piece);
-  }
-  GetPotentialMovePositionIds(piece: IPieceActions): number[] {
-    throw new Error('Method not implemented.');
   }
   readonly value = 5;
   readonly pieceType = EPieceType.rook;
-  static GetRookThreatList(piece: PieceActions, count = Number.MAX_SAFE_INTEGER): number[] {
+  static GetRookThreatList(piece: Piece, count = Number.MAX_SAFE_INTEGER): number[] {
     const position_cache = [];
     const directions = [1, -1];
     const dimensions_count = piece.coordinates.dimensions.length;
@@ -25,7 +22,8 @@ export class Rook extends PieceActions implements IPieceActions {
         const direction = Array(dimensions_count);
         for (const dim_direction of direction) {
           direction[d] = dim_direction;
-          piece.GetPositionsInDirectionUntilEmpty(
+          PieceActions.GetPositionsInDirectionUntilEmpty(
+            piece,
             { dimensions: direction },
             count
           )

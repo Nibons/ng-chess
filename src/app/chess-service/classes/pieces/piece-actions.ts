@@ -11,6 +11,7 @@ import { Queen } from '@chess/pieces/queen';
 import { Rook } from '@chess/pieces/rook';
 import { PieceStateModel } from '@chess/ipiece.model';
 import { Coordinates } from '@chess/coordinates';
+import { Piece } from '@chess/piece';
 
 export abstract class PieceActions implements IPieceActions {
   protected board: IBoard;
@@ -32,20 +33,23 @@ export abstract class PieceActions implements IPieceActions {
     }
   }
   constructor(public coordinates: ICoordinates, public store: Store) { }
-  public GetPositionsInDirectionUntilEmpty(direction: ICoordinates, count = Number.MAX_SAFE_INTEGER): number[] {
+  static GetPositionsInDirectionUntilEmpty(
+    piece: Piece,
+    direction: ICoordinates,
+    count = Number.MAX_SAFE_INTEGER): number[] {
     const position_cache = [];
     const coordinates_in_direction = Coordinates.GetCoordinatesInDirection(
-      this.coordinates,
+      piece.coordinates,
       direction,
-      this.board.range.min,
-      this.board.range.max,
+      piece.board.range.min,
+      piece.board.range.max,
       count
     );
     let continue_this_direction = true;
     for (let i = 0; continue_this_direction; i++) {
-      const pos = this.board.GetPositionAt(coordinates_in_direction[i]);
+      const pos = piece.game.GetPositionByCoordinates(coordinates_in_direction[i]);
       position_cache.push(pos.Id);
-      continue_this_direction = pos.IsEmpty;
+      continue_this_direction = pos.pieceId !== null;
     }
     return position_cache;
   }

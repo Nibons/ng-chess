@@ -1,26 +1,24 @@
-import { PositionStateModel } from '@chess/iposition.model';
 import { IPieceActions } from './../../interfaces/ipiece-actions.model';
 import { PieceActions } from './piece-actions';
-import { Piece } from '@chess/piece';
-import { IPiece, PieceStateModel } from '@chess/ipiece.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { Guid } from '@chess/guid';
 import { ICoordinates } from '@chess/icoordinates.model';
 import { Store } from '@ngxs/store';
+import { Piece } from '@chess/piece';
 
 export class Bishop extends PieceActions implements IPieceActions {
-
   readonly value = 3;
   readonly pieceType = EPieceType.bishop;
-  GetThreatPositionIds(piece: PositionStateModel): number[] {
-    return Bishop.GetBishopThreatList(this);
+
+  GetThreatPositionIds(piece: Piece): number[] {
+    return Bishop.GetBishopThreatList(piece);
   }
-  static GetBishopThreatList(pieceActions: PieceStateModel, count = Number.MAX_SAFE_INTEGER): number[] {
+  static GetBishopThreatList(piece: Piece, count = Number.MAX_SAFE_INTEGER): number[] {
     const position_cache = [];
     const directions = [1, -1];
     for (const XDirection of directions) {
       for (const YDirection of directions) {
-        this.GetPositionsInDirectionUntilEmpty(
+        PieceActions.GetPositionsInDirectionUntilEmpty(
+          piece,
           { dimensions: [XDirection, YDirection] },
           count
         )

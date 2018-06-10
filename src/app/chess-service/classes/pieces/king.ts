@@ -12,15 +12,15 @@ export class King extends PieceActions implements IPieceActions {
   constructor(coordinates: ICoordinates, store: Store) {
     super(coordinates, store);
   }
-  GetThreatPositionIds(piece: PieceStateModel): number[] {
+  GetThreatPositionIds(piece: Piece): number[] {
     return King.GetKingThreat(piece);
   }
-  GetPotentialMovePositionIds(piece: PieceStateModel): number[] {
+  GetPotentialMovePositionIds(piece: Piece): number[] {
     throw new Error('Method not implemented.');
   }
 
 
-  static GetKingThreat(piece: PieceStateModel): number[] {
+  static GetKingThreat(piece: Piece): number[] {
     return Queen.GetQueenThreat(piece, 1);
   }
 }

@@ -19,8 +19,9 @@ export class Piece extends GameItem implements PieceStateModel {
   positionId = this.pieceState.positionId;
   readonly value;
   coordinates: ICoordinates;
+  board: BoardStateModel;
   // endregion
-  protected game: IGame;
+  game: IGame;
   pieceActions: IPieceActions;
   threatList: number[];
   potentialMoves: number[];
@@ -29,9 +30,11 @@ export class Piece extends GameItem implements PieceStateModel {
     super(pieceState.gameId, store);
     this.Id = pieceState.Id;
     this.game = new Game(pieceState.gameId, store);
-    this.coordinates = this.game.GetPositionByPieceId(this.Id).coordinates;
+    const position = this.game.GetPositionByPieceId(this.Id);
+    this.coordinates = position.coordinates;
     this.pieceActions = PieceActions.PieceActionFactory(pieceState.pieceType, this.coordinates, store);
     this.value = this.pieceActions.value;
+    this.board = this.game.GetBoardById(position.boardId);
   }
   public setThreat() {
     this.threatList = this.pieceActions.GetThreatPositionIds(this);

@@ -10,16 +10,13 @@ import { ICoordinates } from '@chess/icoordinates.model';
 import { Store } from '@ngxs/store';
 
 export class Queen extends PieceActions implements IPieceActions {
-  GetThreatPositionIds(piece: PieceActions): number[] {
+  GetThreatPositionIds(piece: Piece): number[] {
     return Queen.GetQueenThreat(piece);
-  }
-  GetPotentialMovePositionIds(piece: PieceActions): number[] {
-    throw new Error('Method not implemented.');
   }
   readonly value = 9;
   readonly pieceType = EPieceType.queen;
 
-  static GetQueenThreat(piece: PieceActions, count = Number.MAX_SAFE_INTEGER): number[] {
+  static GetQueenThreat(piece: Piece, count = Number.MAX_SAFE_INTEGER): number[] {
     const position_cache = [];
     Bishop.GetBishopThreatList(piece, count).forEach(guid_pos => position_cache.push(guid_pos));
     Rook.GetRookThreatList(piece, count).forEach(guid_pos => position_cache.push(guid_pos));
