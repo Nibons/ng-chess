@@ -7,14 +7,14 @@
             "label":"ng start",
             "type": "npm",
             "script": "start",
-            "problemMatcher": ["$tsc"]
+            "problemMatcher": ["$tsc","$tsc-watch"]
         },
         {
           "label":"Typescript compile",
           "command": "tsc",
           "args": ["-w", "-p", ".", "--noEmit"],
           "isBackground": true,
-          "problemMatcher": "$tsc-watch",
+          "problemMatcher": ["$tsc","$tsc-watch"],
           "type": "process"
         },
         {
