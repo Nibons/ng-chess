@@ -1,3 +1,4 @@
+import { GameStateModelList } from './../../chess-service/interfaces/igame.model';
 import { PieceStateModel } from '@chess/ipiece.model';
 import { PlayerStateModel } from './../../chess-service/interfaces/iplayer.model';
 import { IncrementIdCounter, NewGame } from '@chess/game.action';
@@ -10,16 +11,19 @@ import { State, Action, StateContext, Selector, Select } from '@ngxs/store';
 import { PieceState } from '@chess/piece-state';
 import { BoardStateModel } from '@chess/iboard.model';
 import { PositionStateModel } from '@chess/iposition.model';
-@State<GameStateModel[]>({
-  name: 'games',
-  defaults: [{ Id: Guid.newGuid(), IdCounter: 0, colorList: ['white', 'black'] }],
-  children: [BoardState, PieceState, PositionState, PlayerState]
+@State<GameStateModelList>({
+  name: 'games'
 })
 export class GameState {
   @Selector() static GetIdCounter(context: StateContext<GameStateModel>) {
     const id = context.getState().IdCounter;
     context.dispatch(IncrementIdCounter);
     return id;
+  }
+  @Selector() static GetGame(state: GameStateModelList) {
+    return (Id: Guid) => {
+      return state.games.find(g => g.Id === Id);
+    };
   }
   @Selector([BoardState, PositionState, PieceState, PlayerState])
   static getGameItems(gameId: Guid,
@@ -37,6 +41,9 @@ export class GameState {
   @Selector() static getColors(state: GameStateModel) {
     return state.colorList;
   }
+  getGameList(state) {
+    return state.games;
+  }
   @Action(IncrementIdCounter) incrementIdCounter(context: StateContext<GameStateModel>, action: IncrementIdCounter) {
     const current_state = context.getState();
     context.patchState({
@@ -44,6 +51,7 @@ export class GameState {
       IdCounter: current_state.IdCounter++
     });
   }
+
   @Action(NewGame) newGame(context: StateContext<GameStateModel>, action: NewGame) {
     const game = action.payload;
     const state = context.getState();

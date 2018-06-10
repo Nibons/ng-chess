@@ -16,7 +16,7 @@ export class Piece extends GameItem implements PieceStateModel {
   protected coordinates: ICoordinates;
   // region pulled from pieceState
   pieceType = this.pieceState.pieceType;
-  Vital = this.pieceState.Vital;
+  IsVital = this.pieceState.IsVital;
   IsAlive = this.pieceState.IsAlive;
   HasMoved = this.pieceState.HasMoved;
   playerId = this.pieceState.playerId;

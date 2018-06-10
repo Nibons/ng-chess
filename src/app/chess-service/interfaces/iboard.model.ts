@@ -7,12 +7,10 @@ export interface BoardStateModelList {
   boards: BoardStateModel[];
 }
 export interface BoardStateModel extends GameItemStateModel {
-  currentTurnPlayerNumber: number;
   direction: Coordinates;
   range: IBoardDimensions;
-  playerColors: string[];
-  positionList: number[];
-  activePieceList: number[];
+  positionList?: number[];
+  activePieceList?: number[];
 }
 
 export interface IBoard extends BoardStateModel, IGameItem {

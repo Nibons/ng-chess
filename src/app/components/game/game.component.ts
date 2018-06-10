@@ -1,3 +1,5 @@
+import { BoardState } from './../../store/states/board-state';
+import { NewGame } from '@chess/game.action';
 import { Component, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -15,6 +17,10 @@ export class GameComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit() {
+
+  }
+  newGame() {
+    this.store.dispatch((state: BoardState) => state.CreateBoard);
   }
 
 }

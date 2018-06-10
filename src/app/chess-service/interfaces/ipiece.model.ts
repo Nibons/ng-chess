@@ -19,7 +19,7 @@ export interface PieceStateModel extends GameItemStateModel {
   playerNumber: number;
   playerId: Guid;
   readonly pieceType: EPieceType;
-  Vital: boolean;
+  IsVital: boolean;
   IsAlive: boolean;
   HasMoved: boolean;
   positionId: number;

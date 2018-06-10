@@ -24,7 +24,7 @@
       "playerNumber": 0,
       "pieceType": "king",
       "coordinates": [4, 0],
-      "IsPrimary": true
+      "IsVital": true
     },
     {
       "playerNumber": 0,
@@ -104,7 +104,7 @@
       "playerNumber": 1,
       "pieceType": "king",
       "coordinates": [4, 7],
-      "IsPrimary": true
+      "IsVital": true
     },
     {
       "playerNumber": 1,

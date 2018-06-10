@@ -29,7 +29,7 @@
         "src/app/store/actions/*"
       ],
       "@app/*":["src/app/*"],
-      "@templates":["src/assets/game_templates/*"]
+      "@gameTemplates":["src/assets/game_templates/*"]
     }
   }
 }
