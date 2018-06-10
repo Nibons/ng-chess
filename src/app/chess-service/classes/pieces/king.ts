@@ -9,19 +9,20 @@ import { ICoordinates } from '@chess/icoordinates.model';
 import { Store } from '@ngxs/store';
 
 export class King extends PieceActions implements IPieceActions {
-  GetThreatPositionIds(piece: PieceActions): number[] {
-    return King.GetKingThreat(piece);
-  }
-  GetPotentialMovePositionIds(piece: PieceActions): number[] {
-    throw new Error('Method not implemented.');
-  }
   readonly pieceType = EPieceType.king;
   readonly value = 100; // should be waaaay lower on normal games
-
-  static GetKingThreat(piece: PieceActions): number[] {
-    return Queen.GetQueenThreat(piece, 1);
-  }
   constructor(coordinates: ICoordinates, store: Store) {
     super(coordinates, store);
+  }
+  GetThreatPositionIds(piece: PieceStateModel): number[] {
+    return King.GetKingThreat(piece);
+  }
+  GetPotentialMovePositionIds(piece: PieceStateModel): number[] {
+    throw new Error('Method not implemented.');
+  }
+
+
+  static GetKingThreat(piece: PieceStateModel): number[] {
+    return Queen.GetQueenThreat(piece, 1);
   }
 }

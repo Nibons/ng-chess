@@ -1,41 +1,62 @@
+import { ICoordinates } from './../interfaces/icoordinates.model';
+import { GameItem } from '@chess/game-item';
+import { GameItemStateModel } from '@chess/igame-item.model';
+import { PositionState } from '@chess/position-state';
+import { PlayerState } from './../../store/states/player-state';
 import { GameState } from '@chess/game-state';
 import { GameStateModelList } from './../interfaces/igame.model';
 import { GameStateModel } from '@chess/igame.model';
-import { IPosition } from '@chess/IPosition.model';
-import { IPlayer } from '@chess/iplayer.model';
-import { IBoard } from '@chess/iboard.model';
+import { PositionStateModel } from '@chess/IPosition.model';
+import { PlayerStateModel } from '@chess/iplayer.model';
+import { BoardStateModel } from '@chess/iboard.model';
 import { IGame } from '@chess/igame.model';
 import { Guid } from '@chess/guid';
 import { Store, Select, StateContext } from '@ngxs/store';
-import { IPiece } from '@chess/ipiece.model';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { state } from '@angular/animations';
-export class Game implements GameStateModel {
-  @Select(GameState.GetGame) gameQuery$: Observable<(Id: Guid) => GameStateModel>;
-  public game: GameStateModel;
+import { PieceStateModel } from '@chess/ipiece.model';
+import { BoardState } from '@chess/board-state';
+import { PieceState } from '@chess/piece-state';
+import { Coordinates } from '@chess/coordinates';
+
+export class Game implements IGame {
+  public IdCounter: number;
+  public gameState: GameStateModel;
   public colorList: string[];
   public currentTurnPlayerNumber: number;
   public friendlyFire: boolean;
-  constructor(public Id: Guid, public store: Store) {
-    this.setGame$(this.Id);
-    this.game = store.selectSnapshot<GameStateModelList>((state: GameState) => state.getGameList()).games.find(g => g.Id === this.Id);
+
+  constructor(public Id: Guid = Guid.newGuid(), public store: Store) {
+    this.gameState = store.selectSnapshot(GameState.GameList)
+      .find(g => g.Id === this.Id);
+    this.setVariables();
   }
-  private setGame$(Id: Guid) {
-    this.gameQuery$
-      .pipe(map(filterFn => filterFn(Id)))
-      .subscribe(g => this.game = g);
+  private setVariables() {
+    this.IdCounter = this.gameState.IdCounter;
+    this.colorList = this.gameState.colorList;
+    this.currentTurnPlayerNumber = this.gameState.currentTurnPlayerNumber;
+    this.friendlyFire = this.gameState.friendlyFire;
   }
-  GetPlayerById(playerId: number): IPlayer {
-    throw new Error('Method not implemented.');
+  GetPlayerById(playerId: number): PlayerStateModel {
+    return this.store.selectSnapshot(PlayerState.PlayerList)
+      .find(p => p.Id === playerId && p.gameId === this.Id);
   }
-  GetBoardById(boardId: number): IBoard {
-    throw new Error('Method not implemented.');
+  GetBoardById(boardId: number): BoardStateModel {
+    return this.store.selectSnapshot(BoardState.BoardList)
+      .find(b => b.Id === boardId && b.gameId === this.Id);
   }
-  GetPositionById(positionId: number): IPosition {
-    throw new Error('Method not implemented.');
+  GetPositionById(positionId: number): PositionStateModel {
+    return this.store.selectSnapshot(PositionState.PositionList)
+      .find(p => p.Id === positionId && p.gameId === this.Id);
   }
-  GetPieceById(pieceId: number): IPiece {
-    throw new Error('Method not implemented.');
+  GetPieceById(pieceId: number): PieceStateModel {
+    return this.store.selectSnapshot(PieceState.PieceList)
+      .find(p => p.Id === pieceId && p.gameId === this.Id);
+  }
+  GetPositionByCoordinates(coordinates: ICoordinates): PositionStateModel {
+    return this.store.selectSnapshot(PositionState.PositionList)
+      .find(p => p.gameId === this.Id && Coordinates.IsSameCoordinates(p.coordinates, coordinates));
+  }
+  GetPositionByPieceId(pieceId: number): PositionStateModel {
+    return this.store.selectSnapshot(PositionState.PositionList)
+      .find(p => p.pieceId === pieceId);
   }
 }

@@ -16,8 +16,8 @@ import { Coordinates } from '@chess/coordinates';
 export abstract class PieceActions implements IPieceActions {
   protected board: IBoard;
   abstract value: number;
-  abstract GetThreatPositionIds(piece: PieceActions): number[];
-  GetPotentialMovePositionIds(piece: PieceActions): number[] {
+  abstract GetThreatPositionIds(piece: PieceStateModel): number[];
+  GetPotentialMovePositionIds(piece: PieceStateModel): number[] {
     return this.GetThreatPositionIds(piece);
   }
 

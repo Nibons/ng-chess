@@ -5,12 +5,7 @@ import { GameStateModel, IGame } from '@chess/igame.model';
 
 export abstract class GameItem {
   Id: number;
-  @Select(GameState) game$: GameStateModel;
-  public game: IGame;
-  constructor(public gameId: Guid, public _store?: Store) {
-    this.Id = _store.selectSnapshot<number>(state => state.GameState.IdCounter);
-  }
-  GetBoardById(boardId: number) {
-
+  constructor(public gameId: Guid, public store: Store) {
+    this.Id = store.selectSnapshot<number>(state => state.GameState.IdCounter);
   }
 }

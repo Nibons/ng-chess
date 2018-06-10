@@ -14,6 +14,9 @@ export class BoardState {
   @Selector() static getBoardById(Id: number, { getState }: StateContext<BoardStateModelList>) {
     return getState().boards.filter((b: BoardStateModel) => b.Id === Id);
   }
+  @Selector() static BoardList(state: BoardStateModelList) {
+    return state.boards;
+  }
   @Action(CreateBoard)
   CreateBoard({ getState, patchState }: StateContext<BoardStateModelList>, { payload }: CreateBoard) {
     const state = getState();

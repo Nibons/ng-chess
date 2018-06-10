@@ -9,6 +9,9 @@ import { State, Selector } from '@ngxs/store';
   defaults: { positions: [] }
 })
 export class PositionState {
+  @Selector() static PositionList(state: PositionStateModelList) {
+    return state.positions;
+  }
   @Selector() static GetPositionAt(state: PositionStateModelList) {
     return (coordinates: ICoordinates, boardId: number) => {
       return state.positions.filter(

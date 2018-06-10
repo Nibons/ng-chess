@@ -1,20 +1,14 @@
+import { GameItem } from '@chess/game-item';
+import { IGame } from './../interfaces/igame.model';
 import { ICoordinates } from './../interfaces/icoordinates.model';
-import { Coordinates } from '@chess/coordinates';
-import { map } from 'rxjs/operators';
-import { PositionStateModel } from '@chess/iposition.model';
-import { Observable } from 'rxjs';
-import { PositionState } from '@chess/position-state';
-import { PieceState } from '@chess/piece-state';
 import { IPieceActions } from '@chess/ipiece-actions.model';
 import { Store } from '@ngxs/store';
 import { PieceStateModel } from '@chess/ipiece.model';
-import { GameItem } from '@chess/game-item';
 import { PieceActions } from '@chess/pieces/piece-actions';
-import { Select } from '@ngxs/store';
+import { Game } from '@chess/game';
 export class Piece extends GameItem implements PieceStateModel {
-  @Select(PositionState.GetPositionByPieceId) positionModel$: Observable<(pieceId: number) => PositionStateModel>;
-  protected coordinates: ICoordinates;
   // region pulled from pieceState
+  Id: number;
   pieceType = this.pieceState.pieceType;
   IsVital = this.pieceState.IsVital;
   IsAlive = this.pieceState.IsAlive;
@@ -23,22 +17,22 @@ export class Piece extends GameItem implements PieceStateModel {
   playerNumber = this.pieceState.playerNumber;
   positionId = this.pieceState.positionId;
   readonly value;
+  coordinates: ICoordinates;
   // endregion
+  protected game: IGame;
   pieceActions: IPieceActions;
-  threatList: number[] = this.pieceState.threatList;
-  potentialMoves: number[] = this.pieceState.potentialMoves;
+  threatList: number[];
+  potentialMoves: number[];
 
   constructor(public pieceState: PieceStateModel, store: Store) {
     super(pieceState.gameId, store);
+    this.Id = pieceState.Id;
+    this.game = new Game(pieceState.gameId, store);
+    this.coordinates = this.game.GetPositionByPieceId(this.Id).coordinates;
     this.pieceActions = PieceActions.PieceActionFactory(pieceState.pieceType, this.coordinates, store);
     this.value = this.pieceActions.value;
-    this.setCoordinates();
   }
-  private setCoordinates() {
-    this.positionModel$.pipe(map((filterFn => filterFn(this.Id))))
-      .subscribe(
-        (position: PositionStateModel) => this.coordinates = position.coordinates
-      );
+  public setThreat() {
+    this.threatList = this.pieceActions.GetThreatPositionIds(this);
   }
-
 }

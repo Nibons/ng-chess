@@ -20,6 +20,9 @@ export class GameState {
     context.dispatch(IncrementIdCounter);
     return id;
   }
+  @Selector() static GameList(state: GameStateModelList) {
+    return state.games;
+  }
   @Selector() static GetGame(state: GameStateModelList) {
     return (Id: Guid) => {
       return state.games.find(g => g.Id === Id);

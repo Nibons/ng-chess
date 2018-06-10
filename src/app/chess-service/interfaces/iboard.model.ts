@@ -1,6 +1,6 @@
 import { BoardStateModel } from './iboard.model';
 import { ICoordinates, IBoardDimensions } from '@chess/icoordinates.model';
-import { IPosition } from '@chess/iposition.model';
+import { IPosition, PositionStateModelList } from '@chess/iposition.model';
 import { IPiece } from '@chess/ipiece.model';
 import { IGameItem, GameItemStateModel } from '@chess/igame-item.model';
 export interface BoardStateModelList {
@@ -9,7 +9,7 @@ export interface BoardStateModelList {
 export interface BoardStateModel extends GameItemStateModel {
   direction: Coordinates;
   range: IBoardDimensions;
-  positionList?: number[];
+  positions: PositionStateModelList;
   activePieceList?: number[];
 }
 
