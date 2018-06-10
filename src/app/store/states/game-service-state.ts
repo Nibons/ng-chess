@@ -1,7 +1,7 @@
+import { GameStateModelList } from '@chess/igame.model';
 import { State } from '@ngxs/store';
-import { GameServiceDataModel } from '@chess/igame.model';
 import { GameState } from '@chess/game-state';
-@State<GameServiceDataModel>({
+@State<GameStateModelList>({
   name: 'gameService',
   children: [GameState]
 })
