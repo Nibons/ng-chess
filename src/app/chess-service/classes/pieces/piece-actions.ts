@@ -1,5 +1,4 @@
-import { IBoard } from './../../interfaces/iboard.model';
-import { BoardStateModel } from '@chess/iboard.model';
+import { IBoard } from '@chess/iboard.model';
 import { Store } from '@ngxs/store';
 import { ICoordinates } from './../../interfaces/icoordinates.model';
 import { EPieceType } from '@chess/e-piece-type.enum';

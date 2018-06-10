@@ -6,6 +6,7 @@ import { Store } from '@ngxs/store';
 import { PieceStateModel } from '@chess/ipiece.model';
 import { PieceActions } from '@chess/pieces/piece-actions';
 import { Game } from '@chess/game';
+import { BoardStateModel } from '@chess/iboard.model';
 export class Piece extends GameItem implements PieceStateModel {
   // region pulled from pieceState
   Id: number;

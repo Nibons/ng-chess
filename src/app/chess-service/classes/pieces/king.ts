@@ -1,9 +1,7 @@
 import { PieceActions } from '@chess/pieces/piece-actions';
 import { Queen } from '@chess/queen';
 import { Piece } from '@chess/piece';
-import { IPiece, PieceStateModel } from '@chess/ipiece.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { Guid } from '@chess/guid';
 import { IPieceActions } from '@chess/ipiece-actions.model';
 import { ICoordinates } from '@chess/icoordinates.model';
 import { Store } from '@ngxs/store';

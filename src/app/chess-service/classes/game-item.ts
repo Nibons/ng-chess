@@ -1,7 +1,5 @@
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Guid } from '@chess/guid';
-import { GameState } from '@chess/game-state';
-import { GameStateModel, IGame } from '@chess/igame.model';
 
 export abstract class GameItem {
   Id: number;

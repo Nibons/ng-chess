@@ -1,17 +1,14 @@
 import { ICoordinates } from './../interfaces/icoordinates.model';
-import { GameItem } from '@chess/game-item';
-import { GameItemStateModel } from '@chess/igame-item.model';
 import { PositionState } from '@chess/position-state';
 import { PlayerState } from './../../store/states/player-state';
 import { GameState } from '@chess/game-state';
-import { GameStateModelList } from './../interfaces/igame.model';
 import { GameStateModel } from '@chess/igame.model';
 import { PositionStateModel } from '@chess/IPosition.model';
 import { PlayerStateModel } from '@chess/iplayer.model';
 import { BoardStateModel } from '@chess/iboard.model';
 import { IGame } from '@chess/igame.model';
 import { Guid } from '@chess/guid';
-import { Store, Select, StateContext } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { PieceStateModel } from '@chess/ipiece.model';
 import { BoardState } from '@chess/board-state';
 import { PieceState } from '@chess/piece-state';
