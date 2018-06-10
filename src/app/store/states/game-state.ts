@@ -6,7 +6,7 @@ import { PlayerState } from '@chess/player-state';
 import { PositionState } from '@chess/position-state';
 import { BoardState } from '@chess/board-state';
 import { Guid } from '@chess/guid';
-import { GameStateModel } from '@chess/igame.model';
+import { OptionsStateModel } from '@chess/igame.model';
 import { State, Action, StateContext, Selector, Select } from '@ngxs/store';
 import { PieceState } from '@chess/piece-state';
 import { BoardStateModel } from '@chess/iboard.model';
@@ -15,7 +15,7 @@ import { PositionStateModel } from '@chess/iposition.model';
   name: 'games'
 })
 export class GameState {
-  @Selector() static GetIdCounter(context: StateContext<GameStateModel>) {
+  @Selector() static GetIdCounter(context: StateContext<OptionsStateModel>) {
     const id = context.getState().IdCounter;
     context.dispatch(IncrementIdCounter);
     return id;
@@ -41,13 +41,13 @@ export class GameState {
       ...players.filter(x => x.gameId === gameId)
     ];
   }
-  @Selector() static getColors(state: GameStateModel) {
+  @Selector() static getColors(state: OptionsStateModel) {
     return state.colorList;
   }
   getGameList(state) {
     return state.games;
   }
-  @Action(IncrementIdCounter) incrementIdCounter(context: StateContext<GameStateModel>, action: IncrementIdCounter) {
+  @Action(IncrementIdCounter) incrementIdCounter(context: StateContext<OptionsStateModel>, action: IncrementIdCounter) {
     const current_state = context.getState();
     context.patchState({
       ...current_state,
@@ -55,7 +55,7 @@ export class GameState {
     });
   }
 
-  @Action(NewGame) newGame(context: StateContext<GameStateModel>, action: NewGame) {
+  @Action(NewGame) newGame(context: StateContext<OptionsStateModel>, action: NewGame) {
     const game = action.payload;
     const state = context.getState();
     context.patchState({ ...state, Id: game.Id, IdCounter: 0 });

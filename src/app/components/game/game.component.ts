@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { GameState } from '@chess/game-state';
-import { GameStateModel } from '@chess/igame.model';
+import { OptionsStateModel } from '@chess/igame.model';
 
 @Component({
   selector: 'app-game',
@@ -12,7 +12,7 @@ import { GameStateModel } from '@chess/igame.model';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  @Select(GameState) game$: Observable<GameStateModel>;
+  @Select(GameState) game$: Observable<OptionsStateModel>;
 
   constructor(private store: Store) { }
 

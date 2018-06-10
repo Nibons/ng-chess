@@ -1,4 +1,4 @@
-import { GameStateModel } from '@chess/igame.model';
+import { OptionsStateModel } from '@chess/igame.model';
 import { StateContext } from '@ngxs/store';
 
 export class Guid {

@@ -5,7 +5,7 @@ import { GameModelList, GameModel } from '@chess/igame-select.model';
 import { BoardStateModelList } from './../../chess-service/interfaces/iboard.model';
 import { IGameTemplate } from './../../chess-service/interfaces/igame-select.model';
 import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http';
-import { GameStateModel, GameStateModelList } from '@chess/igame.model';
+import { OptionsStateModel, GameStateModelList } from '@chess/igame.model';
 import { Guid } from '@chess/guid';
 import { map, tap, mergeMap, subscribeOn } from 'rxjs/operators';
 import { observable, Observable, forkJoin, pipe } from 'rxjs';
@@ -13,7 +13,7 @@ import { Type } from '@angular/compiler/src/output/output_ast';
 
 export class NewGame {
   static readonly type = '[GameSelect] NewGame';
-  constructor(public payload: GameStateModel) {
+  constructor(public payload: OptionsStateModel) {
     payload.Id = Guid.newGuid();
     payload.IdCounter = 0;
   }
@@ -44,7 +44,7 @@ export class RetrieveGameList {
       const gsm: GameModel = {
         name: ig.name,
         boards: <BoardStateModelList>results[0],
-        options: <GameStateModel>results[1],
+        options: <OptionsStateModel>results[1],
         pieces: <PieceStateModelList>results[2],
         players: <PlayerStateModelList>results[3]
       };

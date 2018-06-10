@@ -1,4 +1,4 @@
-import { GameStateModel } from '@chess/igame.model';
+import { OptionsStateModel } from '@chess/igame.model';
 import { BoardStateModelList } from './iboard.model';
 import { PlayerStateModelList } from '@chess/iplayer.model';
 import { PieceStateModelList } from './ipiece.model';
@@ -7,7 +7,7 @@ export interface GameModelList {
 }
 export interface GameModel {
   name: string;
-  options: GameStateModel;
+  options: OptionsStateModel;
   boards: BoardStateModelList;
   pieces: PieceStateModelList;
   players: PlayerStateModelList;

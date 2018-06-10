@@ -6,18 +6,18 @@ import { PlayerStateModel, IPlayer } from '@chess/iplayer.model';
 import { Guid } from '@chess/guid';
 import { ICoordinates } from '@chess/icoordinates.model';
 export interface GameStateModelList {
-  games: GameStateModel[];
+  games: OptionsStateModel[];
 }
-export interface PartialGameStateModel {
+export interface PartialOptionsStateModel {
   colorList: string[];
   currentTurnPlayerNumber: number;
   friendlyFire: boolean;
 }
-export interface GameStateModel extends PartialGameStateModel {
+export interface OptionsStateModel extends PartialOptionsStateModel {
   Id: Guid;
   IdCounter: number;
 }
-export interface IGame extends GameStateModel {
+export interface IGame extends OptionsStateModel {
   GetPlayerById(playerId: number): PlayerStateModel;
   GetBoardById(boardId: number): BoardStateModel;
   GetPositionById(positionId: number): PositionStateModel;

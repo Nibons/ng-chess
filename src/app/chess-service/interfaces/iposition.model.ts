@@ -1,4 +1,4 @@
-import { GameStateModel } from '@chess/igame.model';
+import { OptionsStateModel } from '@chess/igame.model';
 import { IGame } from './igame.model';
 import { IPiece } from '@chess/ipiece.model';
 import { Guid } from '@chess/guid';

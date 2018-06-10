@@ -2,7 +2,7 @@ import { ICoordinates } from './../interfaces/icoordinates.model';
 import { PositionState } from '@chess/position-state';
 import { PlayerState } from './../../store/states/player-state';
 import { GameState } from '@chess/game-state';
-import { GameStateModel } from '@chess/igame.model';
+import { OptionsStateModel } from '@chess/igame.model';
 import { PositionStateModel } from '@chess/IPosition.model';
 import { PlayerStateModel } from '@chess/iplayer.model';
 import { BoardStateModel } from '@chess/iboard.model';
@@ -16,7 +16,7 @@ import { Coordinates } from '@chess/coordinates';
 
 export class Game implements IGame {
   public IdCounter: number;
-  public gameState: GameStateModel;
+  public gameState: OptionsStateModel;
   public colorList: string[];
   public currentTurnPlayerNumber: number;
   public friendlyFire: boolean;
