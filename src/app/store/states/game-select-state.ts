@@ -1,3 +1,5 @@
+import { RetrieveGameList } from './../actions/game-select.action';
+import { HttpClientModule } from '@angular/common/http';
 import { GameStateModelList } from './../../chess-service/interfaces/igame.model';
 import { PlayerStateModelList } from '@chess/iplayer.model';
 import { BoardStateModel, BoardStateModelList } from '@chess/iboard.model';
@@ -7,29 +9,11 @@ import { State, Selector, Action } from '@ngxs/store';
 import { NewGame } from '@chess/game-select.action';
 import { StateContext } from '@ngxs/store';
 
-const standardChess_players = require('@gameTemplates/standardChess.players.json');
-const standardChess_boards = require('@gameTemplates/standardChess.board.json');
-const standardChess_options = require('@gameTemplates/standardChess.options.json');
-const standardChess_pieces = require('@gameTemplates/standardChess.pieces.json');
-
-const standardChess: GameModel = {
-  name: 'standardChess',
-  players: standardChess_players,
-  options: standardChess_options,
-  boards: standardChess_boards,
-  pieces: standardChess_pieces
-};
-
-
 @State<GameModelList>({
-  name: 'gameSelect',
-  defaults: {
-    gameList: [
-      standardChess
-    ]
-  }
+  name: 'gameSelect'
 })
 export class GameState {
+  constructor() { }
   @Action(NewGame)
   newGame(context: StateContext<GameStateModelList>, action: NewGame) {
     const state = context.getState();
@@ -39,5 +23,9 @@ export class GameState {
         action.payload
       ]
     });
+  }
+  @Action(RetrieveGameList)
+  retrieveGameList({ setState, getState }: StateContext<GameStateModelList>, action: RetrieveGameList) {
+    setState(action.payload);
   }
 }
