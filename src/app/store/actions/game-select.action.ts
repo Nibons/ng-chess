@@ -43,10 +43,13 @@ export class RetrieveTemplateList {
     forkJoin([boards$, options$, pieces$, players$]).subscribe(results => {
       const gsm: IGameTemplate = {
         name: ig.name,
-        boards: <BoardStateModelList>results[0],
-        options: <OptionsStateModel>results[1],
-        pieces: <PieceStateModelList>results[2],
-        players: <PlayerStateModelList>results[3]
+        type: ig.type,
+        configStateTemplates: {
+          boards: <BoardStateModelList>results[0],
+          options: <OptionsStateModel>results[1],
+          pieces: <PieceStateModelList>results[2],
+          players: <PlayerStateModelList>results[3]
+        }
       };
       this.payload.templates.push(gsm);
     }
