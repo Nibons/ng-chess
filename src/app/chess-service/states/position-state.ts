@@ -3,7 +3,9 @@ import { Coordinates } from '@chess/coordinates';
 import { ICoordinates } from '@chess/icoordinates.model';
 import { Guid } from '@chess/guid';
 import { PositionStateModelList } from '@chess/iposition.model';
-import { State, Selector } from '@ngxs/store';
+import { State, Selector, StateContext, Action } from '@ngxs/store';
+import { SetPieceAt } from '@chess/position.action';
+
 @State<PositionStateModelList>({
   name: 'positions',
   defaults: { positions: [] }
@@ -43,6 +45,22 @@ export class PositionState {
     return (gameId: Guid) => {
       return state.filter((p: PositionStateModel) => p.gameId === gameId);
     };
+  }
+
+  @Action(SetPieceAt)
+  setPieceAt({ getState, patchState }: StateContext<PositionStateModelList>, action: SetPieceAt) {
+    const target_position = getState().positions
+      .find(p =>
+        p.boardId === action.boardId && p.gameId === action.gameId &&
+        Coordinates.IsSameCoordinates(p.coordinates, action.coordinates)
+      );
+    target_position.pieceId = action.pieceId;
+    patchState({
+      positions: [
+        ...getState().positions.filter(p => p.Id !== target_position.Id),
+        target_position
+      ]
+    });
   }
 }
 

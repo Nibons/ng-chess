@@ -1,6 +1,6 @@
-import { Guid } from './../../chess-service/classes/guid';
+import { Guid } from '@chess/guid';
 import { ICoordinates } from '@chess/icoordinates.model';
-import { Coordinates } from '@chess/coordinates';
+
 export class CreatePosition {
   static readonly type = '[Position] CreatePosition';
   constructor(
@@ -12,4 +12,9 @@ export class CreatePosition {
   ) {
 
   }
+}
+
+export class SetPieceAt {
+  static readonly type = '[Position] SetPieceAt';
+  constructor(public pieceId: number, public coordinates: ICoordinates, public boardId: number, public gameId: Guid) { }
 }
