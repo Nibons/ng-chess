@@ -20,3 +20,8 @@ export class SetPiece {
   static readonly type = '[Piece] SetPiece';
   constructor(public payload: PieceStateModel) { }
 }
+
+export class SetPieceProperty {
+  static readonly type = '[Piece] SetPieceProperty';
+  constructor(public payload: Partial<PieceStateModel>) { }
+}

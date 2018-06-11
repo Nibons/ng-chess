@@ -1,7 +1,7 @@
 import { PieceStateModelList, PieceStateModel } from '@chess/ipiece.model';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { Guid } from '@chess/guid';
-import { SetPiece } from '@chess/piece.actions';
+import { SetPiece, SetPieceProperty } from '@chess/piece.actions';
 
 @State<PieceStateModelList>({
   name: 'pieces',
@@ -26,4 +26,23 @@ export class PieceState {
       ]
     });
   }
+
+  @Action(SetPieceProperty)
+  setPieceProperty({ getState, patchState }: StateContext<PieceStateModelList>, action: SetPieceProperty) {
+    if (action.payload.Id === undefined) {
+      throw new Error('Id Required on Partial<PieceStateModel>');
+    } else {
+      const currentPiece = getState().pieces.find(p => p.Id === action.payload.Id);
+      const mergedPiece = (currentPiece.Id === action.payload.Id) ?
+        { ...currentPiece, ...action.payload } : // this does the actual merging
+        action.payload;
+      patchState({
+        pieces: [
+          ...getState().pieces.filter(p => p.Id !== mergedPiece.Id),
+          mergedPiece
+        ]
+      });
+    }
+  }
+
 }

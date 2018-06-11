@@ -8,7 +8,7 @@ import { IGameItem } from '@chess/igame-item.model';
 import { IBoard } from '@chess/iboard.model';
 
 export interface PieceStateModelList {
-  pieces: PieceStateModel[];
+  pieces: Partial<PieceStateModel>[];
 }
 
 export interface PieceStateModel extends GameItemStateModel {
