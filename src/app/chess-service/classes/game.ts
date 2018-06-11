@@ -12,6 +12,7 @@ import { PieceStateModel } from '@chess/ipiece.model';
 import { BoardState } from '@chess/board-state';
 import { PieceState } from '@chess/piece-state';
 import { Coordinates } from '@chess/coordinates';
+import { OptionsState } from '@chess/options-state';
 
 export class Game implements IGame {
   public IdCounter: number;
@@ -21,7 +22,7 @@ export class Game implements IGame {
   public friendlyFire: boolean;
 
   constructor(public Id: Guid = Guid.newGuid(), public store: Store) {
-    this.gameState = store.selectSnapshot(OptionsState.)
+    this.gameState = store.selectSnapshot(OptionsState) ////FIX THIS
       .find(g => g.Id === this.Id);
     this.setVariables();
   }
