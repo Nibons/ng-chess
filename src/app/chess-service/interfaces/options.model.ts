@@ -5,9 +5,7 @@ import { PositionStateModel, IPosition } from '@chess/iposition.model';
 import { PlayerStateModel, IPlayer } from '@chess/iplayer.model';
 import { Guid } from '@chess/guid';
 import { ICoordinates } from '@chess/icoordinates.model';
-export interface GameStateModelList {
-  games: OptionsStateModel[];
-}
+
 export interface PartialOptionsStateModel {
   colorList: string[];
   currentTurnPlayerNumber: number;

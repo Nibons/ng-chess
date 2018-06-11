@@ -1,4 +1,4 @@
-import { OptionsStateModel } from '@chess/igame.model';
+import { OptionsStateModel } from '@chess/options.model';
 
 export class IncrementIdCounter {
   static readonly type = '[IdCounter] IncrementIdCounter';

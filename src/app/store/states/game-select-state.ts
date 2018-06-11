@@ -1,31 +1,21 @@
-import { RetrieveGameList } from './../actions/game-select.action';
+import { RetrieveTemplateList } from './../actions/game-select.action';
 import { HttpClientModule } from '@angular/common/http';
-import { GameStateModelList } from './../../chess-service/interfaces/igame.model';
 import { PlayerStateModelList } from '@chess/iplayer.model';
 import { BoardStateModel, BoardStateModelList } from '@chess/iboard.model';
 import { PieceStateModelList } from '@chess/ipiece.model';
-import { GameModel, GameModelList } from '@chess/igame-select.model';
 import { State, Selector, Action } from '@ngxs/store';
 import { NewGame } from '@chess/game-select.action';
 import { StateContext } from '@ngxs/store';
+import { IGameTemplate, IGameTemplateList } from '@chess/igame-template.model';
 
-@State<GameModelList>({
+@State<IGameTemplateList>({
   name: 'gameSelect'
 })
-export class GameState {
+export class TemplateState {
   constructor() { }
-  @Action(NewGame)
-  newGame(context: StateContext<GameStateModelList>, action: NewGame) {
-    const state = context.getState();
-    context.patchState({
-      games: [
-        ...state.games,
-        action.payload
-      ]
-    });
-  }
-  @Action(RetrieveGameList)
-  retrieveGameList({ setState, getState }: StateContext<GameStateModelList>, action: RetrieveGameList) {
+
+  @Action(RetrieveTemplateList)
+  retrieveGameList({ setState, getState }: StateContext<IGameTemplateList>, action: RetrieveTemplateList) {
     setState(action.payload);
   }
 }

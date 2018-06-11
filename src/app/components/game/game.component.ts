@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { GameState } from '@chess/game-state';
-import { OptionsStateModel } from '@chess/igame.model';
+import { OptionsStateModel } from '@chess/options.model';
 
 @Component({
   selector: 'app-game',

@@ -1,5 +1,5 @@
+import { IGame } from './../interfaces/options.model';
 import { GameItem } from '@chess/game-item';
-import { IGame } from './../interfaces/igame.model';
 import { ICoordinates } from './../interfaces/icoordinates.model';
 import { IPieceActions } from '@chess/ipiece-actions.model';
 import { Store } from '@ngxs/store';

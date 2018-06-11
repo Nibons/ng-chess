@@ -1,11 +1,11 @@
+import { GameStateModel } from '@chess/GameState.model';
+import { OptionsStateModel } from '@chess/options.model';
 import { GameItemStateModel } from '@chess/igame-item.model';
-import { PlayerStateModelList } from './../../chess-service/interfaces/iplayer.model';
-import { PieceStateModelList } from './../../chess-service/interfaces/ipiece.model';
-import { GameModelList, GameModel } from '@chess/igame-select.model';
-import { BoardStateModelList } from './../../chess-service/interfaces/iboard.model';
-import { IGameTemplate } from './../../chess-service/interfaces/igame-select.model';
+import { PlayerStateModelList } from '@chess/iplayer.model';
+import { PieceStateModelList } from '@chess/ipiece.model';
+import { BoardStateModelList } from '@chess/iboard.model';
+import { IGameTemplate, IGameTemplateList } from '@chess/igame-template.model';
 import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http';
-import { OptionsStateModel, GameStateModelList } from '@chess/igame.model';
 import { Guid } from '@chess/guid';
 import { map, tap, mergeMap, subscribeOn } from 'rxjs/operators';
 import { observable, Observable, forkJoin, pipe } from 'rxjs';
@@ -19,9 +19,9 @@ export class NewGame {
   }
 }
 
-export class RetrieveGameList {
+export class RetrieveTemplateList {
   static readonly type = '[GameSelect] RetrieveGameList';
-  public payload: GameModelList;
+  public payload: IGameTemplateList;
 
   constructor(private http: HttpClient) {
     this.getGameTemplateList();
@@ -41,14 +41,14 @@ export class RetrieveGameList {
     const pieces$ = this.http.get(ig.rootFolder + ig.configFiles.pieces);
     const players$ = this.http.get(ig.rootFolder + ig.configFiles.players);
     forkJoin([boards$, options$, pieces$, players$]).subscribe(results => {
-      const gsm: GameModel = {
+      const gsm: IGameTemplate = {
         name: ig.name,
         boards: <BoardStateModelList>results[0],
         options: <OptionsStateModel>results[1],
         pieces: <PieceStateModelList>results[2],
         players: <PlayerStateModelList>results[3]
       };
-      this.payload.gameList.push(gsm);
+      this.payload.templates.push(gsm);
     }
     );
   }

@@ -1,4 +1,4 @@
-import { GameStateModelList } from './../../chess-service/interfaces/igame.model';
+import { GameStateModelList } from '@chess/GameState.model';
 import { PieceStateModel } from '@chess/ipiece.model';
 import { PlayerStateModel } from './../../chess-service/interfaces/iplayer.model';
 import { IncrementIdCounter, NewGame } from '@chess/game.action';
@@ -6,7 +6,7 @@ import { PlayerState } from '@chess/player-state';
 import { PositionState } from '@chess/position-state';
 import { BoardState } from '@chess/board-state';
 import { Guid } from '@chess/guid';
-import { OptionsStateModel } from '@chess/igame.model';
+import { OptionsStateModel } from '@chess/options.model';
 import { State, Action, StateContext, Selector, Select } from '@ngxs/store';
 import { PieceState } from '@chess/piece-state';
 import { BoardStateModel } from '@chess/iboard.model';
@@ -21,11 +21,11 @@ export class GameState {
     return id;
   }
   @Selector() static GameList(state: GameStateModelList) {
-    return state.games;
+    return state.gameList;
   }
-  @Selector() static GetGame(state: GameStateModelList) {
+  @Selector() static GetGameById(state: GameStateModelList) {
     return (Id: Guid) => {
-      return state.games.find(g => g.Id === Id);
+      return state.gameList.find(g => g.Id === Id);
     };
   }
   @Selector([BoardState, PositionState, PieceState, PlayerState])
