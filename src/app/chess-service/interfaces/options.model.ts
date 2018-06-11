@@ -22,7 +22,7 @@ export interface IGame extends OptionsStateModel {
   GetPlayerById(playerId: number): PlayerStateModel;
   GetBoardById(boardId: number): BoardStateModel;
   GetPositionById(positionId: number): PositionStateModel;
-  GetPieceById(pieceId: number): PieceStateModel;
+  GetPieceById(pieceId: number): Partial<PieceStateModel>;
   GetPositionByCoordinates(coordinates: ICoordinates): PositionStateModel;
   GetPositionByPieceId(pieceId: number): PositionStateModel;
 }

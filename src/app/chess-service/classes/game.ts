@@ -44,7 +44,7 @@ export class Game implements IGame {
     return this.store.selectSnapshot(PositionState.PositionList)
       .find(p => p.Id === positionId && p.gameId === this.Id);
   }
-  GetPieceById(pieceId: number): PieceStateModel {
+  GetPieceById(pieceId: number): Partial<PieceStateModel> {
     return this.store.selectSnapshot(PieceState.PieceList)
       .find(p => p.Id === pieceId && p.gameId === this.Id);
   }

@@ -1,3 +1,5 @@
-<p>
-  game-select works!
-</p>
+<ul>
+  <li *ngFor="let item of this.templates$ | async">
+    {{item.name}}
+  </li>
+</ul>

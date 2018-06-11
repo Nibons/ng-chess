@@ -5,7 +5,7 @@
   "configFiles": {
     "boards": "standardChess.board.json",
     "options": "standardChess.game.json",
-    "pieces": "standardChess.pieces",
+    "pieces": "standardChess.pieces.json",
     "players": "standardChess.players.json"
   }
 }]

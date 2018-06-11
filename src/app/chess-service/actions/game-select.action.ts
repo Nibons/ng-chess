@@ -6,6 +6,7 @@ import { PieceStateModelList } from '@chess/ipiece.model';
 import { BoardStateModelList } from '@chess/iboard.model';
 import { IGameTemplate, IGameTemplateList } from '@chess/igame-template.model';
 import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http';
+// import { Http, Response } from '@angular/http';
 import { Guid } from '@chess/guid';
 import { map, tap, mergeMap, subscribeOn } from 'rxjs/operators';
 import { observable, Observable, forkJoin, pipe } from 'rxjs';
@@ -21,25 +22,25 @@ export class NewGame {
 
 export class RetrieveTemplateList {
   static readonly type = '[GameSelect] RetrieveGameList';
-  public payload: IGameTemplateList;
+  public payload: IGameTemplateList = { templates: [] };
 
   constructor(private http: HttpClient) {
-    this.getGameTemplateList();
+    const gameTemplateList: Observable<IGameTemplate[]> = this.getGameTemplateList();
+    gameTemplateList.subscribe(
+      (r: IGameTemplate[]) =>
+        r.forEach(
+          ig => this.getGameModelFromGameTemplate(ig)
+        )
+    );
   }
   private getGameTemplateList() {
-    this.http.get('assets/game_templates/GameTemplats.json')
-      .pipe(
-        map((res: Response) => res.json)
-      );//// need to get this to call this.getGameModelFromGameTemlateList
-  }
-  private getGameModelFromGameTemplateList(templateList: IGameTemplate[]) {
-    templateList.forEach(ig => this.getGameModelFromGameTemplate(ig));
+    return this.http.get<IGameTemplate[]>('assets/game_templates/GameTemplates.json');
   }
   private getGameModelFromGameTemplate(ig: IGameTemplate) {
-    const boards$ = this.http.get(ig.rootFolder + ig.configFiles.boards);
-    const options$ = this.http.get(ig.rootFolder + ig.configFiles.options);
-    const pieces$ = this.http.get(ig.rootFolder + ig.configFiles.pieces);
-    const players$ = this.http.get(ig.rootFolder + ig.configFiles.players);
+    const boards$ = this.http.get<BoardStateModelList>(ig.rootFolder + ig.configFiles.boards);
+    const options$ = this.http.get<OptionsStateModel>(ig.rootFolder + ig.configFiles.options);
+    const pieces$ = this.http.get<PieceStateModelList>(ig.rootFolder + ig.configFiles.pieces);
+    const players$ = this.http.get<PlayerStateModelList>(ig.rootFolder + ig.configFiles.players);
     forkJoin([boards$, options$, pieces$, players$]).subscribe(results => {
       const gsm: IGameTemplate = {
         name: ig.name,

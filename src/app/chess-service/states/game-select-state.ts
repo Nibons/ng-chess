@@ -9,13 +9,27 @@ import { StateContext } from '@ngxs/store';
 import { IGameTemplate, IGameTemplateList } from '@chess/igame-template.model';
 
 @State<IGameTemplateList>({
-  name: 'gameSelect'
+  name: 'gameSelect',
+  defaults: {
+    templates: [{
+      name: 'test_name',
+      type: 'test'
+    }]
+  }
 })
 export class TemplateState {
   constructor() { }
 
   @Action(RetrieveTemplateList)
-  retrieveGameList({ setState, getState }: StateContext<IGameTemplateList>, action: RetrieveTemplateList) {
-    setState(action.payload);
+  retrieveGameList({ patchState, getState }: StateContext<IGameTemplateList>, action: RetrieveTemplateList) {
+    patchState({
+      ...getState,
+      ...action.payload
+    });
+  }
+
+  @Selector()
+  static TemplateList(state: IGameTemplateList) {
+    return state.templates;
   }
 }
