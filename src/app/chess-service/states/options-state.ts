@@ -11,12 +11,12 @@ import { State, Action, StateContext, Selector, Select } from '@ngxs/store';
 import { PieceState } from '@chess/piece-state';
 import { BoardStateModel } from '@chess/iboard.model';
 import { PositionStateModel } from '@chess/iposition.model';
-@State<GameStateModelList>({
-  name: 'games'
+@State<OptionsStateModelList>({
+  name: 'optionSets'
 })
-export class GameState {
-  @Selector() static GetIdCounter(context: StateContext<OptionsStateModelList>) {
-    const id = context.getState().optionSets[0].IdCounter;
+export class OptionsState {
+  @Selector() static GetIdCounter(context: StateContext<OptionsStateModel>) {
+    const id = context.getState().IdCounter;
     context.dispatch(IncrementIdCounter);
     return id;
   }

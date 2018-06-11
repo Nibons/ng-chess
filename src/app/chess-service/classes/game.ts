@@ -1,8 +1,7 @@
-import { IGame } from './../interfaces/options.model';
-import { ICoordinates } from './../interfaces/icoordinates.model';
+import { IGame } from '@chess/options.model';
+import { ICoordinates } from '@chess/icoordinates.model';
 import { PositionState } from '@chess/position-state';
-import { PlayerState } from './../../store/states/player-state';
-import { GameState } from '@chess/game-state';
+import { PlayerState } from '@chess/player-state';
 import { OptionsStateModel } from '@chess/options.model';
 import { PositionStateModel } from '@chess/IPosition.model';
 import { PlayerStateModel } from '@chess/iplayer.model';
@@ -22,7 +21,7 @@ export class Game implements IGame {
   public friendlyFire: boolean;
 
   constructor(public Id: Guid = Guid.newGuid(), public store: Store) {
-    this.gameState = store.selectSnapshot(GameState.GameList)
+    this.gameState = store.selectSnapshot(OptionsState.)
       .find(g => g.Id === this.Id);
     this.setVariables();
   }

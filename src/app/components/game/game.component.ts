@@ -1,4 +1,4 @@
-import { BoardState } from './../../store/states/board-state';
+import { BoardState } from '@chess/board-state';
 import { NewGame } from '@chess/game.action';
 import { Component, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';

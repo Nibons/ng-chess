@@ -11,6 +11,9 @@ export interface PartialOptionsStateModel {
   currentTurnPlayerNumber: number;
   friendlyFire: boolean;
 }
+export interface OptionsStateModelList {
+  optionSets: OptionsStateModel[];
+}
 export interface OptionsStateModel extends PartialOptionsStateModel {
   Id: Guid;
   IdCounter: number;

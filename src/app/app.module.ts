@@ -1,6 +1,6 @@
-import { PieceState } from './store/states/piece-state';
+import { PieceState } from '@chess/piece-state';
 import { GameState } from '@chess/game-state';
-import { BoardState } from './store/states/board-state';
+import { BoardState } from '@chess/board-state';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 

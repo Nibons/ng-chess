@@ -1,6 +1,6 @@
 import { GameState } from '@chess/game-state';
 import { PieceStateModel, PieceStateModelList } from '@chess/ipiece.model';
-import { PieceState } from './../../store/states/piece-state';
+import { PieceState } from '@chess/piece-state';
 import { Component, OnInit, Input } from '@angular/core';
 import { MatIconModule, MatIcon } from '@angular/material/icon';
 import { IPlayer } from '@chess/iplayer.model';

@@ -16,20 +16,17 @@
       "es2017",
       "dom"
     ],
-    "paths":{
-      "@chess/*":[
+    "paths": {
+      "@chess/*": [
         "src/app/chess-service/interfaces/*",
         "src/app/chess-service/classes/*",
-        "src/app/chess-service/classes/config/*",
         "src/app/chess-service/classes/pieces/*",
         "src/app/chess-service/enums/*",
-        "src/app/chess-service/*",
-        "src/app/store/states/*",
-        "src/app/store/models/*",
-        "src/app/store/actions/*"
+        "src/app/chess-service/states/*",
+        "src/app/chess-service/actions/*",
       ],
-      "@app/*":["src/app/*"],
-      "@gameTemplates":["src/assets/game_templates/*"]
+      "@app/*": ["src/app/*"],
+      "@gameTemplates": ["src/assets/game_templates/*"]
     }
   }
 }
