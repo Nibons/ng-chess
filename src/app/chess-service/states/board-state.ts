@@ -1,10 +1,11 @@
 import { CreateBoard, DeleteBoard } from '@chess/board.actions';
-import { State, StateContext, Selector } from '@ngxs/store';
+import { State, StateContext, Selector, Store } from '@ngxs/store';
 import { BoardStateModelList, BoardStateModel } from '@chess/iboard.model';
 import { Guid } from '@chess/guid';
 import { Action } from '@ngxs/store';
 import { getMatScrollStrategyAlreadyAttachedError } from '@angular/cdk/overlay/typings/scroll/scroll-strategy';
 import { patch } from 'webdriver-js-extender';
+import { merge } from 'rxjs/operators';
 
 @State<BoardStateModelList>({
   name: 'boards',
@@ -18,10 +19,9 @@ export class BoardState {
     return state.boards;
   }
   @Action(CreateBoard)
-  CreateBoard({ getState, patchState }: StateContext<BoardStateModelList>, { payload }: CreateBoard) {
-    const state = getState();
+  CreateBoard({ getState, patchState }: StateContext<BoardStateModelList>, { payload }: CreateBoard, store: Store) {
     patchState({
-      boards: [...state.boards, payload]
+      boards: [...getState().boards, payload]
     });
   }
 
@@ -32,4 +32,6 @@ export class BoardState {
       boards: getState().boards.filter((b: BoardStateModel) => b.Id !== payload)
     });
   }
+
+  constructor() { }
 }
