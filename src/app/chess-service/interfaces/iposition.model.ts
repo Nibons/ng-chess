@@ -8,6 +8,7 @@ export interface PositionStateModelList {
   positions: PositionStateModel[];
 }
 export interface PositionStateModel extends GameItemStateModel {
+  Id: number;
   boardId: number;
   pieceId: number;
   coordinates: ICoordinates;

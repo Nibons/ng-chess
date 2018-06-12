@@ -1,4 +1,4 @@
-import { ICoordinates } from '@chess/icoordinates.model';
+import { ICoordinates, IBoardDimensions } from '@chess/icoordinates.model';
 export abstract class Coordinates {
   static IsSameCoordinates(
     coordinates: ICoordinates,
@@ -9,6 +9,7 @@ export abstract class Coordinates {
     );
     return test;
   }
+
   static GetDelta(
     coordinates: ICoordinates,
     delta: ICoordinates
@@ -19,6 +20,7 @@ export abstract class Coordinates {
     );
     return newCoordinates;
   }
+
   static GetDifference(
     coordinates: ICoordinates,
     delta: ICoordinates
@@ -29,6 +31,7 @@ export abstract class Coordinates {
     );
     return newCoordinates;
   }
+
   static IsCoordinatesWithin(
     coordinates: ICoordinates,
     min: ICoordinates,
@@ -40,6 +43,7 @@ export abstract class Coordinates {
     );
     return test;
   }
+
   static GetAdjacent(
     coordinates: ICoordinates
   ): ICoordinates[] {
@@ -59,16 +63,19 @@ export abstract class Coordinates {
     );
     return coordinateList;
   }
+
   static GetOrigin(axisCount: number = 2, originDimensionValue = 0): ICoordinates {
     const newCoord = new Array(axisCount);
     newCoord.fill(originDimensionValue);
     return { dimensions: newCoord };
   }
+
   static MaxCoordinate(axisCount: number = 2, MaxDimensionValue = Number.MAX_SAFE_INTEGER): ICoordinates {
     const newCoord = new Array(axisCount);
     newCoord.fill(MaxDimensionValue);
     return { dimensions: newCoord };
   }
+
   static GetCoordinatesInDirection(
     coordinates: ICoordinates,
     direction: ICoordinates,
@@ -90,6 +97,44 @@ export abstract class Coordinates {
       );
     }
     return coordinateList;
+  }
+
+  static getBoardDimensionsDigitValue(boardDimensions: IBoardDimensions): number[] {
+    const dimensionDigitValue: number[] = [];
+    let digit_multiplier = 1;
+    boardDimensions.max.dimensions.forEach((max, d) => {
+      const dimensionLength = boardDimensions.max.dimensions[d] - boardDimensions.min.dimensions[d];
+      dimensionDigitValue[d] = dimensionLength * digit_multiplier;
+      digit_multiplier = digit_multiplier + dimensionDigitValue[d];
+    });
+    return dimensionDigitValue;
+  }
+
+  static getCoordinateFromDecimal(
+    decimal: number,
+    dimensionDigitValue: number[],
+    originCoordinates: ICoordinates = { dimensions: new Array(dimensionDigitValue.length).fill(0) }
+  ): ICoordinates {
+    const reversedTempCoordinates = originCoordinates.dimensions.reverse();
+    const reversedDigitLookup = dimensionDigitValue.reverse();
+    let remainingDecimal = decimal;
+    for (let d = 0; remainingDecimal > 0; d++) {
+      if (remainingDecimal >= reversedDigitLookup[d]) {
+        const decimalValue = Math.floor(remainingDecimal / reversedDigitLookup[d]);
+        reversedTempCoordinates[d] += decimalValue;
+        remainingDecimal -= decimalValue * reversedDigitLookup[d];
+      }
+    }
+    return { dimensions: reversedTempCoordinates.reverse() };
+  }
+
+  static getDecimalFromMaxCoordinates({ min, max }: IBoardDimensions): number {
+    const boardDimensionsDigitValue = Coordinates.getBoardDimensionsDigitValue({ min, max });
+    let maxAsInt = 0;
+    max.dimensions.reverse().forEach((val, i) => {
+      maxAsInt += (val * boardDimensionsDigitValue[i]);
+    });
+    return maxAsInt;
   }
 
 }

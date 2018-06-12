@@ -7,12 +7,12 @@ import { Store } from '@ngxs/store';
 export class CreatePosition {
   static readonly type = '[Position] CreatePosition';
   public payload: PositionStateModel;
-  constructor({ gameId, boardId, coordinates }: PositionStateModel, store: Store) {
+  constructor({ gameId, boardId, coordinates, Id }: PositionStateModel, store: Store) {
     this.payload = {
       boardId: boardId,
       coordinates: coordinates,
       gameId: gameId,
-      Id: store.selectSnapshot(GameState.GetIdCounter),
+      Id: Id,
       pieceId: null
     };
   }
@@ -20,5 +20,5 @@ export class CreatePosition {
 
 export class SetPieceAt {
   static readonly type = '[Position] SetPieceAt';
-  constructor(public pieceId: number, public coordinates: ICoordinates, public boardId: number, public gameId: Guid) { }
+  constructor(public pieceId: number, public coordinates: ICoordinates, public boardId: number) { }
 }

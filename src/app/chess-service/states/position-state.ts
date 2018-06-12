@@ -58,10 +58,10 @@ export class PositionState {
   }
 
   @Action(SetPieceAt)
-  setPieceAt({ getState, patchState }: StateContext<PositionStateModelList>, { boardId, gameId, coordinates, pieceId }: SetPieceAt) {
+  setPieceAt({ getState, patchState }: StateContext<PositionStateModelList>, { boardId, coordinates, pieceId }: SetPieceAt) {
     const target_position = getState().positions
       .find(p =>
-        p.boardId === boardId && gameId === gameId &&
+        p.boardId === boardId &&
         Coordinates.IsSameCoordinates(p.coordinates, coordinates)
       );
     target_position.pieceId = pieceId;
