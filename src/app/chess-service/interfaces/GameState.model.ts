@@ -1,8 +1,10 @@
-import { BoardStateModelList } from '@chess/iboard.model';
-import { PlayerStateModelList } from '@chess/iplayer.model';
-import { PieceStateModelList } from '@chess/ipiece.model';
+import { BoardStateModelList, BoardStateModel } from '@chess/iboard.model';
+import { PlayerStateModelList, PlayerStateModel } from '@chess/iplayer.model';
+import { PieceStateModelList, PieceStateModel } from '@chess/ipiece.model';
 import { OptionsStateModel } from '@chess/options.model';
 import { Guid } from '@chess/guid';
+import { Observable } from 'rxjs';
+import { IGameTemplate } from '@chess/igame-template.model';
 export interface GameStateModelList {
   gameList: GameStateModel[];
 }
@@ -10,9 +12,10 @@ export interface GameStateModel {
   name: string;
   Id: Guid;
   options: OptionsStateModel;
-  boards: BoardStateModelList;
-  pieces: PieceStateModelList;
-  players: PlayerStateModelList;
+  boards: Observable<BoardStateModel[]>;
+  pieces: Observable<PieceStateModel[]>;
+  players: Observable<PlayerStateModel[]>;
+  template: IGameTemplate;
 }
 
 
