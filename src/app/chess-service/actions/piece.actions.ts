@@ -1,6 +1,7 @@
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { Guid } from '@chess/guid';
 import { PieceStateModel } from '@chess/ipiece.model';
+import { Store } from '@ngxs/store';
 
 export class CreatePiece {
   static readonly type = '[Piece] CreatePiece';
@@ -13,6 +14,7 @@ export class CreatePiece {
     IsPrimary = false,
     HasMoved = false,
     IsAlive = true,
+    store: Store
   ) { }
 }
 

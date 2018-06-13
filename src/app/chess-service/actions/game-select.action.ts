@@ -1,16 +1,11 @@
-import { GameStateModel } from '@chess/GameState.model';
 import { OptionsStateModel } from '@chess/options.model';
-import { GameItemStateModel } from '@chess/igame-item.model';
 import { PlayerStateModelList } from '@chess/iplayer.model';
 import { PieceStateModelList } from '@chess/ipiece.model';
 import { BoardStateModelList } from '@chess/iboard.model';
 import { IGameTemplate, IGameTemplateList } from '@chess/igame-template.model';
-import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http';
-// import { Http, Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Guid } from '@chess/guid';
-import { map, tap, mergeMap, subscribeOn } from 'rxjs/operators';
-import { observable, Observable, forkJoin, pipe } from 'rxjs';
-import { Type } from '@angular/compiler/src/output/output_ast';
+import { Observable, forkJoin } from 'rxjs';
 
 export class NewGame {
   static readonly type = '[GameSelect] NewGame';
@@ -55,9 +50,5 @@ export class RetrieveTemplateList {
       this.payload.templates.push(gsm);
     }
     );
-  }
-  private getUri<T>(uri: string) {
-    const json = this.http.get(uri).pipe(map((r: Response) => r.json));
-    return json.pipe(map(next => <() => Promise<T>>next));
   }
 }
