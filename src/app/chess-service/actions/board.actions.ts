@@ -1,6 +1,6 @@
 import { PositionStateModel } from '@chess/iposition.model';
-import { PositionState } from './../states/position-state';
-import { GameState } from './../states/game-state';
+import { PositionState } from '@chess/position-state';
+import { GameState } from '@chess/game-state';
 import { BoardStateModel } from '@chess/iboard.model';
 import { Store } from '@ngxs/store';
 import { Coordinates } from '@chess/coordinates';
