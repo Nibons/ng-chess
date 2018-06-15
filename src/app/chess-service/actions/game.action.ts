@@ -20,6 +20,7 @@ export class NewGame {
   @Select(BoardState.BoardList) boardList$: Observable<BoardStateModel[]>;
   @Select(PieceState.PieceList) pieceList$: Observable<PieceStateModel[]>;
   @Select(PlayerState.PlayerList) playerList$: Observable<PlayerStateModel[]>;
+  public payload: GameStateModel;
 
   public get gameInfo(): GameStateModel {
     return {
@@ -34,5 +35,6 @@ export class NewGame {
   }
   constructor(private template: IGameTemplate) {
     this.Id = Guid.newGuid();
+    this.payload = this.gameInfo;
   }
 }

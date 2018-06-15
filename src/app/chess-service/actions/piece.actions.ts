@@ -1,20 +1,18 @@
-import { EPieceType } from '@chess/e-piece-type.enum';
+import { Piece } from '@chess/piece';
+import { BoardStateModel } from './../interfaces/iboard.model';
+import { BoardState } from './../states/board-state';
+import { PlacePiece } from '@chess/position.action';
 import { Guid } from '@chess/guid';
 import { PieceStateModel } from '@chess/ipiece.model';
 import { Store } from '@ngxs/store';
 
 export class CreatePiece {
   static readonly type = '[Piece] CreatePiece';
+  public piece: PieceStateModel;
   constructor(
-    playerNumber: number,
-    playerId: Guid,
-    pieceType: EPieceType,
-    positionId: Guid,
-    Id = Guid.newGuid(),
-    IsPrimary = false,
-    HasMoved = false,
-    IsAlive = true,
-    store: Store
+    inputpiece: PieceStateModel,
+    public gameId: Guid,
+    private store: Store
   ) { }
 }
 
