@@ -1,4 +1,3 @@
-import { SetPieceAt } from '@chess/position.action';
 import { PositionStateModel } from '@chess/IPosition.model';
 import { PositionState } from './../states/position-state';
 import { SetPieceProperty } from '@chess/piece.actions';
@@ -15,6 +14,7 @@ import { BoardStateModel } from '@chess/iboard.model';
 import { PieceState } from '@chess/piece-state';
 import { Observable, pipe } from 'rxjs';
 import { map, tap, filter } from 'rxjs/operators';
+import { PlacePiece } from '@chess/position.action';
 
 
 export class Piece extends GameItem implements PieceStateModel {
