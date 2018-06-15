@@ -5,20 +5,22 @@ import { BoardStateModelList, BoardStateModel } from '@chess/iboard.model';
 import { Action } from '@ngxs/store';
 import { GameState } from '@chess/game-state';
 import { GameStateModel } from '@chess/GameState.model';
-import { CreatePiece } from '@chess/piece.actions';
+
 
 @State<BoardStateModelList>({
   name: 'boards',
   defaults: { boards: [] }
 })
 export class BoardState {
-  constructor(private actions$: Actions, private store: Store) {
+  constructor(private actions$: Actions) {
     // on game creation, create the board
     this.actions$.pipe(
       ofActionSuccessful(CreateBoard)
-    ).subscribe(({ template }: GameStateModel) => {
+    ).subscribe(({ template, boards }: GameStateModel) => {
       template.configStateTemplates.pieces.pieces.forEach(
-        (p: PieceStateModel) => store.dispatch(new CreatePiece(...p, store))
+        (p: PieceStateModel) => {
+
+        }
       );
     });
   }
