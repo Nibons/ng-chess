@@ -177,7 +177,7 @@ export class Piece extends GameItem implements PieceStateModel {
     super(gameId, store);
     this.Id = Id;
     this.pieceType = pieceType;
-    store.dispatch(new SetPieceAt(Id, coordinates, boardId));
+        store.dispatch(new PlacePiece(Id, coordinates, board.Id));
     this.updateItemProperties(Id);
     this.savePiece();
   }

@@ -4,7 +4,7 @@ import { ICoordinates } from '@chess/icoordinates.model';
 import { Guid } from '@chess/guid';
 import { PositionStateModelList } from '@chess/iposition.model';
 import { State, Selector, StateContext, Action } from '@ngxs/store';
-import { SetPieceAt, CreatePosition } from '@chess/position.action';
+import { PlacePiece, CreatePosition } from '@chess/position.action';
 
 @State<PositionStateModelList>({
   name: 'positions',
@@ -57,8 +57,8 @@ export class PositionState {
     });
   }
 
-  @Action(SetPieceAt)
-  setPieceAt({ getState, patchState }: StateContext<PositionStateModelList>, { boardId, coordinates, pieceId }: SetPieceAt) {
+  @Action(PlacePiece)
+  setPieceAt({ getState, patchState }: StateContext<PositionStateModelList>, { boardId, coordinates, pieceId }: PlacePiece) {
     const target_position = getState().positions
       .find(p =>
         p.boardId === boardId &&
