@@ -126,16 +126,10 @@ export class Piece extends GameItem implements PieceStateModel {
   }
   value: number;
   positionId: number;
-
-  public get board(): BoardStateModel {
-    return this.store.selectSnapshot(
-      state => state.boards.find(
-        (b: BoardStateModel) =>
-          b.Id === this.boardId &&
-          b.gameId === this.gameId
-      ));
+  private _board: BoardStateModel;
+  public get boardNumber(): number {
+    return this._board.Id;
   }
-  // endregion
 
   public get game(): IGame {
     return this.store.selectSnapshot(state => state.gameList.find(g => g.Id === this.gameId));
@@ -173,11 +167,16 @@ export class Piece extends GameItem implements PieceStateModel {
     }
   }
 
-  constructor({ Id, gameId, pieceType }: PieceStateModel, public boardId: number, coordinates: ICoordinates, public store: Store) {
+  constructor({ Id, gameId, pieceType }: PieceStateModel, private board$: Observable<BoardStateModel>, coordinates: ICoordinates, public store: Store) {
     super(gameId, store);
     this.Id = Id;
     this.pieceType = pieceType;
+    board$.subscribe(
+      (board: BoardStateModel) => {
+        this._board = board;
         store.dispatch(new PlacePiece(Id, coordinates, board.Id));
+      }
+    );
     this.updateItemProperties(Id);
     this.savePiece();
   }

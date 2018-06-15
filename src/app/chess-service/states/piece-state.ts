@@ -1,7 +1,8 @@
 import { PieceStateModelList, PieceStateModel } from '@chess/ipiece.model';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { Guid } from '@chess/guid';
-import { SetPiece, SetPieceProperty } from '@chess/piece.actions';
+import { SetPiece, SetPieceProperty, CreatePiece } from '@chess/piece.actions';
+import { Piece } from '@chess/piece';
 
 @State<PieceStateModelList>({
   name: 'pieces',
