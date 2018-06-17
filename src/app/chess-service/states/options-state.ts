@@ -1,7 +1,6 @@
 import { GameStateModelList } from '@chess/GameState.model';
 import { PieceStateModel } from '@chess/ipiece.model';
 import { PlayerStateModel } from '@chess/iplayer.model';
-import { IncrementIdCounter, NewGame } from '@chess/game.action';
 import { PlayerState } from '@chess/player-state';
 import { PositionState } from '@chess/position-state';
 import { BoardState } from '@chess/board-state';
@@ -11,6 +10,9 @@ import { State, Action, StateContext, Selector, Select } from '@ngxs/store';
 import { PieceState } from '@chess/piece-state';
 import { BoardStateModel } from '@chess/iboard.model';
 import { PositionStateModel } from '@chess/iposition.model';
+import { NewGame } from '@chess/NewGame';
+import { IncrementIdCounter } from '@chess/IncrementIdCounter';
+
 @State<OptionsStateModelList>({
   name: 'optionSets'
 })

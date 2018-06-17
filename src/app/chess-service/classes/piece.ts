@@ -1,20 +1,16 @@
 import { PositionStateModel } from '@chess/IPosition.model';
 import { PositionState } from './../states/position-state';
-import { SetPieceProperty } from '@chess/piece.actions';
 import { Guid } from './guid';
 import { EPieceType } from './../enums/e-piece-type.enum';
 import { IGame } from './../interfaces/options.model';
 import { GameItem } from '@chess/game-item';
 import { ICoordinates } from './../interfaces/icoordinates.model';
-import { IPieceActions } from '@chess/ipiece-actions.model';
 import { Store, Select } from '@ngxs/store';
 import { PieceStateModel } from '@chess/ipiece.model';
-import { PieceActions } from '@chess/pieces/piece-actions';
 import { BoardStateModel } from '@chess/iboard.model';
 import { PieceState } from '@chess/piece-state';
 import { Observable, pipe } from 'rxjs';
 import { map, tap, filter } from 'rxjs/operators';
-import { PlacePiece } from '@chess/position.action';
 
 
 export class Piece extends GameItem implements PieceStateModel {

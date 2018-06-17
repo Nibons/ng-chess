@@ -1,16 +1,30 @@
-import { PositionStateModel } from './../../chess-service/interfaces/iposition.model';
+import { RemovePieceFromAllWatchLists } from './../actions/RemovePieceFromAllWatchLists';
+import { CreateAllPositions } from './../actions/CreateAllPositions';
 import { Coordinates } from '@chess/coordinates';
 import { ICoordinates } from '@chess/icoordinates.model';
 import { Guid } from '@chess/guid';
-import { PositionStateModelList } from '@chess/iposition.model';
-import { State, Selector, StateContext, Action } from '@ngxs/store';
-import { PlacePiece, CreatePosition } from '@chess/position.action';
+import { PositionStateModelList, PositionStateModel } from '@chess/iposition.model';
+import { State, Selector, StateContext, Action, ofActionSuccessful, Store, Actions } from '@ngxs/store';
+import { CreatePosition } from '@chess/CreatePosition';
+import { PlacePiece } from '@chess/PlacePiece';
+import { GameStateModel } from '@chess/GameState.model';
+import { AddPositionToBoard } from '@chess/AddPositionToBoard';
+import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
 
 @State<PositionStateModelList>({
   name: 'positions',
   defaults: { positions: [] }
 })
 export class PositionState {
+  constructor(private actions$: Actions, store: Store) {
+    // on game creation, create the board
+    this.actions$.pipe(
+      ofActionSuccessful(CreatePosition)
+    ).subscribe((position: PositionStateModel) => {
+      store.dispatch(new AddPositionToBoard(position.Id, position.boardId));
+    });
+  }
+
   @Selector() static PositionList(state: PositionStateModelList) {
     return state.positions;
   }
@@ -55,6 +69,17 @@ export class PositionState {
         payload
       ]
     });
+    return payload;
+  }
+
+  @Action(CreateAllPositions)
+  createAllPositions({ getState, patchState }: StateContext<PositionStateModelList>, { payload }: CreateAllPositions) {
+    patchState({
+      positions: [
+        ...getState().positions,
+        ...payload
+      ]
+    });
   }
 
   @Action(PlacePiece)
@@ -71,6 +96,38 @@ export class PositionState {
         target_position
       ]
     });
+  }
+
+  @Action(AddToPositionWatchList)
+  addToPositionWatchList({ getState, patchState }: StateContext<PositionStateModelList>,
+    { positionId, pieceId }: AddToPositionWatchList) {
+    const position = getState().positions.find(p => p.Id === positionId);
+    if (position.watchList.includes(pieceId)) {
+      position.watchList.push(pieceId);
+      patchState({
+        positions: [
+          ...getState().positions.filter(p => p.Id !== positionId),
+          position
+        ]
+      });
+    }
+  }
+
+  @Action(RemovePieceFromAllWatchLists)
+  removePieceFromAllWatchLists({ getState, patchState }: StateContext<PositionStateModelList>,
+    { pieceId }: RemovePieceFromAllWatchLists) {
+    const positionsWithPiece: PositionStateModel[] = [];
+    getState().positions
+      .filter(position => position.watchList.includes(pieceId))
+      .forEach(position => position.watchList = position.watchList.filter(positionsPieceId => positionsPieceId !== pieceId));
+    if (positionsWithPiece.length >= 1) {
+      patchState({
+        positions: [
+          ...getState().positions.filter(position => positionsWithPiece.includes(position) === false),
+          ...positionsWithPiece
+        ]
+      });
+    }
   }
 }
 

@@ -1,15 +1,25 @@
 import { PieceStateModelList, PieceStateModel } from '@chess/ipiece.model';
-import { State, Selector, Action, StateContext } from '@ngxs/store';
-import { Guid } from '@chess/guid';
-import { SetPiece, SetPieceProperty, CreatePiece } from '@chess/piece.actions';
-import { Piece } from '@chess/piece';
+import { State, Selector, Action, StateContext, Actions, Store, ofActionSuccessful } from '@ngxs/store';
+import { SetPiece } from '@chess/SetPiece';
+import { AddPositionToBoard } from '@chess/AddPositionToBoard';
+import { PositionStateModel } from '@chess/iposition.model';
+import { TemplateState } from '@chess/game-select-state';
 
-@State<PieceStateModelList>({
+@State<PieceStateModel[]>({
   name: 'pieces',
-  defaults: { pieces: [] }
+  defaults: []
 })
 export class PieceState {
-  @Selector() static PieceList(state: PieceStateModelList) {
+  constructor(private actions$: Actions, store: Store) {
+    // on game creation, create the board
+    const pieceTemplateList = store.selectSnapshot(TemplateState.TemplateList);
+    this.actions$.pipe(
+      ofActionSuccessful(AddPositionToBoard)
+    ).subscribe((position: PositionStateModel) => {
+
+    });
+  }
+  @Selector() static PieceList(state: PieceStateModelList): PieceStateModel[] {
     return state.pieces;
   }
   @Selector() static getPieceById(state: PieceStateModelList) {
@@ -27,23 +37,4 @@ export class PieceState {
       ]
     });
   }
-
-  @Action(SetPieceProperty)
-  setPieceProperty({ getState, patchState }: StateContext<PieceStateModelList>, action: SetPieceProperty) {
-    if (action.payload.Id === undefined) {
-      throw new Error('Id Required on Partial<PieceStateModel>');
-    } else {
-      const currentPiece = getState().pieces.find(p => p.Id === action.payload.Id);
-      const mergedPiece = (currentPiece.Id === action.payload.Id) ?
-        { ...currentPiece, ...action.payload } : // this does the actual merging
-        action.payload;
-      patchState({
-        pieces: [
-          ...getState().pieces.filter(p => p.Id !== mergedPiece.Id),
-          mergedPiece
-        ]
-      });
-    }
-  }
-
 }

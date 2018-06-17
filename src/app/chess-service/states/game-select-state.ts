@@ -1,30 +1,28 @@
-import { RetrieveTemplateList } from './../actions/game-select.action';
-import { HttpClientModule } from '@angular/common/http';
-import { PlayerStateModelList } from '@chess/iplayer.model';
-import { BoardStateModel, BoardStateModelList } from '@chess/iboard.model';
-import { PieceStateModelList } from '@chess/ipiece.model';
+import { RetrieveTemplateList } from '@chess/RetrieveTemplateList';
 import { State, Selector, Action } from '@ngxs/store';
-import { NewGame } from '@chess/game-select.action';
 import { StateContext } from '@ngxs/store';
-import { IGameTemplate, IGameTemplateList } from '@chess/igame-template.model';
+import { IGameTemplateList } from '@chess/igame-template.model';
+import { AddTemplate } from '@chess/AddTemplate';
 
 @State<IGameTemplateList>({
   name: 'gameSelect',
   defaults: {
-    templates: [{
-      name: 'test_name',
-      type: 'test'
-    }]
+    templates: []
   }
 })
 export class TemplateState {
   constructor() { }
 
   @Action(RetrieveTemplateList)
-  retrieveGameList({ patchState, getState }: StateContext<IGameTemplateList>, action: RetrieveTemplateList) {
+  retrieveGameList(action: RetrieveTemplateList) { }
+
+  @Action(AddTemplate)
+  addTemplate({ getState, patchState }: StateContext<IGameTemplateList>, { payload }: AddTemplate) {
     patchState({
-      ...getState,
-      ...action.payload
+      templates: [
+        ...getState().templates,
+        payload
+      ]
     });
   }
 
@@ -32,4 +30,6 @@ export class TemplateState {
   static TemplateList(state: IGameTemplateList) {
     return state.templates;
   }
+
+
 }

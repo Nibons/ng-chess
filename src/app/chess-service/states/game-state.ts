@@ -1,26 +1,15 @@
 import { GameStateModelList, GameStateModel } from '@chess/GameState.model';
-import { IncrementIdCounter, NewGame } from '@chess/game.action';
+import { IncrementIdCounter } from '@chess/IncrementIdCounter';
 import { Guid } from '@chess/guid';
 import { OptionsStateModel, OptionsStateModelList } from '@chess/options.model';
-import { State, Action, StateContext, Selector, Select, Actions, ofActionSuccessful, Store } from '@ngxs/store';
-import { CreateBoard } from '@chess/board.actions';
-import { map } from 'rxjs/operators';
-import { pipe } from 'rxjs';
-import { BoardState } from '@chess/board-state';
+import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { NewGame } from '@chess/NewGame';
+
 @State<GameStateModelList>({
   name: 'games'
 })
 export class GameState {
-  constructor(private actions$: Actions, private store: Store) {
-    // on game creation, create the board
-    this.actions$.pipe(
-      ofActionSuccessful(NewGame)
-    ).subscribe(({ template }: GameStateModel) => {
-      template.configStateTemplates.boards.boards.forEach(
-        b => store.dispatch(new CreateBoard(b, store))
-      );
-    });
-  }
+
   @Selector() static GetIdCounter(context: StateContext<OptionsStateModelList>) {
     const id = context.getState().optionSets[0].IdCounter;
     context.dispatch(IncrementIdCounter);
