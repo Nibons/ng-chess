@@ -12,6 +12,7 @@ export interface PositionStateModel extends GameItemStateModel {
   boardId: number;
   pieceId: number;
   coordinates: ICoordinates;
+  watchList: number[];
 }
 export interface IPosition extends PositionStateModel, IGameItem {
   IsOnBoard: boolean;
