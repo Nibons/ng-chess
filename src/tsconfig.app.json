@@ -2,8 +2,21 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/app",
-    "module": "es2015",
-    "types": []
+    "baseUrl": "./",
+    "module": "es6",
+    "types": [],
+    "paths": {
+      "@chess/*": [
+        "app/chess-service/interfaces/*",
+        "app/chess-service/classes/pieces/*",
+        "app/chess-service/classes/*",
+        "app/chess-service/enums/*",
+        "app/chess-service/states/*",
+        "app/chess-service/actions/*",
+      ],
+      "@app/*": ["app/*"],
+      "@gameTemplates": ["assets/game_templates/*"]
+    }
   },
   "exclude": [
     "src/test.ts",
