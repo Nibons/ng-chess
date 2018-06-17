@@ -4,29 +4,16 @@ import { PieceStateModelList } from '@chess/ipiece.model';
 import { BoardStateModelList } from '@chess/iboard.model';
 import { IGameTemplate, IGameTemplateList } from '@chess/igame-template.model';
 import { HttpClient } from '@angular/common/http';
-import { Guid } from '@chess/guid';
 import { Observable, forkJoin } from 'rxjs';
-
-export class NewGame {
-  static readonly type = '[GameSelect] NewGame';
-  constructor(public payload: OptionsStateModel) {
-    payload.Id = Guid.newGuid();
-    payload.IdCounter = 0;
-  }
-}
+import { Store } from '@ngxs/store';
+import { AddTemplate } from '@chess/AddTemplate';
 
 export class RetrieveTemplateList {
   static readonly type = '[GameSelect] RetrieveGameList';
   public payload: IGameTemplateList = { templates: [] };
-
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private store: Store) {
     const gameTemplateList: Observable<IGameTemplate[]> = this.getGameTemplateList();
-    gameTemplateList.subscribe(
-      (r: IGameTemplate[]) =>
-        r.forEach(
-          ig => this.getGameModelFromGameTemplate(ig)
-        )
-    );
+    gameTemplateList.subscribe((r: IGameTemplate[]) => r.forEach(ig => this.getGameModelFromGameTemplate(ig)));
   }
   private getGameTemplateList() {
     return this.http.get<IGameTemplate[]>('assets/game_templates/GameTemplates.json');
@@ -47,8 +34,7 @@ export class RetrieveTemplateList {
           players: <PlayerStateModelList>results[3]
         }
       };
-      this.payload.templates.push(gsm);
-    }
-    );
+      this.store.dispatch(new AddTemplate(gsm));
+    });
   }
 }
