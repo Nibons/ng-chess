@@ -1,32 +1,15 @@
-import { Piece } from './../piece';
-import { PieceActions } from '@chess/pieces/piece-actions';
-import { IPieceActions } from '@chess/ipiece-actions.model';
-import { IPiece, PieceStateModel } from '@chess/ipiece.model';
+import { Piece } from '@chess/piece';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { Guid } from '@chess/guid';
-import { Coordinates } from '@chess/coordinates';
-import { ICoordinates } from '@chess/icoordinates.model';
+import { BasePiece } from '@chess/BasePiece';
+import { IPieceActor } from '@chess/IPieceActor.model';
 import { Store } from '@ngxs/store';
 
-export class Pawn extends PieceActions implements IPieceActions {
+export class Pawn extends BasePiece implements IPieceActor {
   GetThreatPositionIds(piece: Piece): number[] {
     return Pawn.GetPawnThreat(piece);
   }
-  GetPotentialMovePositionIds(piece: Piece): number[] {
+  GetPotentialMovePositionIds(): number[] {
     throw new Error('Method not implemented.');
-    // const potentialMoves = [];
-    // const direction = this.board.direction[this.playerNumber];
-    // const position1 = this.board.GetPositionAt(Coordinates.GetDelta(this.coordinates, { dimensions: direction }));
-    // if (position1.IsEmpty) {
-    //   potentialMoves.push(position1.Id);
-    //   if (!this.HasMoved) {
-    //     const position2 = this.board.GetPositionAt(Coordinates.GetDelta(position1.coordinates, { dimensions: direction }));
-    //     if (position2.IsEmpty) {
-    //       potentialMoves.push(position2.Id);
-    //     }
-    //   }
-    // }
-    // return potentialMoves;
   }
   readonly value = 1;
   readonly pieceType = EPieceType.pawn;
@@ -40,7 +23,7 @@ export class Pawn extends PieceActions implements IPieceActions {
   SetPotentialMoves(): void {
 
   }
-  constructor(coordinates: ICoordinates, store: Store) {
-    super(coordinates, store);
+  constructor(store: Store) {
+    super(store);
   }
 }

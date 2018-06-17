@@ -1,16 +1,15 @@
-import { PieceActions } from '@chess/pieces/piece-actions';
+import { IPieceActor } from '@chess/IPieceActor.model';
+import { BasePiece } from '@chess/pieces/BasePiece';
 import { Queen } from '@chess/queen';
 import { Piece } from '@chess/piece';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { IPieceActions } from '@chess/ipiece-actions.model';
-import { ICoordinates } from '@chess/icoordinates.model';
 import { Store } from '@ngxs/store';
 
-export class King extends PieceActions implements IPieceActions {
+export class King extends BasePiece implements IPieceActor {
   readonly pieceType = EPieceType.king;
   readonly value = 100; // should be waaaay lower on normal games
-  constructor(coordinates: ICoordinates, store: Store) {
-    super(coordinates, store);
+  constructor(store: Store) {
+    super(store);
   }
   GetThreatPositionIds(piece: Piece): number[] {
     return King.GetKingThreat(piece);

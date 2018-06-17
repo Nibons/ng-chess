@@ -1,13 +1,11 @@
-import { IPieceActions } from '@chess/ipiece-actions.model';
-import { PieceActions } from './piece-actions';
+import { IPieceActor } from './../../interfaces/IPieceActor.model';
+import { BasePiece } from '@chess/pieces/BasePiece';
 import { ICoordinates } from '@chess/icoordinates.model';
-import { Piece } from '@chess/piece';
 import { Coordinates } from '@chess/coordinates';
-import { IPiece } from '@chess/ipiece.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { Store } from '@ngxs/store';
 
-export class Knight extends PieceActions implements IPieceActions {
+export class Knight extends BasePiece implements IPieceActor {
   readonly value = 3;
   readonly pieceType = EPieceType.knight;
   GetThreatPositionIds(): number[] {
@@ -28,7 +26,7 @@ export class Knight extends PieceActions implements IPieceActions {
     }
     return threatList;
   }
-  constructor(coordinates: ICoordinates, store: Store) {
-    super(coordinates, store);
+  constructor(store: Store) {
+    super(store);
   }
 }

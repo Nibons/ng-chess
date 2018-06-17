@@ -1,15 +1,12 @@
-import { IPieceActions } from '@chess/ipiece-actions.model';
-import { PieceStateModel } from '@chess/ipiece.model';
-import { PieceActions } from '@chess/pieces/piece-actions';
 import { Rook } from '@chess/rook';
 import { Bishop } from '@chess/bishop';
 import { Piece } from '@chess/piece';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { Guid } from '@chess/guid';
-import { ICoordinates } from '@chess/icoordinates.model';
+import { BasePiece } from '@chess/pieces/BasePiece';
+import { IPieceActor } from '@chess/IPieceActor.model';
 import { Store } from '@ngxs/store';
 
-export class Queen extends PieceActions implements IPieceActions {
+export class Queen extends BasePiece implements IPieceActor {
   GetThreatPositionIds(piece: Piece): number[] {
     return Queen.GetQueenThreat(piece);
   }
@@ -22,7 +19,7 @@ export class Queen extends PieceActions implements IPieceActions {
     Rook.GetRookThreatList(piece, count).forEach(guid_pos => position_cache.push(guid_pos));
     return position_cache;
   }
-  constructor(coordinates: ICoordinates, store: Store) {
-    super(coordinates, store);
+  constructor(store: Store) {
+    super(store);
   }
 }

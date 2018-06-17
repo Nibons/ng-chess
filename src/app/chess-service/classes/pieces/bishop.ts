@@ -1,11 +1,11 @@
-import { IPieceActions } from './../../interfaces/ipiece-actions.model';
-import { PieceActions } from './piece-actions';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { ICoordinates } from '@chess/icoordinates.model';
 import { Store } from '@ngxs/store';
 import { Piece } from '@chess/piece';
+import { BasePiece } from '@chess/pieces/BasePiece';
+import { IPieceActor } from '@chess/IPieceActor.model';
 
-export class Bishop extends PieceActions implements IPieceActions {
+export class Bishop extends BasePiece implements IPieceActor {
   readonly value = 3;
   readonly pieceType = EPieceType.bishop;
 
@@ -27,7 +27,7 @@ export class Bishop extends PieceActions implements IPieceActions {
     }
     return position_cache;
   }
-  constructor(coordinates: ICoordinates, store: Store) {
-    super(coordinates, store);
+  constructor(store: Store) {
+    super(store);
   }
 }
