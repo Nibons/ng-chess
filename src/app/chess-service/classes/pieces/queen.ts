@@ -14,10 +14,8 @@ export class Queen extends BasePiece implements IPieceActor {
   readonly pieceType = EPieceType.queen;
 
   public static GetQueenThreat(piece: PieceStateModel, pieceActor: IPieceActor, count = Number.MAX_SAFE_INTEGER): number[] {
-    const position_cache = [];
-    Bishop.GetBishopThreatList(piece, pieceActor, count).forEach(guid_pos => position_cache.push(guid_pos));
-    Rook.GetRookThreatList(piece, pieceActor, count).forEach(guid_pos => position_cache.push(guid_pos));
-    return position_cache;
+    return [...Bishop.GetBishopThreatList(piece, pieceActor, count),
+    ...Rook.GetRookThreatList(piece, pieceActor, count)];
   }
   constructor(store: Store) {
     super(store);

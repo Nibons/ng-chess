@@ -1,8 +1,6 @@
 import { PieceStateModel } from '@chess/ipiece.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { ICoordinates } from '@chess/icoordinates.model';
 import { Store } from '@ngxs/store';
-import { Piece } from '@chess/piece';
 import { BasePiece } from '@chess/pieces/BasePiece';
 import { IPieceActor } from '@chess/IPieceActor.model';
 

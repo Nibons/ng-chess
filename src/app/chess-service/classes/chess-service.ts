@@ -28,9 +28,6 @@ export class ChessService {
     // create each type of piece actor, that will watch the PieceStateModel for changes
     this.createPieceActors();
   }
-  public static AddGame(template: IGameTemplate): void {
-
-  }
 
   private createPieceActors() {
     this.pieceActors.push(new King(this.store));
