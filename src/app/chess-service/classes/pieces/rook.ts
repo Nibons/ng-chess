@@ -7,11 +7,11 @@ import { IPieceActor } from '@chess/IPieceActor.model';
 
 export class Rook extends BasePiece implements IPieceActor {
   GetThreatPositionIds(piece: PieceStateModel): number[] {
-    return this.GetRookThreatList(piece);
+    return Rook.GetRookThreatList(piece, this);
   }
   readonly value = 5;
   readonly pieceType = EPieceType.rook;
-  public GetRookThreatList(piece: PieceStateModel, count = Number.MAX_SAFE_INTEGER): number[] {
+  public static GetRookThreatList(piece: PieceStateModel, pieceActor: IPieceActor, count = Number.MAX_SAFE_INTEGER): number[] {
     const position_cache = [];
     const directions = [1, -1];
     const dimensions_count = piece.coordinates.dimensions.length;
@@ -20,7 +20,7 @@ export class Rook extends BasePiece implements IPieceActor {
         const direction = Array(dimensions_count);
         for (const dim_direction of directions) {
           direction[d] = dim_direction;
-          this.GetPositionsInDirectionUntilEmpty(
+          pieceActor.GetPositionsInDirectionUntilEmpty(
             piece,
             { dimensions: direction },
             count

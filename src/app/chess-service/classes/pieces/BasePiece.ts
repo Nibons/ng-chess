@@ -1,4 +1,3 @@
-import { BoardStateModel } from './../../interfaces/iboard.model';
 import { ICoordinates } from '@chess/icoordinates.model';
 import { RemovePieceFromAllWatchLists } from './../../actions/RemovePieceFromAllWatchLists';
 import { BoardState } from '@chess/board-state';
@@ -62,20 +61,20 @@ export abstract class BasePiece implements IPieceActor {
     return this.GetPosition(piece).coordinates;
   }
 
-  protected GetBoard(piece: PieceStateModel): BoardStateModel {
+  GetBoard(piece: PieceStateModel): BoardStateModel {
     const position = this.GetPosition(piece);
     return this.store.selectSnapshot(BoardState.BoardList).find(
       (b: BoardStateModel) => b.positions.includes(position.Id)
     );
   }
-  protected GetPositionByCoordinates(coordinates: ICoordinates, board: BoardStateModel): PositionStateModel {
+  GetPositionByCoordinates(coordinates: ICoordinates, board: BoardStateModel): PositionStateModel {
     const boardPositionList = this.store.selectSnapshot(PositionState.PositionList).filter(
       (p: PositionStateModel) => p.boardId === board.Id
     );
     return boardPositionList.find(p => Coordinates.IsSameCoordinates(p.coordinates, coordinates));
   }
 
-  protected GetPositionsInDirectionUntilEmpty(
+  public GetPositionsInDirectionUntilEmpty(
     piece: PieceStateModel,
     direction: ICoordinates,
     count = Number.MAX_SAFE_INTEGER): number[] {

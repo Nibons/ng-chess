@@ -12,14 +12,14 @@ export class King extends BasePiece implements IPieceActor {
     super(store);
   }
   GetThreatPositionIds(piece: PieceStateModel): number[] {
-    return King.GetKingThreat(piece);
+    return King.GetKingThreat(piece, this);
   }
   GetPotentialMovePositionIds(piece: PieceStateModel): number[] {
     throw new Error('Method not implemented.');
   }
 
 
-  static GetKingThreat(piece: PieceStateModel): number[] {
-    return Queen.GetQueenThreat(piece, 1);
+  static GetKingThreat(piece: PieceStateModel, pieceActor: IPieceActor): number[] {
+    return Queen.GetQueenThreat(piece, pieceActor, 1);
   }
 }

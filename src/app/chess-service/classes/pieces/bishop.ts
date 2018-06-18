@@ -11,14 +11,14 @@ export class Bishop extends BasePiece implements IPieceActor {
   readonly pieceType = EPieceType.bishop;
 
   GetThreatPositionIds(piece: PieceStateModel): number[] {
-    return this.GetBishopThreatList(piece);
+    return Bishop.GetBishopThreatList(piece, this);
   }
-  public GetBishopThreatList(piece: PieceStateModel, count = Number.MAX_SAFE_INTEGER): number[] {
+  public static GetBishopThreatList(piece: PieceStateModel, pieceActor: IPieceActor, count = Number.MAX_SAFE_INTEGER): number[] {
     const position_cache = [];
     const directions = [1, -1];
     for (const XDirection of directions) {
       for (const YDirection of directions) {
-        this.GetPositionsInDirectionUntilEmpty(
+        pieceActor.GetPositionsInDirectionUntilEmpty(
           piece,
           { dimensions: [XDirection, YDirection] },
           count
