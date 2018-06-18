@@ -17,6 +17,7 @@ import { PlayerState } from '@chess/player-state';
 import { GameSelectComponent } from './components/game-select/game-select.component';
 import { TemplateState } from '@chess/game-select-state';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { ChessService } from '@chess/chess-service';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot()
   ],
-  providers: [],
+  providers: [ChessService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
