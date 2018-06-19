@@ -1,18 +1,20 @@
-import { filter } from 'rxjs/operators';
-import { PlayerStateModel } from './../interfaces/iplayer.model';
-import { Observable } from 'rxjs';
+import { forkJoin } from 'rxjs';
+import { CreatePiece } from './CreatePiece';
+import { PieceStateModel } from './../interfaces/ipiece.model';
+import { BoardStateModel } from './../interfaces/iboard.model';
 import { GameStateModel } from '@chess//GameState.model';
 import { IGameTemplate } from '@chess/igame-template.model';
 import { Guid } from '@chess/guid';
-import { Select } from '@ngxs/store';
-import { BoardStateModel } from '@chess/iboard.model';
-import { PieceState } from '@chess/piece-state';
-import { PieceStateModel } from '@chess/ipiece.model';
-import { PlayerState } from '@chess/player-state';
+import { Store } from '@ngxs/store';
+import { CreateBoard } from '@chess/CreateBoard';
+
 export class NewGame {
   static readonly type = '[Game] CreateGame';
   private Id: Guid;
   public payload: GameStateModel;
+  private boardCreationTaskList = [];
+  private pieceCreationTaskList = [];
+
   public get gameInfo(): GameStateModel {
     return {
       name: this.template.name,
@@ -24,8 +26,24 @@ export class NewGame {
       template: this.template
     };
   }
-  constructor(private template: IGameTemplate) {
+  constructor(private template: IGameTemplate, private store: Store) {
     this.Id = Guid.newGuid();
     this.payload = this.gameInfo;
+    this.template.configStateTemplates.boards.boards.forEach(
+      (board: BoardStateModel) => this.boardCreationTaskList.push(store.dispatch(new CreateBoard(board, store)))
+    );
+    forkJoin(...this.boardCreationTaskList).subscribe(
+      () => { this.addpieces(); }
+    );
+  }
+
+  private addpieces() {
+    this.gameInfo.template.configStateTemplates.pieces.pieces.forEach(
+      (piece: PieceStateModel) => {
+        piece.gameId = this.Id;
+        piece.Id = null;
+        this.pieceCreationTaskList.push(this.store.dispatch(new CreatePiece(piece, this.Id, this.store)));
+      }
+    );
   }
 }

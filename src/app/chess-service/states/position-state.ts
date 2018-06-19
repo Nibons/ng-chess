@@ -1,5 +1,4 @@
 import { RemovePieceFromAllWatchLists } from './../actions/RemovePieceFromAllWatchLists';
-import { CreateAllPositions } from './../actions/CreateAllPositions';
 import { Coordinates } from '@chess/coordinates';
 import { ICoordinates } from '@chess/icoordinates.model';
 import { Guid } from '@chess/guid';
@@ -7,22 +6,22 @@ import { PositionStateModelList, PositionStateModel } from '@chess/iposition.mod
 import { State, Selector, StateContext, Action, ofActionSuccessful, Store, Actions } from '@ngxs/store';
 import { CreatePosition } from '@chess/CreatePosition';
 import { PlacePiece } from '@chess/PlacePiece';
-import { GameStateModel } from '@chess/GameState.model';
 import { AddPositionToBoard } from '@chess/AddPositionToBoard';
 import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
+import { GameState } from '@chess/game-state';
 
 @State<PositionStateModelList>({
   name: 'positions',
   defaults: { positions: [] }
 })
 export class PositionState {
-  constructor(private actions$: Actions, store: Store) {
+  constructor(private actions$: Actions, private store: Store) {
     // on game creation, create the board
-    this.actions$.pipe(
-      ofActionSuccessful(CreatePosition)
-    ).subscribe((position: PositionStateModel) => {
-      store.dispatch(new AddPositionToBoard(position.Id, position.boardId));
-    });
+    // this.actions$.pipe(
+    //   ofActionSuccessful(CreatePosition)
+    // ).subscribe((position: PositionStateModel) => {
+    //   store.dispatch(new AddPositionToBoard(position.Id, position.boardId));
+    // });
   }
 
   @Selector() static PositionList(state: PositionStateModelList) {
@@ -63,23 +62,14 @@ export class PositionState {
 
   @Action(CreatePosition)
   createPosition({ getState, patchState }: StateContext<PositionStateModelList>, { payload }: CreatePosition) {
+    payload.Id = this.store.selectSnapshot(GameState.GetIdCounter);
     patchState({
       positions: [
         ...getState().positions,
         payload
       ]
     });
-    return payload;
-  }
-
-  @Action(CreateAllPositions)
-  createAllPositions({ getState, patchState }: StateContext<PositionStateModelList>, { payload }: CreateAllPositions) {
-    patchState({
-      positions: [
-        ...getState().positions,
-        ...payload
-      ]
-    });
+    this.store.dispatch(new AddPositionToBoard(payload.Id, payload.boardId));
   }
 
   @Action(PlacePiece)

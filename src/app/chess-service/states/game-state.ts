@@ -1,3 +1,5 @@
+import { CreatePiece } from '@chess/CreatePiece';
+import { PieceStateModel } from '@chess/ipiece.model';
 import { BoardStateModel } from '@chess/iboard.model';
 import { GameStateModelList } from '@chess/GameState.model';
 import { IncrementIdCounter } from '@chess/IncrementIdCounter';
