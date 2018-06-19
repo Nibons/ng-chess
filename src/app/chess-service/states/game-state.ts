@@ -1,15 +1,11 @@
-import { PieceStateModel } from '@chess/ipiece.model';
 import { BoardStateModel } from '@chess/iboard.model';
-import { GameStateModelList, GameStateModel } from '@chess/GameState.model';
+import { GameStateModelList } from '@chess/GameState.model';
 import { IncrementIdCounter } from '@chess/IncrementIdCounter';
 import { Guid } from '@chess/guid';
 import { OptionsStateModel, OptionsStateModelList } from '@chess/options.model';
 import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import { NewGame } from '@chess/NewGame';
-import { BoardState } from '@chess/board-state';
 import { CreateBoard } from '@chess/CreateBoard';
-import { PlacePiece } from '@chess/PlacePiece';
-import { CreatePiece } from '@chess/CreatePiece';
 
 @State<GameStateModelList>({
   name: 'games'
@@ -33,10 +29,12 @@ export class GameState {
   @Selector() static getColors(state: OptionsStateModel) {
     return state.colorList;
   }
-  getGameList(state) {
+  @Selector()
+  static getGameList(state) {
     return state.games;
   }
-  @Action(IncrementIdCounter) incrementIdCounter(context: StateContext<OptionsStateModel>, action: IncrementIdCounter) {
+
+  @Action(IncrementIdCounter) incrementIdCounter(context: StateContext<OptionsStateModel>) {
     const current_state = context.getState();
     context.patchState({
       ...current_state,
@@ -53,8 +51,9 @@ export class GameState {
     // create the board(s)
     gameInfo.template.configStateTemplates.boards.boards.forEach(
       (board: BoardStateModel) => {
+        board.Id = this.store.selectSnapshot(GameState.GetIdCounter);
         board.gameId = gameInfo.Id;
-        this.store.dispatch(new CreateBoard(board));
+        this.store.dispatch(new CreateBoard(board, this.store));
       }
     );
     // add the piece(s) to the board(s)

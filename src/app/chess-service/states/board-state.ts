@@ -15,18 +15,7 @@ import { AddPositionToBoard } from '@chess/AddPositionToBoard';
   defaults: { boards: [] }
 })
 export class BoardState {
-  constructor(private actions$: Actions) {
-    // on game creation, create the board
-    this.actions$.pipe(
-      ofActionSuccessful(CreateBoard)
-    ).subscribe(({ template, boards }: GameStateModel) => {
-      template.configStateTemplates.pieces.pieces.forEach(
-        (p: PieceStateModel) => {
-          // create a piece
-        }
-      );
-    });
-  }
+  constructor(private actions$: Actions) { }
   @Selector() static getBoardById(Id: number, { getState }: StateContext<BoardStateModelList>) {
     return getState().boards.filter((b: BoardStateModel) => b.Id === Id);
   }
@@ -39,7 +28,6 @@ export class BoardState {
     patchState({
       boards: [...getState().boards, payload]
     });
-    return payload;
   }
 
   @Action(DeleteBoard)

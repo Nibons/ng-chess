@@ -4,10 +4,10 @@ import { Guid } from '@chess/guid';
 export class CreateBoard {
   static readonly type = '[Board] CreateBoard';
   public payload: BoardStateModel;
-  constructor({ gameId, direction, range }: BoardStateModel) {
+  constructor({ gameId, direction, range, Id }: BoardStateModel) {
     this.payload = {
       gameId: gameId,
-      Id: null,
+      Id: Id,
       direction: direction,
       range: range
     };
