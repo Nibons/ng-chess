@@ -1,17 +1,18 @@
 import { CreateAllPositions } from '@chess/CreateAllPositions';
 import { BoardStateModel } from '@chess/iboard.model';
 import { Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 
 export class CreateBoard {
   static readonly type = '[Board] CreateBoard';
   public payload: BoardStateModel;
-  constructor({ gameId, direction, range, Id }: BoardStateModel, store: Store) {
+  constructor(board: BoardStateModel, store: Store) {
     this.payload = {
-      gameId: gameId,
-      Id: Id,
-      direction: direction,
-      range: range
+      gameId: board.gameId,
+      Id: board.Id,
+      direction: board.direction,
+      range: board.range
     };
-    store.dispatch(new CreateAllPositions(this.payload, gameId));
+    store.dispatch(new CreateAllPositions(board.range, board.Id, board.gameId));
   }
 }

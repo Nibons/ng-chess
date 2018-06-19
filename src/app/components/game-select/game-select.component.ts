@@ -1,3 +1,4 @@
+import { NewGame } from '@chess/NewGame';
 import { HttpClient } from '@angular/common/http';
 import { TemplateState } from '@chess/game-select-state';
 import { Component, OnInit } from '@angular/core';
@@ -20,5 +21,8 @@ export class GameSelectComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.templates$);
+  }
+  clickMe() {
+    console.log('button clicked');
   }
 }

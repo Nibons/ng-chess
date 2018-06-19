@@ -8,6 +8,7 @@ import { OptionsStateModel, OptionsStateModelList } from '@chess/options.model';
 import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import { NewGame } from '@chess/NewGame';
 import { CreateBoard } from '@chess/CreateBoard';
+import { SetGame } from '@chess/SetGame';
 
 @State<GameStateModelList>({
   name: 'games'
@@ -44,27 +45,15 @@ export class GameState {
     });
   }
 
-  @Action(NewGame) newGame({ getState, patchState }: StateContext<GameStateModelList>, { gameInfo }: NewGame) {
+  @Action(NewGame) newGame() { }
+
+  @Action(SetGame)
+  setGame({ getState, patchState }: StateContext<GameStateModelList>, { game }: SetGame) {
     patchState({
       gameList: [
-        ...getState().gameList, gameInfo
+        ...getState().gameList.filter(g => g.Id !== game.Id),
+        game
       ]
     });
-    // create the board(s)
-    gameInfo.template.configStateTemplates.boards.boards.forEach(
-      (board: BoardStateModel) => {
-        board.Id = this.store.selectSnapshot(GameState.GetIdCounter);
-        board.gameId = gameInfo.Id;
-        this.store.dispatch(new CreateBoard(board, this.store));
-      }
-    );
-    // add the piece(s) to the board(s)
-    gameInfo.template.configStateTemplates.pieces.pieces.forEach(
-      (piece: PieceStateModel) => {
-        piece.gameId = gameInfo.Id;
-        piece.Id = this.store.selectSnapshot(GameState.GetIdCounter);
-        this.store.dispatch(new CreatePiece(piece, gameInfo.Id, this.store));
-      }
-    );
   }
 }

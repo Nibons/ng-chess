@@ -56,10 +56,4 @@ export class OptionsState {
       IdCounter: current_state.IdCounter++
     });
   }
-
-  @Action(NewGame) newGame(context: StateContext<OptionsStateModel>, action: NewGame) {
-    const game = action.payload;
-    const state = context.getState();
-    context.patchState({ ...state, Id: game.Id, IdCounter: 0 });
-  }
 }

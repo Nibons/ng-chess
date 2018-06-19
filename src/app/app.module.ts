@@ -18,6 +18,7 @@ import { GameSelectComponent } from './components/game-select/game-select.compon
 import { TemplateState } from '@chess/game-select-state';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { ChessService } from '@chess/chess-service';
+import { SelectTemplateComponent } from './components/select-template/select-template.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ChessService } from '@chess/chess-service';
     PositionComponent,
     BoardComponent,
     GameComponent,
-    GameSelectComponent
+    GameSelectComponent,
+    SelectTemplateComponent
   ],
   imports: [
     BrowserModule,

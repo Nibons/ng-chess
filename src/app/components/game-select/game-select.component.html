@@ -1,5 +1,5 @@
 <ul>
-  <li *ngFor="let item of this.templates$ | async">
-    {{item.name}}
+  <li *ngFor="let templateItem of this.templates$ | async">
+    <app-select-template [template]="templateItem"></app-select-template>
   </li>
 </ul>

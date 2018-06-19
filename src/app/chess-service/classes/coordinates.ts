@@ -99,11 +99,11 @@ export abstract class Coordinates {
     return coordinateList;
   }
 
-  static getBoardDimensionsDigitValue(boardDimensions: IBoardDimensions): number[] {
+  static getBoardDimensionsDigitValue(min: number[], max: number[]): number[] {
     const dimensionDigitValue: number[] = [];
     let digit_multiplier = 1;
-    boardDimensions.max.dimensions.forEach((max, d) => {
-      const dimensionLength = boardDimensions.max.dimensions[d] - boardDimensions.min.dimensions[d];
+    max.forEach((v, d) => {
+      const dimensionLength = max[d] - min[d];
       dimensionDigitValue[d] = dimensionLength * digit_multiplier;
       digit_multiplier = digit_multiplier + dimensionDigitValue[d];
     });
@@ -128,10 +128,10 @@ export abstract class Coordinates {
     return { dimensions: reversedTempCoordinates.reverse() };
   }
 
-  static getDecimalFromMaxCoordinates({ min, max }: IBoardDimensions): number {
-    const boardDimensionsDigitValue = Coordinates.getBoardDimensionsDigitValue({ min, max });
+  static getDecimalFromMaxCoordinates(range): number {
+    const boardDimensionsDigitValue = Coordinates.getBoardDimensionsDigitValue(range.min.dimensions, range.max.dimensions);
     let maxAsInt = 0;
-    max.dimensions.reverse().forEach((val, i) => {
+    range.max.dimensions.reverse().forEach((val, i) => {
       maxAsInt += (val * boardDimensionsDigitValue[i]);
     });
     return maxAsInt;
