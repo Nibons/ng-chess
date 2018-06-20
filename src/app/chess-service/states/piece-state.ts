@@ -32,26 +32,46 @@ export class PieceState {
 
   @Action(SetPiece)
   setPiece({ getState, patchState }: StateContext<PieceStateModelList>, action: SetPiece) {
+    if (getState().pieces) {
     patchState({
       pieces: [
-        ...getState().pieces.filter(p => p.Id !== action.payload.Id),
-        action.payload
-      ]
-    });
-  }
-  @Action(CreatePiece)
-  createPiece({ getState, patchState }: StateContext<PieceStateModelList>, action: CreatePiece) {
-    if (getState().pieces) {
-      patchState({
-        pieces: [
-          action.piece,
+          action.payload,
           ...getState().pieces,
         ]
       });
     } else {
       patchState({
         pieces: [
-          action.piece
+        action.payload
+      ]
+    });
+  }
+  }
+  @Action(CreatePiece)
+  createPiece({ getState, patchState }: StateContext<PieceStateModelList>, { piece }: CreatePiece) {
+    if (piece.Id === null) { piece.Id = Guid.newGuid(); }
+    this.store.dispatch(new SetPiece(piece));
+  }
+  @Action(SetPieceThreat)
+  setPieceThreat({ getState, patchState }: StateContext<PieceStateModelList>, { piece }: SetPieceThreat) {
+    const currentPieceState = getState().pieces.find(p => p.Id === piece.Id);
+    if (currentPieceState.threatList !== piece.threatList) {
+      patchState({
+        pieces: [
+          ...getState().pieces.filter(p => p.Id !== piece.Id),
+          piece
+        ]
+      });
+    }
+  }
+  @Action(SetPiecePotentialMoves)
+  setPiecePotentialMoves({ getState, patchState }: StateContext<PieceStateModelList>, { piece }: SetPieceThreat) {
+    const currentPieceState = getState().pieces.find(p => p.Id === piece.Id);
+    if (currentPieceState.potentialMoves !== piece.potentialMoves) {
+      patchState({
+        pieces: [
+          ...getState().pieces.filter(p => p.Id !== piece.Id),
+          piece
         ]
       });
     }
