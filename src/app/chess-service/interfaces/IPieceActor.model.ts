@@ -7,6 +7,7 @@ import { Guid } from '@chess/guid';
 export interface IPieceActor {
   pieceType: EPieceType;
   value: number;
+  WatchAllPieces();
   GetThreatPositionIds(piece: PieceStateModel): Guid[];
   GetPotentialMovePositionIds(piece: PieceStateModel): Guid[];
   GetWatchList(piece: PieceStateModel): void;
