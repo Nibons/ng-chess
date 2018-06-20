@@ -1,6 +1,6 @@
-import { BoardStateModelList, BoardStateModel } from '@chess/iboard.model';
-import { PlayerStateModelList, PlayerStateModel } from '@chess/iplayer.model';
-import { PieceStateModelList, PieceStateModel } from '@chess/ipiece.model';
+import { BoardStateModel } from '@chess/iboard.model';
+import { PlayerStateModel } from '@chess/iplayer.model';
+import { PieceStateModel } from '@chess/ipiece.model';
 import { OptionsStateModel } from '@chess/options.model';
 import { Guid } from '@chess/guid';
 import { Observable } from 'rxjs';
