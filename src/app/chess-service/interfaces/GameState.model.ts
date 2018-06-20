@@ -12,8 +12,8 @@ export interface GameStateModel {
   name: string;
   Id: Guid;
   options: OptionsStateModel;
-  boards: Observable<BoardStateModel[]>;
-  pieces: Observable<PieceStateModel[]>;
+  boards: BoardStateModel[];
+  pieces: PieceStateModel[];
   players: Observable<PlayerStateModel[]>;
   template: IGameTemplate;
 }
