@@ -6,7 +6,7 @@ import { PositionState } from '@chess/position-state';
 import { BoardState } from '@chess/board-state';
 import { Guid } from '@chess/guid';
 import { OptionsStateModel, OptionsStateModelList } from '@chess/options.model';
-import { State, Action, StateContext, Selector, Select } from '@ngxs/store';
+import { State, Selector } from '@ngxs/store';
 import { PieceState } from '@chess/piece-state';
 import { BoardStateModel } from '@chess/iboard.model';
 import { PositionStateModel } from '@chess/iposition.model';

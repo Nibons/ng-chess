@@ -1,7 +1,5 @@
 import { SetGame } from '@chess/SetGame';
 import { PieceStateModelList } from '@chess/ipiece.model';
-import { BoardStateModelList } from '@chess/iboard.model';
-import { GameState } from '@chess/game-state';
 import { forkJoin } from 'rxjs';
 import { CreatePiece } from './CreatePiece';
 import { PieceStateModel } from './../interfaces/ipiece.model';
@@ -11,8 +9,6 @@ import { IGameTemplate } from '@chess/igame-template.model';
 import { Guid } from '@chess/guid';
 import { Store } from '@ngxs/store';
 import { CreateBoard } from '@chess/CreateBoard';
-import { BoardState } from '@chess/board-state';
-import { filter } from 'rxjs/operators';
 
 export class NewGame {
   static readonly type = '[Game] CreateGame';
@@ -51,13 +47,13 @@ export class NewGame {
     return forkJoin(...boardCreationTaskList);
   }
 
-  private addpieces(pieceStateModelList: PieceStateModel[]) {
+  private addpieces(pieceStateModelList: PieceStateModelList) {
     const pieceCreationTaskList = [];
-    pieceStateModelList.forEach(
+    pieceStateModelList.pieces.forEach(
       (piece: PieceStateModel) => {
         piece.gameId = this.Id;
         piece.Id = null;
-        pieceCreationTaskList.push(this.store.dispatch(new CreatePiece(piece, this.Id, this.store)));
+        pieceCreationTaskList.push(this.store.dispatch(new CreatePiece(piece, this.Id)));
       }
     );
     return forkJoin(...pieceCreationTaskList);
