@@ -21,7 +21,10 @@
       "type": "chrome",
       "request": "attach",
       "url": "http://localhost:4200/#",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true,
+      "smartStep": true,
+      "port": 9222
     },
     {
       "name": "Launch Chrome (Test)",
