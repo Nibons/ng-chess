@@ -5,7 +5,7 @@ import { AddPositionToBoard } from '@chess/AddPositionToBoard';
 import { PositionStateModel } from '@chess/iposition.model';
 import { TemplateState } from '@chess/game-select-state';
 import { Guid } from '@chess/guid';
-import { Guid } from '@chess/guid';
+import { CreatePiece } from '@chess/CreatePiece';
 
 @State<PieceStateModel[]>({
   name: 'pieces',
@@ -38,5 +38,22 @@ export class PieceState {
         action.payload
       ]
     });
+  }
+  @Action(CreatePiece)
+  createPiece({ getState, patchState }: StateContext<PieceStateModelList>, action: CreatePiece) {
+    if (getState().pieces) {
+      patchState({
+        pieces: [
+          action.piece,
+          ...getState().pieces,
+        ]
+      });
+    } else {
+      patchState({
+        pieces: [
+          action.piece
+        ]
+      });
+    }
   }
 }

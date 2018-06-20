@@ -3,6 +3,5 @@ import { PieceStateModel } from '@chess/ipiece.model';
 import { Store } from '@ngxs/store';
 export class CreatePiece {
   static readonly type = '[Piece] CreatePiece';
-  public piece: PieceStateModel;
-  constructor(inputpiece: PieceStateModel, public gameId: Guid, private store: Store) { }
+  constructor(public piece: PieceStateModel, public gameId: Guid) { }
 }
