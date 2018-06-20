@@ -3,7 +3,7 @@ import { Piece } from '@chess/piece';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { BasePiece } from '@chess/BasePiece';
 import { IPieceActor } from '@chess/IPieceActor.model';
-import { Store } from '@ngxs/store';
+import { Store, Actions } from '@ngxs/store';
 import { Guid } from '@chess/guid';
 
 export class Pawn extends BasePiece implements IPieceActor {
@@ -25,7 +25,7 @@ export class Pawn extends BasePiece implements IPieceActor {
   SetPotentialMoves(): void {
 
   }
-  constructor(store: Store) {
-    super(store);
+  constructor(store: Store, actions$: Actions) {
+    super(store, actions$);
   }
 }

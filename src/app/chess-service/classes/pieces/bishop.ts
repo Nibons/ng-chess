@@ -1,7 +1,7 @@
 import { Guid } from '@chess/guid';
 import { PieceStateModel } from '@chess/ipiece.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { Store } from '@ngxs/store';
+import { Store, Actions } from '@ngxs/store';
 import { BasePiece } from '@chess/pieces/BasePiece';
 import { IPieceActor } from '@chess/IPieceActor.model';
 
@@ -27,7 +27,7 @@ export class Bishop extends BasePiece implements IPieceActor {
     }
     return position_cache;
   }
-  constructor(store: Store) {
-    super(store);
+  constructor(store: Store, actions$: Actions) {
+    super(store, actions$);
   }
 }

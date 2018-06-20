@@ -3,7 +3,7 @@ import { BasePiece } from '@chess/pieces/BasePiece';
 import { ICoordinates } from '@chess/icoordinates.model';
 import { Coordinates } from '@chess/coordinates';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { Store } from '@ngxs/store';
+import { Store, Actions } from '@ngxs/store';
 import { PieceStateModel } from '@chess/ipiece.model';
 import { Guid } from '@chess/guid';
 
@@ -32,7 +32,7 @@ export class Knight extends BasePiece implements IPieceActor {
     }
     return threatList;
   }
-  constructor(store: Store) {
-    super(store);
+  constructor(store: Store, actions$: Actions) {
+    super(store, actions$);
   }
 }
