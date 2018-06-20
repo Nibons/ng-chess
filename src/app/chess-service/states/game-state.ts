@@ -1,3 +1,4 @@
+import { ChessService } from '@chess/chess-service';
 import { GameStateModel } from '@chess//GameState.model';
 import { GameStateModelList } from '@chess/GameState.model';
 import { Guid } from '@chess/guid';
@@ -10,7 +11,7 @@ import { SetGame } from '@chess/SetGame';
   name: 'games'
 })
 export class GameState {
-  constructor(private store: Store) { }
+  constructor(private store: Store, private chessService: ChessService = new ChessService(store)) { }
   @Selector() static GameList(state: GameStateModelList) {
     return state.gameList;
   }

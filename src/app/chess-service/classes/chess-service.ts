@@ -29,7 +29,7 @@ export class ChessService {
     this.createPieceActors();
   }
 
-  private createPieceActors() {
+  private createPieceActors(): void {
     this.pieceActors.push(new King(this.store));
     this.pieceActors.push(new Queen(this.store));
     this.pieceActors.push(new Rook(this.store));
