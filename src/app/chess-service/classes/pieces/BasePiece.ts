@@ -1,11 +1,12 @@
+import { CreatePiece } from '@chess/CreatePiece';
 import { ICoordinates } from '@chess/icoordinates.model';
-import { RemovePieceFromAllWatchLists } from './../../actions/RemovePieceFromAllWatchLists';
+import { RemovePieceFromAllWatchLists } from '@chess/RemovePieceFromAllWatchLists';
 import { BoardState } from '@chess/board-state';
 import { PositionState } from '@chess/position-state';
 import { IPieceActor } from '@chess/IPieceActor.model';
 import { PieceStateModel } from '@chess/ipiece.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
-import { Store } from '@ngxs/store';
+import { Store, Actions, ofActionSuccessful } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { PieceState } from '@chess/piece-state';
 import { PositionStateModel } from '@chess/iposition.model';
@@ -26,17 +27,23 @@ export abstract class BasePiece implements IPieceActor {
     return [...piece.threatList, ...piece.potentialMoves];
   }
 
-  protected pieces$: Observable<PieceStateModel[]> = this.store.select(PieceState.PieceList);
+  protected pieces$: Observable<PieceStateModel[]>;
   protected positions$: Observable<PositionStateModel[]> = this.store.select(PositionState.PositionList);
   protected boards$: Observable<BoardStateModel[]> = this.store.select(BoardState.BoardList);
+  protected WatchPieces$;
 
-
-  constructor(protected store: Store) {
-    this.WatchAllPieces();
+  constructor(protected store: Store, private actions$: Actions) {
+    this.actions$.pipe(
+      ofActionSuccessful(CreatePiece)
+    ).subscribe(
+      () => this.WatchAllPieces()
+    );
   }
 
-  private WatchAllPieces(): void {
-    this.pieces$.subscribe(
+
+  public WatchAllPieces(): void {
+    this.pieces$ = this.store.select(PieceState.PieceList);
+    this.WatchPieces$ = this.pieces$.subscribe(
       (pieceList: PieceStateModel[]) => pieceList.forEach(
         (piece: PieceStateModel) => {
           this.store.dispatch(new RemovePieceFromAllWatchLists(piece.Id));
@@ -64,7 +71,8 @@ export abstract class BasePiece implements IPieceActor {
 
   GetBoard(piece: PieceStateModel): BoardStateModel {
     const position = this.GetPosition(piece);
-    return this.store.selectSnapshot(BoardState.BoardList).find(
+    const boardList = this.store.selectSnapshot(BoardState.BoardList);
+    return boardList.find(
       (b: BoardStateModel) => b.positions.includes(position.Id)
     );
   }

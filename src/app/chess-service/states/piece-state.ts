@@ -1,26 +1,17 @@
 import { PieceStateModelList, PieceStateModel } from '@chess/ipiece.model';
-import { State, Selector, Action, StateContext, Actions, Store, ofActionSuccessful } from '@ngxs/store';
+import { State, Selector, Action, StateContext, Actions, Store } from '@ngxs/store';
 import { SetPiece } from '@chess/SetPiece';
-import { AddPositionToBoard } from '@chess/AddPositionToBoard';
-import { PositionStateModel } from '@chess/iposition.model';
-import { TemplateState } from '@chess/game-select-state';
 import { Guid } from '@chess/guid';
 import { CreatePiece } from '@chess/CreatePiece';
+import { SetPieceThreat } from '@chess/SetPieceThreat';
+import { SetPiecePotentialMoves } from '@chess/SetPiecePotentialMoves';
 
 @State<PieceStateModel[]>({
   name: 'pieces',
   defaults: []
 })
 export class PieceState {
-  constructor(private actions$: Actions, store: Store) {
-    // on game creation, create the board
-    const pieceTemplateList = store.selectSnapshot(TemplateState.TemplateList);
-    this.actions$.pipe(
-      ofActionSuccessful(AddPositionToBoard)
-    ).subscribe((position: PositionStateModel) => {
-
-    });
-  }
+  constructor(private store: Store) { }
   @Selector() static PieceList(state: PieceStateModelList): PieceStateModel[] {
     return state.pieces;
   }
@@ -33,8 +24,8 @@ export class PieceState {
   @Action(SetPiece)
   setPiece({ getState, patchState }: StateContext<PieceStateModelList>, action: SetPiece) {
     if (getState().pieces) {
-    patchState({
-      pieces: [
+      patchState({
+        pieces: [
           action.payload,
           ...getState().pieces,
         ]
@@ -42,13 +33,13 @@ export class PieceState {
     } else {
       patchState({
         pieces: [
-        action.payload
-      ]
-    });
-  }
+          action.payload
+        ]
+      });
+    }
   }
   @Action(CreatePiece)
-  createPiece({ getState, patchState }: StateContext<PieceStateModelList>, { piece }: CreatePiece) {
+  createPiece({ piece }: CreatePiece) {
     if (piece.Id === null) { piece.Id = Guid.newGuid(); }
     this.store.dispatch(new SetPiece(piece));
   }
