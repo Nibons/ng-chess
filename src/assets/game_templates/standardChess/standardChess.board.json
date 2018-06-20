@@ -1,9 +1,11 @@
 [{
   "direction": [0, 1],
   "range": {
-    "dimensions": {
-      "min": [0, 0],
-      "max": [7, 7]
+    "min": {
+      "dimensions": [0, 0]
+    },
+    "max": {
+      "dimensions": [7, 7]
     }
   }
 }]
