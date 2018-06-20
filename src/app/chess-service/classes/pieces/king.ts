@@ -1,3 +1,4 @@
+import { Guid } from '@chess/guid';
 import { PieceStateModel } from './../../interfaces/ipiece.model';
 import { IPieceActor } from '@chess/IPieceActor.model';
 import { BasePiece } from '@chess/pieces/BasePiece';
@@ -11,15 +12,15 @@ export class King extends BasePiece implements IPieceActor {
   constructor(store: Store) {
     super(store);
   }
-  GetThreatPositionIds(piece: PieceStateModel): number[] {
+  GetThreatPositionIds(piece: PieceStateModel): Guid[] {
     return King.GetKingThreat(piece, this);
   }
-  GetPotentialMovePositionIds(piece: PieceStateModel): number[] {
+  GetPotentialMovePositionIds(piece: PieceStateModel): Guid[] {
     throw new Error('Method not implemented.');
   }
 
 
-  static GetKingThreat(piece: PieceStateModel, pieceActor: IPieceActor): number[] {
+  static GetKingThreat(piece: PieceStateModel, pieceActor: IPieceActor): Guid[] {
     return Queen.GetQueenThreat(piece, pieceActor, 1);
   }
 }

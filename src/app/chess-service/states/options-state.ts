@@ -10,18 +10,11 @@ import { State, Action, StateContext, Selector, Select } from '@ngxs/store';
 import { PieceState } from '@chess/piece-state';
 import { BoardStateModel } from '@chess/iboard.model';
 import { PositionStateModel } from '@chess/iposition.model';
-import { NewGame } from '@chess/NewGame';
-import { IncrementIdCounter } from '@chess/IncrementIdCounter';
 
 @State<OptionsStateModelList>({
   name: 'optionSets'
 })
 export class OptionsState {
-  @Selector() static GetIdCounter(context: StateContext<OptionsStateModel>) {
-    const id = context.getState().IdCounter;
-    context.dispatch(IncrementIdCounter);
-    return id;
-  }
   @Selector() static GameList(state: GameStateModelList) {
     return state.gameList;
   }
@@ -48,12 +41,5 @@ export class OptionsState {
   }
   getGameList(state) {
     return state.games;
-  }
-  @Action(IncrementIdCounter) incrementIdCounter(context: StateContext<OptionsStateModel>, action: IncrementIdCounter) {
-    const current_state = context.getState();
-    context.patchState({
-      ...current_state,
-      IdCounter: current_state.IdCounter++
-    });
   }
 }

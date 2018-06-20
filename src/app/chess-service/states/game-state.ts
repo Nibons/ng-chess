@@ -15,12 +15,6 @@ import { SetGame } from '@chess/SetGame';
 })
 export class GameState {
   constructor(private store: Store) { }
-
-  @Selector() static GetIdCounter(context: StateContext<OptionsStateModelList>) {
-    const id = context.getState().optionSets[0].IdCounter;
-    context.dispatch(IncrementIdCounter);
-    return id;
-  }
   @Selector() static GameList(state: GameStateModelList) {
     return state.gameList;
   }
@@ -36,15 +30,6 @@ export class GameState {
   static getGameList(state) {
     return state.games;
   }
-
-  @Action(IncrementIdCounter) incrementIdCounter(context: StateContext<OptionsStateModel>) {
-    const current_state = context.getState();
-    context.patchState({
-      ...current_state,
-      IdCounter: current_state.IdCounter++
-    });
-  }
-
   @Action(NewGame) newGame() { }
 
   @Action(SetGame)

@@ -5,14 +5,15 @@ import { Coordinates } from '@chess/coordinates';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { Store } from '@ngxs/store';
 import { PieceStateModel } from '@chess/ipiece.model';
+import { Guid } from '@chess/guid';
 
 export class Knight extends BasePiece implements IPieceActor {
   readonly value = 3;
   readonly pieceType = EPieceType.knight;
-  GetThreatPositionIds(piece: PieceStateModel): number[] {
+  GetThreatPositionIds(piece: PieceStateModel): Guid[] {
     return Knight.GitKnightThreatList(piece, this);
   }
-  public static GitKnightThreatList(piece: PieceStateModel, pieceActor: IPieceActor): number[] {
+  public static GitKnightThreatList(piece: PieceStateModel, pieceActor: IPieceActor): Guid[] {
     const threatList = [];
     const directions = [1, -1];
     const board = pieceActor.GetBoard(piece);

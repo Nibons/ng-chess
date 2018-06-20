@@ -1,3 +1,4 @@
+import { Guid } from '@chess/guid';
 import { PieceStateModel } from '@chess/ipiece.model';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { Store } from '@ngxs/store';
@@ -8,10 +9,10 @@ export class Bishop extends BasePiece implements IPieceActor {
   readonly value = 3;
   readonly pieceType = EPieceType.bishop;
 
-  GetThreatPositionIds(piece: PieceStateModel): number[] {
+  GetThreatPositionIds(piece: PieceStateModel): Guid[] {
     return Bishop.GetBishopThreatList(piece, this);
   }
-  public static GetBishopThreatList(piece: PieceStateModel, pieceActor: IPieceActor, count = Number.MAX_SAFE_INTEGER): number[] {
+  public static GetBishopThreatList(piece: PieceStateModel, pieceActor: IPieceActor, count = Number.MAX_SAFE_INTEGER): Guid[] {
     const position_cache = [];
     const directions = [1, -1];
     for (const XDirection of directions) {

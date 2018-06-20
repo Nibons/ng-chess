@@ -13,15 +13,16 @@ import { BoardStateModel } from '@chess/iboard.model';
 import { SetPiece } from '@chess/SetPiece';
 import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
 import { Coordinates } from '@chess/coordinates';
+import { Guid } from '@chess/guid';
 export abstract class BasePiece implements IPieceActor {
 
   abstract pieceType: EPieceType;
   abstract value: number;
-  abstract GetThreatPositionIds(piece: PieceStateModel): number[];
-  GetPotentialMovePositionIds(piece: PieceStateModel): number[] {
+  abstract GetThreatPositionIds(piece: PieceStateModel): Guid[];
+  GetPotentialMovePositionIds(piece: PieceStateModel): Guid[] {
     return this.GetThreatPositionIds(piece);
   }
-  GetWatchList(piece: PieceStateModel): number[] {
+  GetWatchList(piece: PieceStateModel): Guid[] {
     return [...piece.threatList, ...piece.potentialMoves];
   }
 
@@ -42,7 +43,7 @@ export abstract class BasePiece implements IPieceActor {
           piece.threatList = this.GetThreatPositionIds(piece);
           piece.potentialMoves = this.GetPotentialMovePositionIds(piece);
           this.GetWatchList(piece).forEach(
-            (positionId: number) => {
+            (positionId: Guid) => {
               this.store.dispatch(new AddToPositionWatchList(piece.Id, positionId));
             }
           );
@@ -77,7 +78,7 @@ export abstract class BasePiece implements IPieceActor {
   public GetPositionsInDirectionUntilEmpty(
     piece: PieceStateModel,
     direction: ICoordinates,
-    count = Number.MAX_SAFE_INTEGER): number[] {
+    count = Number.MAX_SAFE_INTEGER): Guid[] {
     const position_cache = [];
     const board = this.GetBoard(piece);
     const coordinates_in_direction = Coordinates.GetCoordinatesInDirection(

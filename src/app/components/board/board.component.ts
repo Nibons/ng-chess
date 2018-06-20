@@ -1,3 +1,4 @@
+import { Guid } from '@chess/guid';
 import { IBoardDimensions, ICoordinates } from '@chess/icoordinates.model';
 import { PositionStateModelList, PositionStateModel } from '@chess/iposition.model';
 import { BoardStateModelList, BoardStateModel } from '@chess/iboard.model';
@@ -15,7 +16,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./board.component.css']
 })
 export class BoardComponent implements OnInit {
-  @Input() boardId: number;
+  @Input() boardId: Guid;
   @Select(BoardState) boardState$: Observable<BoardStateModelList>;
   @Select(PositionState.GetPositionAt) positionAt$: Observable<(c: ICoordinates) => PositionStateModel>;
   board: BoardStateModel;
@@ -29,7 +30,7 @@ export class BoardComponent implements OnInit {
 
   ngOnInit() {
     this.boardState$.subscribe(
-      state => this.setBoard(state.boards.find(b => b.Id === this.boardId))
+      state => this.setBoard(state.boards.find((b: BoardStateModel) => b.Id === this.boardId))
     );
   }
   setBoard(board: BoardStateModel) {

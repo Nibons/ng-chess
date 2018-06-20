@@ -6,9 +6,7 @@ import { PositionStateModelList, PositionStateModel } from '@chess/iposition.mod
 import { State, Selector, StateContext, Action, ofActionSuccessful, Store, Actions } from '@ngxs/store';
 import { CreatePosition } from '@chess/CreatePosition';
 import { PlacePiece } from '@chess/PlacePiece';
-import { AddPositionToBoard } from '@chess/AddPositionToBoard';
 import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
-import { GameState } from '@chess/game-state';
 
 @State<PositionStateModelList>({
   name: 'positions',
@@ -28,7 +26,7 @@ export class PositionState {
     return state.positions;
   }
   @Selector() static GetPositionAt(state: PositionStateModelList) {
-    return (coordinates: ICoordinates, boardId: number) => {
+    return (coordinates: ICoordinates, boardId: Guid) => {
       return state.positions.filter(
         p =>
           p.boardId === boardId &&
@@ -36,7 +34,7 @@ export class PositionState {
     };
   }
   @Selector() static GetPositionIdAt(state: PositionStateModelList) {
-    return (coordinates: ICoordinates, boardId: number) => {
+    return (coordinates: ICoordinates, boardId: Guid) => {
       return state.positions.find(
         p =>
           p.boardId === boardId &&
@@ -45,12 +43,12 @@ export class PositionState {
     };
   }
   @Selector() static GetPositionByPieceId(state: PositionStateModelList) {
-    return (pieceId: number) => {
+    return (pieceId: Guid) => {
       return state.positions.find((position: PositionStateModel) => position.pieceId === pieceId);
     };
   }
   @Selector() static GetPositionById(state) {
-    return (Id: number) => {
+    return (Id: Guid) => {
       return state.filter((p: PositionStateModel) => p.Id === Id);
     };
   }
@@ -62,14 +60,12 @@ export class PositionState {
 
   @Action(CreatePosition)
   createPosition({ getState, patchState }: StateContext<PositionStateModelList>, { payload }: CreatePosition) {
-    payload.Id = this.store.selectSnapshot(GameState.GetIdCounter);
     patchState({
       positions: [
         ...getState().positions,
         payload
       ]
     });
-    this.store.dispatch(new AddPositionToBoard(payload.Id, payload.boardId));
   }
 
   @Action(PlacePiece)

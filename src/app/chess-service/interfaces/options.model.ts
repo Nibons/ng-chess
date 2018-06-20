@@ -8,7 +8,7 @@ import { ICoordinates } from '@chess/icoordinates.model';
 
 export interface PartialOptionsStateModel {
   colorList: string[];
-  currentTurnPlayerNumber: number;
+  currentTurnPlayerNumber: Guid;
   friendlyFire: boolean;
 }
 export interface OptionsStateModelList {
@@ -16,13 +16,12 @@ export interface OptionsStateModelList {
 }
 export interface OptionsStateModel extends PartialOptionsStateModel {
   Id: Guid;
-  IdCounter: number;
 }
 export interface IGame extends OptionsStateModel {
-  GetPlayerById(playerId: number): PlayerStateModel;
-  GetBoardById(boardId: number): BoardStateModel;
-  GetPositionById(positionId: number): PositionStateModel;
-  GetPieceById(pieceId: number): Partial<PieceStateModel>;
+  GetPlayerById(playerId: Guid): PlayerStateModel;
+  GetBoardById(boardId: Guid): BoardStateModel;
+  GetPositionById(positionId: Guid): PositionStateModel;
+  GetPieceById(pieceId: Guid): Partial<PieceStateModel>;
   GetPositionByCoordinates(coordinates: ICoordinates): PositionStateModel;
-  GetPositionByPieceId(pieceId: number): PositionStateModel;
+  GetPositionByPieceId(pieceId: Guid): PositionStateModel;
 }

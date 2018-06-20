@@ -4,6 +4,8 @@ import { SetPiece } from '@chess/SetPiece';
 import { AddPositionToBoard } from '@chess/AddPositionToBoard';
 import { PositionStateModel } from '@chess/iposition.model';
 import { TemplateState } from '@chess/game-select-state';
+import { Guid } from '@chess/guid';
+import { Guid } from '@chess/guid';
 
 @State<PieceStateModel[]>({
   name: 'pieces',
@@ -23,7 +25,7 @@ export class PieceState {
     return state.pieces;
   }
   @Selector() static getPieceById(state: PieceStateModelList) {
-    return (Id: number) => {
+    return (Id: Guid) => {
       return state.pieces.find((piece: PieceStateModel) => piece.Id === Id);
     };
   }

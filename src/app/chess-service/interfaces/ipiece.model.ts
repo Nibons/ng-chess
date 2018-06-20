@@ -19,11 +19,11 @@ export interface PieceStateModel extends GameItemStateModel {
   IsVital: boolean;
   IsAlive: boolean;
   HasMoved: boolean;
-  positionId: number;
-  threatList: number[];
-  potentialMoves: number[];
+  positionId: Guid;
+  threatList: Guid[];
+  potentialMoves: Guid[];
   value: number;
-  boardNumber: number;
+  boardNumber: Guid;
   coordinates: ICoordinates;
 }
 

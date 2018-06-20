@@ -4,14 +4,15 @@ import { EPieceType } from '@chess/e-piece-type.enum';
 import { Store } from '@ngxs/store';
 import { BasePiece } from '@chess/BasePiece';
 import { IPieceActor } from '@chess/IPieceActor.model';
+import { Guid } from '@chess/guid';
 
 export class Rook extends BasePiece implements IPieceActor {
-  GetThreatPositionIds(piece: PieceStateModel): number[] {
+  GetThreatPositionIds(piece: PieceStateModel): Guid[] {
     return Rook.GetRookThreatList(piece, this);
   }
   readonly value = 5;
   readonly pieceType = EPieceType.rook;
-  public static GetRookThreatList(piece: PieceStateModel, pieceActor: IPieceActor, count = Number.MAX_SAFE_INTEGER): number[] {
+  public static GetRookThreatList(piece: PieceStateModel, pieceActor: IPieceActor, count = Number.MAX_SAFE_INTEGER): Guid[] {
     const position_cache = [];
     const directions = [1, -1];
     const dimensions_count = piece.coordinates.dimensions.length;
