@@ -18,7 +18,7 @@ export class BoardState {
   @Selector() static getBoardById(Id: Guid, { getState }: StateContext<BoardStateModelList>) {
     return getState().boards.filter((b: BoardStateModel) => b.Id === Id);
   }
-  @Selector() static BoardList(state: BoardStateModelList) {
+  @Selector() static BoardList(state: BoardStateModelList): BoardStateModel[] {
     return state.boards;
   }
   @Selector([PositionState]) static Positions(boardId: Guid, state: PositionStateModelList) {
