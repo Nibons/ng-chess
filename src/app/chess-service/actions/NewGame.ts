@@ -52,7 +52,7 @@ export class NewGame {
     pieceStateModelList.pieces.forEach(
       (piece: PieceStateModel) => {
         piece.gameId = this.Id;
-        piece.Id = null;
+        piece.Id = Guid.newGuid();
         pieceCreationTaskList.push(this.store.dispatch(new CreatePiece(piece, this.Id)));
       }
     );
