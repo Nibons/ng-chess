@@ -6,7 +6,7 @@ import { CreatePosition } from '@chess/CreatePosition';
 import { forkJoin } from 'rxjs';
 
 export class CreateAllPositions {
-  static readonly type = '[Positions] CreateAllPositions';
+  static readonly type = '[Position] CreateAllPositions';
   public payload: PositionStateModel[] = [];
   public positionCreation$;
   constructor(range: IBoardDimensions, private boardId: Guid, private gameId: Guid, private store: Store) {
