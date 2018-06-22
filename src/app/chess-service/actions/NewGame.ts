@@ -42,7 +42,7 @@ export class NewGame {
   private addBoards(boards: BoardStateModel[]) {
     const boardCreationTaskList = [];
     boards.forEach(
-      (board: BoardStateModel) => boardCreationTaskList.push(this.store.dispatch(new CreateBoard(board, this.store)))
+      (board: BoardStateModel) => boardCreationTaskList.push(this.store.dispatch(new CreateBoard(board, this.Id, this.store)))
     );
     return forkJoin(...boardCreationTaskList);
   }
@@ -53,7 +53,7 @@ export class NewGame {
       (piece: PieceStateModel) => {
         piece.gameId = this.Id;
         piece.Id = Guid.newGuid();
-        pieceCreationTaskList.push(this.store.dispatch(new CreatePiece(piece, this.Id)));
+        pieceCreationTaskList.push(this.store.dispatch(new CreatePiece(piece, this.store)));
       }
     );
     return forkJoin(...pieceCreationTaskList);
