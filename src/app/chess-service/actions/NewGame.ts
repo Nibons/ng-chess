@@ -30,7 +30,7 @@ export class NewGame {
     const addBoards$ = this.addBoards(configTemplate.boards);
     addBoards$.subscribe(
       () => {
-        this.addpieces(configTemplate.pieces).subscribe(
+        this.addpieces(configTemplate.pieces, this.Id).subscribe(
           () => {
             this.store.dispatch(new SetGame(this.gameInfo));
           }
@@ -47,13 +47,11 @@ export class NewGame {
     return forkJoin(...boardCreationTaskList);
   }
 
-  private addpieces(pieceStateModelList: PieceStateModelList) {
+  private addpieces(pieceStateModelList: PieceStateModelList, gameId: Guid) {
     const pieceCreationTaskList = [];
     pieceStateModelList.pieces.forEach(
       (piece: PieceStateModel) => {
-        piece.gameId = this.Id;
-        piece.Id = Guid.newGuid();
-        pieceCreationTaskList.push(this.store.dispatch(new CreatePiece(piece, this.store)));
+        pieceCreationTaskList.push(this.store.dispatch(new CreatePiece(piece, gameId, this.store)));
       }
     );
     return forkJoin(...pieceCreationTaskList);
