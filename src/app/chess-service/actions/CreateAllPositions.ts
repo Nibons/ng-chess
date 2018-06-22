@@ -1,14 +1,12 @@
+import { PositionStateModel } from '@chess/IPosition.model';
 import { Guid } from '@chess/guid';
-import { PositionStateModel } from '@chess/iposition.model';
 import { IBoardDimensions, ICoordinates } from '@chess/icoordinates.model';
 import { Store } from '@ngxs/store';
 import { CreatePosition } from '@chess/CreatePosition';
-import { forkJoin } from 'rxjs';
 
 export class CreateAllPositions {
   static readonly type = '[Position] CreateAllPositions';
   public payload: PositionStateModel[] = [];
-  public positionCreation$;
   constructor(range: IBoardDimensions, private boardId: Guid, private gameId: Guid, private store: Store) {
     const positionCreationList = [];
     for (let x = range.min.dimensions[0]; x <= range.max.dimensions[0]; x++) {
@@ -22,7 +20,6 @@ export class CreateAllPositions {
         }
       }
     }
-    this.positionCreation$ = forkJoin(...positionCreationList);
   }
   createPosition(coordinates: ICoordinates) {
     const position: PositionStateModel = {
