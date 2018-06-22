@@ -3,163 +3,227 @@
   "pieces": [{
       "playerNumber": 0,
       "pieceType": "rook",
-      "coordinates": [0, 0]
+      "coordinates": {
+        "dimensions": [0, 0]
+      }
     },
     {
       "playerNumber": 0,
       "pieceType": "knight",
-      "coordinates": [1, 0]
+      "coordinates": {
+        "dimensions": [1, 0]
+      }
     },
     {
       "playerNumber": 0,
       "pieceType": "bishop",
-      "coordinates": [2, 0]
+      "coordinates": {
+        "dimensions": [2, 0]
+      }
     },
     {
       "playerNumber": 0,
       "pieceType": "queen",
-      "coordinates": [3, 0]
+      "coordinates": {
+        "dimensions": [3, 0]
+      }
     },
     {
       "playerNumber": 0,
       "pieceType": "king",
-      "coordinates": [4, 0],
+      "coordinates": {
+        "dimensions": [4, 0]
+      },
       "IsVital": true
     },
     {
       "playerNumber": 0,
       "pieceType": "bishop",
-      "coordinates": [5, 0]
+      "coordinates": {
+        "dimensions": [5, 0]
+      }
     },
     {
       "playerNumber": 0,
       "pieceType": "knight",
-      "coordinates": [6, 0]
+      "coordinates": {
+        "dimensions": [6, 0]
+      }
     },
     {
       "playerNumber": 0,
       "pieceType": "rook",
-      "coordinates": [6, 0]
+      "coordinates": {
+        "dimensions": [6, 0]
+      }
     },
     {
       "playerNumber": 0,
       "pieceType": "pawn",
-      "coordinates": [0, 1]
+      "coordinates": {
+        "dimensions": [0, 1]
+      }
     },
     {
       "playerNumber": 0,
       "pieceType": "pawn",
-      "coordinates": [1, 1]
+      "coordinates": {
+        "dimensions": [1, 1]
+      }
     },
     {
       "playerNumber": 0,
       "pieceType": "pawn",
-      "coordinates": [2, 1]
+      "coordinates": {
+        "dimensions": [2, 1]
+      }
     },
     {
       "playerNumber": 0,
       "pieceType": "pawn",
-      "coordinates": [3, 1]
+      "coordinates": {
+        "dimensions": [3, 1]
+      }
     },
     {
       "playerNumber": 0,
       "pieceType": "pawn",
-      "coordinates": [4, 1]
+      "coordinates": {
+        "dimensions": [4, 1]
+      }
     },
     {
       "playerNumber": 0,
       "pieceType": "pawn",
-      "coordinates": [5, 1]
+      "coordinates": {
+        "dimensions": [5, 1]
+      }
     },
     {
       "playerNumber": 0,
       "pieceType": "pawn",
-      "coordinates": [6, 1]
+      "coordinates": {
+        "dimensions": [6, 1]
+      }
     },
     {
       "playerNumber": 0,
       "pieceType": "pawn",
-      "coordinates": [7, 1]
+      "coordinates": {
+        "dimensions": [7, 1]
+      }
     }, {
       "playerNumber": 1,
       "pieceType": "rook",
-      "coordinates": [0, 7]
+      "coordinates": {
+        "dimensions": [0, 7]
+      }
     },
     {
       "playerNumber": 1,
       "pieceType": "knight",
-      "coordinates": [1, 7]
+      "coordinates": {
+        "dimensions": [1, 7]
+      }
     },
     {
       "playerNumber": 1,
       "pieceType": "bishop",
-      "coordinates": [2, 7]
+      "coordinates": {
+        "dimensions": [2, 7]
+      }
     },
     {
       "playerNumber": 1,
       "pieceType": "queen",
-      "coordinates": [3, 7]
+      "coordinates": {
+        "dimensions": [3, 7]
+      }
     },
     {
       "playerNumber": 1,
       "pieceType": "king",
-      "coordinates": [4, 7],
+      "coordinates": {
+        "dimensions": [4, 7]
+      },
       "IsVital": true
     },
     {
       "playerNumber": 1,
       "pieceType": "bishop",
-      "coordinates": [5, 7]
+      "coordinates": {
+        "dimensions": [5, 7]
+      }
     },
     {
       "playerNumber": 1,
       "pieceType": "knight",
-      "coordinates": [6, 7]
+      "coordinates": {
+        "dimensions": [6, 7]
+      }
     },
     {
       "playerNumber": 1,
       "pieceType": "rook",
-      "coordinates": [6, 7]
+      "coordinates": {
+        "dimensions": [6, 7]
+      }
     },
     {
       "playerNumber": 1,
       "pieceType": "pawn",
-      "coordinates": [0, 6]
+      "coordinates": {
+        "dimensions": [0, 6]
+      }
     },
     {
       "playerNumber": 1,
       "pieceType": "pawn",
-      "coordinates": [1, 6]
+      "coordinates": {
+        "dimensions": [1, 6]
+      }
     },
     {
       "playerNumber": 1,
       "pieceType": "pawn",
-      "coordinates": [2, 6]
+      "coordinates": {
+        "dimensions": [2, 6]
+      }
     },
     {
       "playerNumber": 1,
       "pieceType": "pawn",
-      "coordinates": [3, 6]
+      "coordinates": {
+        "dimensions": [3, 6]
+      }
     },
     {
       "playerNumber": 1,
       "pieceType": "pawn",
-      "coordinates": [4, 6]
+      "coordinates": {
+        "dimensions": [4, 6]
+      }
     },
     {
       "playerNumber": 1,
       "pieceType": "pawn",
-      "coordinates": [5, 6]
+      "coordinates": {
+        "dimensions": [5, 6]
+      }
     },
     {
       "playerNumber": 1,
       "pieceType": "pawn",
-      "coordinates": [6, 6]
+      "coordinates": {
+        "dimensions": [6, 6]
+      }
     },
     {
       "playerNumber": 1,
       "pieceType": "pawn",
-      "coordinates": [7, 6]
+      "coordinates": {
+        "dimensions": [7, 6]
+      }
     }
   ]
 }
