@@ -1,3 +1,5 @@
+import { Coordinates } from '@chess/coordinates';
+import { ICoordinates } from '@chess/icoordinates.model';
 import { PieceStateModelList, PieceStateModel } from '@chess/ipiece.model';
 import { State, Selector, Action, StateContext, Actions, Store, ofActionSuccessful } from '@ngxs/store';
 import { SetPiece } from '@chess/SetPiece';
@@ -49,7 +51,7 @@ export class PieceState {
     }
   }
   @Action(CreatePiece)
-  createPiece({ getState, patchState }: StateContext<PieceStateModelList>, { piece, boardId }: CreatePiece) {
+  createPiece({ piece, boardId }: CreatePiece) {
     this.store.dispatch(new SetPiece(piece));
     this.store.dispatch(new SetPieceAtPosition(piece.Id, piece.coordinates, boardId));
   }
