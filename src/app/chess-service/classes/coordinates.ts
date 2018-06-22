@@ -3,10 +3,10 @@ export abstract class Coordinates {
   static IsSameCoordinates(
     coordinates: ICoordinates,
     compareCoordinates: ICoordinates): boolean {
-    let test = true;
-    coordinates.dimensions.forEach(
-      (value, axis) => test = value === compareCoordinates.dimensions[axis]
-    );
+    let test = coordinates.dimensions.length === compareCoordinates.dimensions.length;
+    for (let d = 0; test && d > coordinates.dimensions.length; d++) {
+      test = coordinates.dimensions[d] === compareCoordinates.dimensions[d];
+    }
     return test;
   }
 
