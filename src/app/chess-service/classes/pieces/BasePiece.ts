@@ -32,7 +32,7 @@ export abstract class BasePiece implements IPieceActor {
 
 
   constructor(protected store: Store) {
-    this.WatchAllPieces();
+    // this.WatchAllPieces();
   }
 
   private WatchAllPieces(): void {

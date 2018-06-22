@@ -6,13 +6,14 @@ import { PositionStateModel } from '@chess/iposition.model';
 import { TemplateState } from '@chess/game-select-state';
 import { Guid } from '@chess/guid';
 import { CreatePiece } from '@chess/CreatePiece';
+import { SetPieceAtPosition } from '@chess/SetPieceAtPosition';
 
 @State<PieceStateModel[]>({
   name: 'pieces',
   defaults: []
 })
 export class PieceState {
-  constructor(private actions$: Actions, store: Store) {
+  constructor(private actions$: Actions, private store: Store) {
     // on game creation, create the board
     const pieceTemplateList = store.selectSnapshot(TemplateState.TemplateList);
     this.actions$.pipe(
@@ -31,29 +32,25 @@ export class PieceState {
   }
 
   @Action(SetPiece)
-  setPiece({ getState, patchState }: StateContext<PieceStateModelList>, action: SetPiece) {
-    patchState({
-      pieces: [
-        ...getState().pieces.filter(p => p.Id !== action.payload.Id),
-        action.payload
-      ]
-    });
-  }
-  @Action(CreatePiece)
-  createPiece({ getState, patchState }: StateContext<PieceStateModelList>, action: CreatePiece) {
+  setPiece({ getState, patchState }: StateContext<PieceStateModelList>, { piece }: SetPiece) {
     if (getState().pieces) {
       patchState({
         pieces: [
-          action.piece,
+          piece,
           ...getState().pieces,
         ]
       });
     } else {
       patchState({
         pieces: [
-          action.piece
+          piece
         ]
       });
     }
+  }
+  @Action(CreatePiece)
+  createPiece({ getState, patchState }: StateContext<PieceStateModelList>, { piece, boardId }: CreatePiece) {
+    this.store.dispatch(new SetPiece(piece));
+    this.store.dispatch(new SetPieceAtPosition(piece.Id, piece.coordinates, boardId));
   }
 }

@@ -23,7 +23,7 @@ export interface PieceStateModel extends GameItemStateModel {
   threatList: Guid[];
   potentialMoves: Guid[];
   value: number;
-  boardNumber: Guid;
+  boardNumber: number;
   coordinates: ICoordinates;
 }
 
