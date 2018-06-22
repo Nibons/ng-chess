@@ -1,3 +1,4 @@
+import { BoardState } from '@chess/board-state';
 import { Coordinates } from '@chess/coordinates';
 import { ICoordinates } from '@chess/icoordinates.model';
 import { PieceStateModelList, PieceStateModel } from '@chess/ipiece.model';
@@ -51,8 +52,5 @@ export class PieceState {
     }
   }
   @Action(CreatePiece)
-  createPiece({ piece, boardId }: CreatePiece) {
-    this.store.dispatch(new SetPiece(piece));
-    this.store.dispatch(new SetPieceAtPosition(piece.Id, piece.coordinates, boardId));
-  }
+  createPiece(action: CreatePiece) { }
 }
