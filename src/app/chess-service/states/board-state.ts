@@ -1,3 +1,4 @@
+import { AddPositionToBoard } from '@chess/AddPositionToBoard';
 import { Guid } from '@chess/guid';
 import { PositionStateModel } from './../interfaces/iposition.model';
 import { PositionStateModelList } from '@chess/iposition.model';
@@ -35,6 +36,17 @@ export class BoardState {
   DeleteBoard({ getState, patchState }: StateContext<BoardStateModelList>, { payload }: DeleteBoard) {
     patchState({
       boards: getState().boards.filter((b: BoardStateModel) => b.Id !== payload)
+    });
+  }
+  @Action(AddPositionToBoard)
+  addPositionToBoard({ getState, patchState }: StateContext<BoardStateModelList>, { positionId, boardId }: AddPositionToBoard) {
+    const board: BoardStateModel = getState().boards.find(b => b.Id.IsEqual(boardId));
+    board.positions = [...board.positions, positionId];
+    patchState({
+      boards: [
+        ...getState().boards.filter(b => !b.Id.IsEqual(boardId)),
+        board
+      ]
     });
   }
 }

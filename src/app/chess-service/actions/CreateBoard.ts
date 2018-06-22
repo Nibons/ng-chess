@@ -1,3 +1,6 @@
+import { PositionStateModel } from '@chess/iposition.model';
+import { PositionState } from '@chess/position-state';
+import { BoardState } from '@chess/board-state';
 import { CreateAllPositions } from '@chess/CreateAllPositions';
 import { BoardStateModel } from '@chess/iboard.model';
 import { Store } from '@ngxs/store';
@@ -14,6 +17,7 @@ export class CreateBoard {
       range: board.range
     };
     store.dispatch(
-      new CreateAllPositions(this.payload.range, this.payload.Id, gameId, store));
+      new CreateAllPositions(this.payload.range, this.payload.Id, gameId, store)
+    );
   }
 }
