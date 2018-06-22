@@ -1,3 +1,4 @@
+import { AddPositionToBoard } from '@chess/AddPositionToBoard';
 import { RemovePieceFromAllWatchLists } from './../actions/RemovePieceFromAllWatchLists';
 import { Coordinates } from '@chess/coordinates';
 import { ICoordinates } from '@chess/icoordinates.model';
@@ -14,12 +15,11 @@ import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
 })
 export class PositionState {
   constructor(private actions$: Actions, private store: Store) {
-    // on game creation, create the board
-    // this.actions$.pipe(
-    //   ofActionSuccessful(CreatePosition)
-    // ).subscribe((position: PositionStateModel) => {
-    //   store.dispatch(new AddPositionToBoard(position.Id, position.boardId));
-    // });
+    this.actions$.pipe(
+      ofActionSuccessful(CreatePosition)
+    ).subscribe((action: CreatePosition) => {
+      store.dispatch(new AddPositionToBoard(action.payload.Id, action.payload.boardId));
+    });
   }
 
   @Selector() static PositionList(state: PositionStateModelList) {
@@ -78,7 +78,7 @@ export class PositionState {
     position.pieceId = pieceId;
     patchState({
       positions: [
-        ...getState().positions.filter(p => p.Id !== position.Id),
+        ...getState().positions.filter(p => !p.Id.IsEqual(position.Id)),
         position
       ]
     });
@@ -92,7 +92,7 @@ export class PositionState {
       position.watchList.push(pieceId);
       patchState({
         positions: [
-          ...getState().positions.filter(p => p.Id !== positionId),
+          ...getState().positions.filter(p => !p.Id.IsEqual(positionId)),
           position
         ]
       });
