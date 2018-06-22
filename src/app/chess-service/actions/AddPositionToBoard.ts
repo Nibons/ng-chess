@@ -1,10 +1,6 @@
+import { PositionStateModel } from '@chess/iposition.model';
+import { Guid } from '@chess/guid';
 export class AddPositionToBoard {
   public static readonly type = '[Positions] AddPositionToBoard';
-  public positionId: number;
-  public boardId: number;
-
-  constructor(Id: number, boardId: number) {
-    this.positionId = Id;
-    this.boardId = boardId;
-  }
+  constructor(public positionId: Guid, public boardId: Guid) { }
 }
