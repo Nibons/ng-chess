@@ -10,7 +10,10 @@ export class Guid {
     });
     return new Guid(_string);
   }
-  IsEqual(compareGuid: Guid): boolean {
-    return this._guid === compareGuid.toString();
+  static Compare(guid1: Guid, guid2: Guid): boolean {
+    return guid1.toString() === guid2.toString();
+  }
+  public IsEqual(compareGuid: Guid): boolean {
+    return this.toString() === compareGuid.toString();
   }
 }
