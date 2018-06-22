@@ -1,5 +1,6 @@
-import { ICoordinates, IBoardDimensions } from '@chess/icoordinates.model';
-export abstract class Coordinates {
+import { ICoordinates } from '@chess/icoordinates.model';
+export class Coordinates implements ICoordinates {
+  constructor(public dimensions: number[]) { }
   static IsSameCoordinates(
     coordinates: ICoordinates,
     compareCoordinates: ICoordinates): boolean {
@@ -8,6 +9,10 @@ export abstract class Coordinates {
       test = coordinates.dimensions[d] === compareCoordinates.dimensions[d];
     }
     return test;
+  }
+
+  public IsEqual(coordinates: ICoordinates) {
+    return Coordinates.IsSameCoordinates(this, coordinates);
   }
 
   static GetDelta(
@@ -51,7 +56,7 @@ export abstract class Coordinates {
     [-1, 1].forEach(
       multiplier => {
         coordinates.dimensions.forEach(
-          (value, axis) => {
+          (axis) => {
             const deltaDimensions: number[] = new Array(coordinates.dimensions.length);
             deltaDimensions.fill(0); // {x: 0, y:0}
             deltaDimensions[axis] = (1 * multiplier);
