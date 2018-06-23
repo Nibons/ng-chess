@@ -41,7 +41,7 @@ export class BoardState {
   @Action(AddPositionToBoard)
   addPositionToBoard({ getState, patchState }: StateContext<BoardStateModelList>, { positionId, boardId }: AddPositionToBoard) {
     const board: BoardStateModel = getState().boards.find(b => b.Id.IsEqual(boardId));
-    board.positions = [...board.positions, positionId];
+    board.positions.push(positionId); // = (typeof board.positions === undefined) ? [positionId] : [...board.positions, positionId];
     patchState({
       boards: [
         ...getState().boards.filter(b => !b.Id.IsEqual(boardId)),

@@ -1,4 +1,6 @@
 import { AddPositionToBoard } from '@chess/AddPositionToBoard';
+import { CreateAllPositions } from '@chess/CreateAllPositions';
+import { CreateBoard } from '@chess/CreateBoard';
 import { RemovePieceFromAllWatchLists } from './../actions/RemovePieceFromAllWatchLists';
 import { Coordinates } from '@chess/coordinates';
 import { ICoordinates } from '@chess/icoordinates.model';
@@ -16,10 +18,26 @@ import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
 export class PositionState {
   constructor(private actions$: Actions, private store: Store) {
     this.actions$.pipe(
+      ofActionSuccessful(CreateBoard)
+    ).subscribe(
+      ({ payload }: CreateBoard) => {
+        store.dispatch(new CreateAllPositions(payload.range, payload.Id, payload.gameId, store));
+      }
+    );
+    this.actions$.pipe(
       ofActionSuccessful(CreatePosition)
-    ).subscribe((action: CreatePosition) => {
-      store.dispatch(new AddPositionToBoard(action.payload.Id, action.payload.boardId));
-    });
+    ).subscribe(
+      ({ payload }: CreatePosition) => {
+        store.dispatch(new AddPositionToBoard(payload.Id, payload.boardId));
+      }
+    );
+    this.actions$.pipe(
+      ofActionSuccessful(CreateAllPositions)
+    ).subscribe(
+      ({ payload }: CreateAllPositions) => {
+        payload.forEach(position => store.dispatch(new CreatePosition(position)));
+      }
+    );
   }
 
   @Selector() static PositionList(state: PositionStateModelList) {
@@ -52,11 +70,6 @@ export class PositionState {
       return state.filter((p: PositionStateModel) => p.Id === Id);
     };
   }
-  @Selector() static GetPositionsByGame(state) {
-    return (gameId: Guid) => {
-      return state.filter((p: PositionStateModel) => p.gameId === gameId);
-    };
-  }
 
   @Action(CreatePosition)
   createPosition({ getState, patchState }: StateContext<PositionStateModelList>, { payload }: CreatePosition) {
@@ -70,15 +83,16 @@ export class PositionState {
 
   @Action(SetPieceAtPosition)
   setPieceAtPosition({ getState, patchState }: StateContext<PositionStateModelList>, { pieceId, coordinates, boardId }: SetPieceAtPosition) {
-    const positionList = getState().positions;
-    const position = positionList.find(
+    const position = getState().positions.find(
       (p: PositionStateModel) =>
         p.boardId.IsEqual(boardId) && Coordinates.IsSameCoordinates(p.coordinates, coordinates)
     );
     position.pieceId = pieceId;
     patchState({
       positions: [
-        ...getState().positions.filter(p => !p.Id.IsEqual(position.Id)),
+        ...getState().positions.filter(
+          p => !p.Id.IsEqual(position.Id)
+        ),
         position
       ]
     });

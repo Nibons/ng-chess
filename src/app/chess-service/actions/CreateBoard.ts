@@ -1,7 +1,3 @@
-import { PositionStateModel } from '@chess/iposition.model';
-import { PositionState } from '@chess/position-state';
-import { BoardState } from '@chess/board-state';
-import { CreateAllPositions } from '@chess/CreateAllPositions';
 import { BoardStateModel } from '@chess/iboard.model';
 import { Store } from '@ngxs/store';
 import { Guid } from '@chess/guid';
@@ -9,15 +5,18 @@ import { Guid } from '@chess/guid';
 export class CreateBoard {
   static readonly type = '[Board] CreateBoard';
   public payload: BoardStateModel;
-  constructor(board: BoardStateModel, gameId: Guid, store: Store) {
+  public range;
+  public boardId;
+
+  constructor(board: BoardStateModel, public gameId: Guid, public store: Store) {
+    this.range = board.range;
+    this.boardId = Guid.newGuid();
     this.payload = {
       gameId: gameId,
-      Id: Guid.newGuid(),
+      Id: this.boardId,
       direction: board.direction,
-      range: board.range
+      range: board.range,
+      positions: []
     };
-    store.dispatch(
-      new CreateAllPositions(this.payload.range, this.payload.Id, gameId, store)
-    );
   }
 }
