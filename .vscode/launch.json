@@ -14,7 +14,8 @@
       "sourceMaps": true,
       "runtimeArgs": [
         "--remote-debugging-port=9222"
-      ]
+      ],
+      "breakOnLoad": true
     },
     {
       "name": "Attach Chrome",
@@ -24,7 +25,8 @@
       "webRoot": "${workspaceFolder}",
       "sourceMaps": true,
       "smartStep": true,
-      "port": 9222
+      "port": 9222,
+      "showAsyncStacks": true
     },
     {
       "name": "Launch Chrome (Test)",
