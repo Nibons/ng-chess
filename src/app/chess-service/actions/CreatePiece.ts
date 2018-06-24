@@ -20,6 +20,6 @@ export class CreatePiece {
       .filter(b => b.gameId === newPiece.gameId)[newPiece.boardNumber]
       .Id;
     store.dispatch(new SetPiece(newPiece));
-    store.dispatch(new SetPieceAtPosition(newPiece.Id, newPiece.coordinates, boardId));
+    store.dispatch(new SetPieceAtPosition(newPiece, newPiece.coordinates, boardId));
   }
 }

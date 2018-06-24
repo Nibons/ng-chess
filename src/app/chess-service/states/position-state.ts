@@ -10,12 +10,14 @@ import { State, Selector, StateContext, Action, ofActionSuccessful, Store, Actio
 import { CreatePosition } from '@chess/CreatePosition';
 import { SetPieceAtPosition } from '@chess/SetPieceAtPosition';
 import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
+import { forkJoin, Observable } from 'rxjs';
 
 @State<PositionStateModelList>({
   name: 'positions',
   defaults: { positions: [] }
 })
 export class PositionState {
+  allPositionsCreated$: Observable<any>;
   constructor(private actions$: Actions, private store: Store) {
     this.actions$.pipe(
       ofActionSuccessful(CreateBoard)
@@ -35,7 +37,12 @@ export class PositionState {
       ofActionSuccessful(CreateAllPositions)
     ).subscribe(
       ({ payload }: CreateAllPositions) => {
-        payload.forEach(position => store.dispatch(new CreatePosition(position)));
+        payload.forEach(position =>
+          this.allPositionsCreated$ = forkJoin(
+            this.allPositionsCreated$,
+            store.dispatch(new CreatePosition(position))
+          )
+        );
       }
     );
   }
@@ -82,12 +89,12 @@ export class PositionState {
   }
 
   @Action(SetPieceAtPosition)
-  setPieceAtPosition({ getState, patchState }: StateContext<PositionStateModelList>, { pieceId, coordinates, boardId }: SetPieceAtPosition) {
+  setPieceAtPosition({ getState, patchState }: StateContext<PositionStateModelList>, { piece, coordinates, boardId }: SetPieceAtPosition) {
     const position = getState().positions.find(
       (p: PositionStateModel) =>
         p.boardId.IsEqual(boardId) && Coordinates.IsSameCoordinates(p.coordinates, coordinates)
     );
-    position.pieceId = pieceId;
+    position.pieceId = piece.Id;
     patchState({
       positions: [
         ...getState().positions.filter(
