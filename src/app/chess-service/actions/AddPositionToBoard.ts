@@ -1,4 +1,3 @@
-import { PositionStateModel } from '@chess/iposition.model';
 import { Guid } from '@chess/guid';
 export class AddPositionToBoard {
   public static readonly type = '[Positions] AddPositionToBoard';
