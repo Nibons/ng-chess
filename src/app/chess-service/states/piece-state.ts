@@ -1,7 +1,6 @@
 import { PieceStateModelList, PieceStateModel } from '@chess/ipiece.model';
 import { State, Selector, Action, StateContext, Actions, Store, ofActionSuccessful } from '@ngxs/store';
 import { SetPiece } from '@chess/SetPiece';
-import { AddPositionToBoard } from '@chess/AddPositionToBoard';
 import { Guid } from '@chess/guid';
 import { CreatePiece } from '@chess/CreatePiece';
 import { SetPieceAtPosition } from '@chess/SetPieceAtPosition';
@@ -17,23 +16,7 @@ import { forkJoin, Observable } from 'rxjs';
 })
 export class PieceState {
   constructor(private actions$: Actions, private store: Store) {
-    this.actions$.pipe(
-      ofActionSuccessful(SetPieceAtPosition)
-    ).subscribe(({ piece }: SetPieceAtPosition) => {
-      this.store.dispatch(new SetPieceThreat(piece));
-    });
-    this.actions$.pipe(
-      ofActionSuccessful(SetPieceThreat)
-    ).subscribe(
-      ({ piece }: SetPieceThreat) =>
-        this.store.dispatch(new SetPiecePotentialMoves(piece))
-    );
-    this.actions$.pipe(
-      ofActionSuccessful(SetPiecePotentialMoves)
-    ).subscribe(
-      ({ piece }: SetPiecePotentialMoves) =>
-        this.store.dispatch(new SetPieceWatchList(piece))
-    );
+    
   }
   @Selector() static PieceList(state: PieceStateModelList): PieceStateModel[] {
     return state.pieces;
@@ -66,6 +49,7 @@ export class PieceState {
 
   @Action(SetPieceThreat)
   SetPieceThreat({ piece }: SetPieceThreat) {
+    // const pieceActor = (new GetPieceActor(piece.pieceType)).PieceActor;
     this.store.dispatch(new SetPiece(piece));
   }
   @Action(SetPiecePotentialMoves)

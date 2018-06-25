@@ -1,8 +1,8 @@
 export enum EPieceType {
-  king,
-  pawn,
-  knight,
-  rook,
-  bishop,
-  queen
+  king = 'king',
+  pawn = 'pawn',
+  knight = 'knight',
+  rook = 'rook',
+  bishop = 'bishop',
+  queen = 'queen'
 }

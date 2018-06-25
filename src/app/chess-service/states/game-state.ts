@@ -3,7 +3,7 @@ import { GameStateModel } from '@chess//GameState.model';
 import { GameStateModelList } from '@chess/GameState.model';
 import { Guid } from '@chess/guid';
 import { OptionsStateModel } from '@chess/options.model';
-import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
+import { State, Action, StateContext, Selector, Store, Actions } from '@ngxs/store';
 import { NewGame } from '@chess/NewGame';
 import { SetGame } from '@chess/SetGame';
 
@@ -11,7 +11,11 @@ import { SetGame } from '@chess/SetGame';
   name: 'games'
 })
 export class GameState {
-  constructor(private store: Store, private chessService: ChessService = new ChessService(store)) { }
+  constructor(
+    private store: Store,
+    private actions$: Actions,
+    private chessService: ChessService = new ChessService(store, actions$)
+  ) { }
   @Selector() static GameList(state: GameStateModelList) {
     return state.gameList;
   }

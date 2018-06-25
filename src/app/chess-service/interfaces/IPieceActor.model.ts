@@ -9,7 +9,7 @@ export interface IPieceActor {
   value: number;
   GetThreatPositionIds(piece: PieceStateModel): Guid[];
   GetPotentialMovePositionIds(piece: PieceStateModel): Guid[];
-  GetWatchList(piece: PieceStateModel): void;
+  GetWatchList(piece: PieceStateModel): Guid[];
   GetPositionsInDirectionUntilEmpty(piece: PieceStateModel, coordinates: ICoordinates, count: number): Guid[];
   GetBoard(piece: PieceStateModel): BoardStateModel;
   GetPositionByCoordinates(coordinates: ICoordinates, board: BoardStateModel): PositionStateModel;
