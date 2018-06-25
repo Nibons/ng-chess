@@ -1,4 +1,3 @@
-import { SetGame } from '@chess/SetGame';
 import { PieceStateModelList } from '@chess/ipiece.model';
 import { forkJoin } from 'rxjs';
 import { CreatePiece } from './CreatePiece';
@@ -30,11 +29,7 @@ export class NewGame {
     const addBoards$ = this.addBoards(configTemplate.boards);
     addBoards$.subscribe(
       () => {
-        this.addpieces(configTemplate.pieces, this.Id).subscribe(
-          () => {
-            this.store.dispatch(new SetGame(this.gameInfo));
-          }
-        );
+        this.addpieces(configTemplate.pieces, this.Id);
       }
     );
   }
@@ -49,6 +44,7 @@ export class NewGame {
 
   private addpieces(pieceStateModelList: PieceStateModelList, gameId: Guid) {
     const pieceCreationTaskList = [];
+    console.log('number of pieces: ' + pieceStateModelList.pieces.length);
     pieceStateModelList.pieces.forEach(
       (piece: PieceStateModel) => {
         if (piece.pieceType !== undefined) {
@@ -56,6 +52,5 @@ export class NewGame {
         }
       }
     );
-    return forkJoin(...pieceCreationTaskList);
   }
 }
