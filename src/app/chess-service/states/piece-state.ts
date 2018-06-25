@@ -59,18 +59,14 @@ export class PieceState {
   }
 
   @Action(SetPiece)
-  setPiece({ getState, patchState }: StateContext<PieceStateModelList>, { piece }: SetPiece) {
-    if (getState().pieces) {
-      patchState({
-        pieces: [
-          piece,
-          ...getState().pieces,
-        ]
-      });
+  setPiece({ getState, patchState }: StateContext<PieceStateModelList>, action: SetPiece) {
+    if (getState().pieces[0].Id === null) {
+      patchState({ pieces: [action.piece] });
     } else {
       patchState({
         pieces: [
-          piece
+          ...getState().pieces.filter((p: PieceStateModel) => !p.Id.IsEqual(action.piece.Id)),
+          action.piece
         ]
       });
     }
