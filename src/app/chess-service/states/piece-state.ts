@@ -15,7 +15,20 @@ import { forkJoin, Observable } from 'rxjs';
 })
 export class PieceState {
   constructor(private actions$: Actions, private store: Store) {
-    
+    this.actions$.pipe(
+      ofActionSuccessful(CreatePiece)
+    ).subscribe(
+      ({ piece }: CreatePiece) => {
+        if (piece.Id) {
+          const pieceList = store.selectSnapshot(PieceState.PieceList);
+          const piecesLikeThis = pieceList.filter(p => p.Id.IsEqual(piece.Id));
+          if (piecesLikeThis.length > 1) {
+            console.log('DuplicatePiece:');
+            console.log(`Player: ${piece.playerNumber}\nPieceType:${piece.pieceType}\nCoordinates:${piece.coordinates.dimensions}`);
+          }
+        }
+      }
+    );
   }
   @Selector() static PieceList(state: PieceStateModelList): PieceStateModel[] {
     return state.pieces;

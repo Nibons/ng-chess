@@ -38,8 +38,8 @@ export class ChessService {
       const pieceWithThreat = this.GetThreat(piece);
       this.store.dispatch(new SetPieceThreat(pieceWithThreat));
     },
-      (err) => { throw err },
-      () => { console.log('SetPieceThreat Invocation complete') }
+      (err) => { throw err; },
+      () => { console.log('SetPieceThreat Invocation complete'); }
     );
     this.actions$.pipe(
       ofActionSuccessful(SetPieceThreat)
@@ -54,14 +54,14 @@ export class ChessService {
     ).subscribe(
       ({ piece }: SetPiecePotentialMoves) => {
         const watchList = this.GetWatchList(piece);
-        this.store.dispatch(new SetPieceWatchList(piece.Id, watchList))
+        this.store.dispatch(new SetPieceWatchList(piece.Id, watchList));
       }
     );
   }
   private GetPieceActor(piece: PieceStateModel): IPieceActor {
     const pieceActor = this.pieceActors.filter(
-      (pieceActor: IPieceActor) =>
-        pieceActor.pieceType === piece.pieceType
+      (pA: IPieceActor) =>
+        pA.pieceType === piece.pieceType
     );
     return pieceActor[0];
   }
