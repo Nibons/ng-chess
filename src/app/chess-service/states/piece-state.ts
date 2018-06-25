@@ -9,9 +9,28 @@ import { SetPieceWatchList } from '@chess/SetPieceWatchList';
 import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
 import { forkJoin, Observable } from 'rxjs';
 
-@State<PieceStateModel[]>({
+@State<PieceStateModelList>({
   name: 'pieces',
-  defaults: []
+  defaults: {
+    pieces: [
+      {
+        Id: null,
+        gameId: null,
+        playerNumber: null,
+        playerId: null,
+        pieceType: null,
+        IsVital: null,
+        IsAlive: null,
+        HasMoved: null,
+        positionId: null,
+        threatList: null,
+        potentialMoves: null,
+        value: null,
+        boardNumber: null,
+        coordinates: null
+      }
+    ]
+  }
 })
 export class PieceState {
   constructor(private actions$: Actions, private store: Store) {
