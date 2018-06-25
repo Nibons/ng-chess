@@ -51,7 +51,9 @@ export class NewGame {
     const pieceCreationTaskList = [];
     pieceStateModelList.pieces.forEach(
       (piece: PieceStateModel) => {
-        pieceCreationTaskList.push(this.store.dispatch(new CreatePiece(piece, gameId, this.store)));
+        if (piece.pieceType !== undefined) {
+          pieceCreationTaskList.push(this.store.dispatch(new CreatePiece(piece, gameId, this.store)));
+        }
       }
     );
     return forkJoin(...pieceCreationTaskList);
