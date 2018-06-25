@@ -3,7 +3,6 @@ import { State, Selector, Action, StateContext, Actions, Store, ofActionSuccessf
 import { SetPiece } from '@chess/SetPiece';
 import { Guid } from '@chess/guid';
 import { CreatePiece } from '@chess/CreatePiece';
-import { SetPieceAtPosition } from '@chess/SetPieceAtPosition';
 import { SetPieceThreat } from '@chess/SetPieceThreat';
 import { SetPiecePotentialMoves } from '@chess/SetPiecePotentialMoves';
 import { SetPieceWatchList } from '@chess/SetPieceWatchList';

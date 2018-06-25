@@ -19,7 +19,6 @@ export class CreatePiece {
     const boardId = store.selectSnapshot(BoardState.BoardList)
       .filter(b => b.gameId === newPiece.gameId)[newPiece.boardNumber]
       .Id;
-    store.dispatch(new SetPiece(newPiece));
-    store.dispatch(new SetPieceAtPosition(newPiece, newPiece.coordinates, boardId));
+    store.dispatch(new SetPiece(newPiece, boardId));
   }
 }

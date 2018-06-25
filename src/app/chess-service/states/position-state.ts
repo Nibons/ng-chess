@@ -11,6 +11,7 @@ import { CreatePosition } from '@chess/CreatePosition';
 import { SetPieceAtPosition } from '@chess/SetPieceAtPosition';
 import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
 import { forkJoin, Observable } from 'rxjs';
+import { SetPiece } from '@chess/SetPiece';
 
 @State<PositionStateModelList>({
   name: 'positions',
@@ -44,6 +45,12 @@ export class PositionState {
           )
         );
       }
+    );
+    this.actions$.pipe(
+      ofActionSuccessful(SetPiece)
+    ).subscribe(
+      ({ piece, boardId }: SetPiece) =>
+        store.dispatch(new SetPieceAtPosition(piece, piece.coordinates, boardId))
     );
   }
 
