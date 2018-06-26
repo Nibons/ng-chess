@@ -7,7 +7,7 @@ import { Store } from '@ngxs/store';
 
 export class CreatePiece {
   static readonly type = '[Piece] CreatePiece';
-  constructor(public piece: PieceStateModel, public gameId: Guid, store: Store) {
+  constructor(public piece: PieceStateModel, public gameId: Guid, public gameInfo, store: Store) {
     const defaults: Partial<PieceStateModel> = {
       gameId: gameId,
       Id: Guid.newGuid(),
