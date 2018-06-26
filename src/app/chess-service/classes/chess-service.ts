@@ -15,11 +15,10 @@ import { Observable } from 'rxjs';
 import { PieceState } from '@chess/piece-state';
 import { PositionState } from '@chess/position-state';
 import { BoardState } from '@chess/board-state';
-import { SetPieceAtPosition } from '@chess/SetPieceAtPosition';
 import { SetPieceThreat } from '@chess/SetPieceThreat';
 import { SetPiecePotentialMoves } from '@chess/SetPiecePotentialMoves';
 import { SetPieceWatchList } from '@chess/SetPieceWatchList';
-import { EPieceType } from '@chess/e-piece-type.enum';
+import { AllPiecesCreatedOnBoard } from '@chess/AllPiecesCreated';
 
 @Injectable()
 export class ChessService {
@@ -33,34 +32,27 @@ export class ChessService {
     // create each type of piece actor, that will watch the PieceStateModel for changes
     this.createPieceActors();
     this.actions$.pipe(
-      ofActionSuccessful(SetPieceAtPosition)
-    ).subscribe(({ piece }: SetPieceAtPosition) => {
-      const pieceWithThreat = this.GetThreat(piece);
-      this.store.dispatch(new SetPieceThreat(pieceWithThreat));
-    },
-      (err) => { throw err; },
-      () => { console.log('SetPieceThreat Invocation complete'); }
-    );
-    this.actions$.pipe(
-      ofActionSuccessful(SetPieceThreat)
+      ofActionSuccessful(AllPiecesCreatedOnBoard)
     ).subscribe(
-      ({ piece }: SetPieceThreat) => {
-        const pieceWithPotentialMoves = this.GetPotentialMoves(piece);
-        this.store.dispatch(new SetPiecePotentialMoves(pieceWithPotentialMoves));
-      },
-      (err) => { throw err; },
-      () => { console.log('SetPiecePotentialMoves Invocation complete'); }
+      ({ pieces }: AllPiecesCreatedOnBoard) => {
+        for (const p of pieces) {
+          this.processPiece(p, store);
+        }
+      }
     );
-    this.actions$.pipe(
-      ofActionSuccessful(SetPiecePotentialMoves)
-    ).subscribe(
-      ({ piece }: SetPiecePotentialMoves) => {
-        const watchList = this.GetWatchList(piece);
-        this.store.dispatch(new SetPieceWatchList(piece.Id, watchList));
-      },
-      (err) => { throw err; },
-      () => { console.log('SetPieceWatchList Invocation complete'); }
-    );
+  }
+  private processPiece(piece: PieceStateModel) {
+    if (piece !== undefined) {
+      this.store.dispatch(new SetPieceThreat(this.GetThreat(piece)))
+        .subscribe(
+          () =>
+            this.store.dispatch(new SetPiecePotentialMoves(this.GetPotentialMoves(piece)))
+              .subscribe(
+                () =>
+                  this.store.dispatch(new SetPieceWatchList(piece.Id, this.GetWatchList(piece)))
+              )
+        );
+    }
   }
   private GetPieceActor(piece: PieceStateModel): IPieceActor {
     const pieceActor = this.pieceActors.filter(
@@ -71,10 +63,12 @@ export class ChessService {
   }
 
   private GetThreat(piece: PieceStateModel): PieceStateModel {
-    const pieceActor = this.GetPieceActor(piece);
-    const threatPositions = pieceActor.GetThreatPositionIds(piece);
-    piece.threatList = threatPositions;
-    return piece;
+    if (piece !== undefined) {
+      const pieceActor = this.GetPieceActor(piece);
+      const threatPositions = pieceActor.GetThreatPositionIds(piece);
+      piece.threatList = threatPositions;
+      return piece;
+    }
   }
 
   private GetPotentialMoves(piece: PieceStateModel): PieceStateModel {
