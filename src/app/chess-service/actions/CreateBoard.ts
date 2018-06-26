@@ -1,3 +1,4 @@
+import { IBoardDimensions } from '@chess/icoordinates.model';
 import { BoardStateModel } from '@chess/iboard.model';
 import { Store } from '@ngxs/store';
 import { Guid } from '@chess/guid';
@@ -7,13 +8,21 @@ export class CreateBoard {
   public payload: BoardStateModel;
   public range;
   public boardId;
+  private getTotalPositionCount(range: IBoardDimensions): number {
+    let multiplier = 1;
+    range.max.dimensions.forEach((value, index) => {
+      multiplier = multiplier * (value - range.min.dimensions[index] + 1);
+    });
+    return multiplier;
+  }
 
-  constructor(board: BoardStateModel, public gameId: Guid, public store: Store) {
+  constructor(board: BoardStateModel, public gameId: Guid, public gameInfo, public store: Store) {
     this.range = board.range;
     this.boardId = Guid.newGuid();
     this.payload = {
       gameId: gameId,
       Id: this.boardId,
+      totalPositionCount: this.getTotalPositionCount(this.range),
       direction: board.direction,
       range: board.range,
       positions: []

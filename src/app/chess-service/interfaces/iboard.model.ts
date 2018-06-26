@@ -10,6 +10,7 @@ export interface BoardStateModelList {
 export interface BoardStateModel extends GameItemStateModel {
   direction: Coordinates;
   range: IBoardDimensions;
+  totalPositionCount: number;
   positions?: Guid[];
   activePieceList?: Guid[];
 }

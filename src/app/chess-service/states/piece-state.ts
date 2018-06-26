@@ -1,3 +1,5 @@
+import { BoardState } from '@chess/board-state';
+import { AllPositionsOnBoardCreated } from '@chess/AllPositionsCreatedOnBoard';
 import { PieceStateModelList, PieceStateModel } from '@chess/ipiece.model';
 import { State, Selector, Action, StateContext, Actions, Store, ofActionSuccessful } from '@ngxs/store';
 import { SetPiece } from '@chess/SetPiece';
@@ -34,6 +36,18 @@ import { forkJoin, Observable } from 'rxjs';
 })
 export class PieceState {
   constructor(private actions$: Actions, private store: Store) {
+    // on allPositionsCreated, create the pieces
+    this.actions$.pipe(
+      ofActionSuccessful(AllPositionsOnBoardCreated)
+    ).subscribe(
+      ({ pieces, boardId }: AllPositionsOnBoardCreated) => {
+        const gameId = store.selectSnapshot(BoardState.BoardList).find(b => b.Id.IsEqual(boardId)).gameId;
+        for (let i = 0; i < pieces.length; i++) {
+          store.dispatch(new CreatePiece(pieces[i], gameId, store));
+        }
+      }
+    );
+    // on created pieces
     this.actions$.pipe(
       ofActionSuccessful(CreatePiece)
     ).subscribe(
@@ -60,15 +74,17 @@ export class PieceState {
 
   @Action(SetPiece)
   setPiece({ getState, patchState }: StateContext<PieceStateModelList>, action: SetPiece) {
-    if (getState().pieces[0].Id === null) {
-      patchState({ pieces: [action.piece] });
-    } else {
-      patchState({
-        pieces: [
-          ...getState().pieces.filter((p: PieceStateModel) => !p.Id.IsEqual(action.piece.Id)),
-          action.piece
-        ]
-      });
+    if (action.piece !== undefined) {
+      if (getState().pieces[0].Id === null) {
+        patchState({ pieces: [action.piece] });
+      } else {
+        patchState({
+          pieces: [
+            ...getState().pieces.filter((p: PieceStateModel) => !p.Id.IsEqual(action.piece.Id)),
+            action.piece
+          ]
+        });
+      }
     }
   }
   @Action(CreatePiece)

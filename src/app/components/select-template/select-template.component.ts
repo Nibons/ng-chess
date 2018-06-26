@@ -15,12 +15,12 @@ export class SelectTemplateComponent implements OnInit {
 
   ngOnInit() {
     // TODO- remove this line
-    this.store.dispatch(new NewGame(this.template, this.store));
+    this.store.dispatch(new NewGame(this.template));
   }
 
   onClick() {
     console.log('Template called');
-    this.store.dispatch(new NewGame(this.template, this.store));
+    this.store.dispatch(new NewGame(this.template));
   }
 
 }

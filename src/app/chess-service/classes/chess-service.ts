@@ -47,7 +47,9 @@ export class ChessService {
       ({ piece }: SetPieceThreat) => {
         const pieceWithPotentialMoves = this.GetPotentialMoves(piece);
         this.store.dispatch(new SetPiecePotentialMoves(pieceWithPotentialMoves));
-      }
+      },
+      (err) => { throw err; },
+      () => { console.log('SetPiecePotentialMoves Invocation complete'); }
     );
     this.actions$.pipe(
       ofActionSuccessful(SetPiecePotentialMoves)
@@ -55,7 +57,9 @@ export class ChessService {
       ({ piece }: SetPiecePotentialMoves) => {
         const watchList = this.GetWatchList(piece);
         this.store.dispatch(new SetPieceWatchList(piece.Id, watchList));
-      }
+      },
+      (err) => { throw err; },
+      () => { console.log('SetPieceWatchList Invocation complete'); }
     );
   }
   private GetPieceActor(piece: PieceStateModel): IPieceActor {
@@ -74,15 +78,19 @@ export class ChessService {
   }
 
   private GetPotentialMoves(piece: PieceStateModel): PieceStateModel {
-    const pieceActor = this.GetPieceActor(piece);
-    const positionIds = pieceActor.GetPotentialMovePositionIds(piece);
-    piece.potentialMoves = positionIds;
-    return piece;
+    if (piece !== undefined) {
+      const pieceActor = this.GetPieceActor(piece);
+      const positionIds = pieceActor.GetPotentialMovePositionIds(piece);
+      piece.potentialMoves = positionIds;
+      return piece;
+    }
   }
 
   private GetWatchList(piece: PieceStateModel): Guid[] {
-    const pieceActor = this.GetPieceActor(piece);
-    return pieceActor.GetWatchList(piece);
+    if (piece !== undefined) {
+      const pieceActor = this.GetPieceActor(piece);
+      return pieceActor.GetWatchList(piece);
+    }
   }
 
   private createPieceActors(): void {

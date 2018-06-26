@@ -10,7 +10,7 @@ import { State, Selector, StateContext, Action, ofActionSuccessful, Store, Actio
 import { CreatePosition } from '@chess/CreatePosition';
 import { SetPieceAtPosition } from '@chess/SetPieceAtPosition';
 import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SetPiece } from '@chess/SetPiece';
 
 @State<PositionStateModelList>({
@@ -19,33 +19,35 @@ import { SetPiece } from '@chess/SetPiece';
 })
 export class PositionState {
   allPositionsCreated$: Observable<any>;
-  constructor(private actions$: Actions, private store: Store) {
+  constructor(private actions$: Actions, store: Store) {
+    // create all positions when we create the board
     this.actions$.pipe(
       ofActionSuccessful(CreateBoard)
     ).subscribe(
-      ({ payload }: CreateBoard) => {
-        store.dispatch(new CreateAllPositions(payload.range, payload.Id, payload.gameId, store));
+      ({ payload, gameInfo }: CreateBoard) => {
+        store.dispatch(new CreateAllPositions(payload.range, payload.Id, payload.gameId, gameInfo, store));
       }
     );
-    this.actions$.pipe(
-      ofActionSuccessful(CreatePosition)
-    ).subscribe(
-      ({ payload }: CreatePosition) => {
-        store.dispatch(new AddPositionToBoard(payload.Id, payload.boardId));
-      }
-    );
+    // process through and create all the positions
     this.actions$.pipe(
       ofActionSuccessful(CreateAllPositions)
     ).subscribe(
-      ({ payload }: CreateAllPositions) => {
+      ({ payload, gameInfo }: CreateAllPositions) => {
         payload.forEach(position =>
-          this.allPositionsCreated$ = forkJoin(
-            this.allPositionsCreated$,
-            store.dispatch(new CreatePosition(position))
-          )
+          store.dispatch(new CreatePosition(position, gameInfo))
         );
       }
     );
+    // add each position to the board
+    this.actions$.pipe(
+      ofActionSuccessful(CreatePosition)
+    ).subscribe(
+      ({ payload, gameInfo }: CreatePosition) => {
+        store.dispatch(new AddPositionToBoard(payload.Id, payload.boardId, gameInfo));
+      }
+    );
+
+    // when a piece is set, make sure to put it where its @
     this.actions$.pipe(
       ofActionSuccessful(SetPiece)
     ).subscribe(
