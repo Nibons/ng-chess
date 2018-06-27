@@ -3,10 +3,10 @@ import { Store } from '@ngxs/store';
 import { Guid } from '@chess/guid';
 import { PieceState } from '@chess/piece-state';
 
-export class AllPiecesCreatedOnBoard {
+export class AllPiecesOnBoardCreated {
   static readonly type = '[Pieces] AllPiecesCreated';
   public pieceInfo;
-  constructor(public gameInfo, public pieces: PieceStateModel[], store: Store) {
+  constructor(public gameInfo, public pieces: PieceStateModel[]) {
     this.pieceInfo = gameInfo.template.configStateTemplates.pieces.pieces;
   }
 }
