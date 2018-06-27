@@ -36,7 +36,7 @@ export class ChessService {
     ).subscribe(
       ({ pieces }: AllPiecesCreatedOnBoard) => {
         for (const p of pieces) {
-          this.processPiece(p, store);
+          this.processPiece(p);
         }
       }
     );
