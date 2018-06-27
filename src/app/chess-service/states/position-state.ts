@@ -51,8 +51,8 @@ export class PositionState {
     this.actions$.pipe(
       ofActionSuccessful(SetPiece)
     ).subscribe(
-      ({ piece, boardId }: SetPiece) =>
-        store.dispatch(new SetPieceAtPosition(piece, piece.coordinates, boardId))
+      (action: SetPiece) =>
+        store.dispatch(new SetPieceAtPosition(action.piece, action.piece.coordinates, action.boardId))
     );
   }
 

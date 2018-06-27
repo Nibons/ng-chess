@@ -1,7 +1,5 @@
 import { Guid } from '@chess/guid';
 import { PieceStateModel } from '@chess/ipiece.model';
-import { BoardStateModel } from '@chess/iboard.model';
-import { PositionStateModel } from '@chess/IPosition.model';
 import { Injectable } from '@angular/core';
 import { IPieceActor } from '@chess/IPieceActor.model';
 import { Store, Actions, ofActionSuccessful } from '@ngxs/store';
@@ -11,32 +9,26 @@ import { Rook } from '@chess/pieces/rook';
 import { Knight } from '@chess/pieces/knight';
 import { Bishop } from '@chess/pieces/bishop';
 import { Pawn } from '@chess/pieces/pawn';
-import { Observable } from 'rxjs';
-import { PieceState } from '@chess/piece-state';
-import { PositionState } from '@chess/position-state';
-import { BoardState } from '@chess/board-state';
 import { SetPieceThreat } from '@chess/SetPieceThreat';
 import { SetPiecePotentialMoves } from '@chess/SetPiecePotentialMoves';
 import { SetPieceWatchList } from '@chess/SetPieceWatchList';
-import { AllPiecesCreatedOnBoard } from '@chess/AllPiecesCreated';
+import { AllPiecesOnBoardCreated } from '@chess/AllPiecesOnBoardCreated';
 
 @Injectable()
 export class ChessService {
   pieceActors: IPieceActor[] = [];
 
-  protected pieces$: Observable<PieceStateModel[]> = this.store.select(PieceState.PieceList);
-  protected positions$: Observable<PositionStateModel[]> = this.store.select(PositionState.PositionList);
-  protected boards$: Observable<BoardStateModel[]> = this.store.select(BoardState.BoardList);
-
   constructor(private store: Store, private actions$: Actions) {
     // create each type of piece actor, that will watch the PieceStateModel for changes
     this.createPieceActors();
     this.actions$.pipe(
-      ofActionSuccessful(AllPiecesCreatedOnBoard)
+      ofActionSuccessful(AllPiecesOnBoardCreated)
     ).subscribe(
-      ({ pieces }: AllPiecesCreatedOnBoard) => {
+      ({ pieces }: AllPiecesOnBoardCreated) => {
         for (const p of pieces) {
-          this.processPiece(p);
+          if (p !== undefined) {
+            this.processPiece(p);
+          }
         }
       }
     );

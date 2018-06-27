@@ -8,10 +8,9 @@ import { State, StateContext, Selector, Store, Actions, ofActionSuccessful, Acti
 import { BoardStateModelList, BoardStateModel } from '@chess/iboard.model';
 import { PositionState } from '@chess/position-state';
 import { CreateAllBoards } from '@chess/CreateAllBoards';
-import { AllPositionsOnBoardCreated } from '@chess/AllPositionsCreatedOnBoard';
 import { debounce } from 'rxjs/operators';
 import { timer } from 'rxjs';
-import { CreateAllPieces } from '@chess/CreateAllPieces';
+import { AllPositionsOnBoardCreated } from '@chess/AllPositionsOnBoardCreated';
 
 
 @State<BoardStateModelList>({
@@ -41,18 +40,6 @@ export class BoardState {
           store.dispatch(new AllPositionsOnBoardCreated(gameInfo, boardId));
         }
       }
-    );
-
-    actions$.pipe(
-      ofActionSuccessful(AllPositionsOnBoardCreated)
-    ).subscribe(
-      ({ pieces, boardId, gameInfo }: AllPositionsOnBoardCreated) =>
-        store.select(BoardState.BoardList).subscribe(
-          (boardList) => {
-            const gameId = boardList.find(b => b.Id === boardId).gameId;
-            store.dispatch(new CreateAllPieces(pieces, boardId, gameId, gameInfo, actions$, store));
-          }
-        )
     );
   }
   @Selector() static getBoardById(Id: Guid, { getState }: StateContext<BoardStateModelList>) {
