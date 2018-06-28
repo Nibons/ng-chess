@@ -10,8 +10,9 @@ import { State, Selector, StateContext, Action, ofActionSuccessful, Store, Actio
 import { CreatePosition } from '@chess/CreatePosition';
 import { SetPieceAtPosition } from '@chess/SetPieceAtPosition';
 import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
-import { Observable } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
 import { SetPiece } from '@chess/SetPiece';
+import { mergeMap, switchMap, map } from 'rxjs/operators';
 
 @State<PositionStateModelList>({
   name: 'positions',
@@ -22,38 +23,61 @@ export class PositionState {
   constructor(private actions$: Actions, store: Store) {
     // create all positions when we create the board
     this.actions$.pipe(
-      ofActionSuccessful(CreateBoard)
+      ofActionSuccessful(CreateBoard),
+      map(
+        ({ payload, gameInfo }: CreateBoard) => {
+          if (payload !== undefined && gameInfo !== undefined) {
+            store.dispatch(new CreateAllPositions(payload.range, payload.Id, payload.gameId, gameInfo, store));
+          } else {
+            of(null);
+          }
+        }
+      )
     ).subscribe(
-      ({ payload, gameInfo }: CreateBoard) => {
-        store.dispatch(new CreateAllPositions(payload.range, payload.Id, payload.gameId, gameInfo, store));
-      }
+
     );
+
     // process through and create all the positions
     this.actions$.pipe(
-      ofActionSuccessful(CreateAllPositions)
-    ).subscribe(
-      ({ payload, gameInfo }: CreateAllPositions) => {
-        payload.forEach(position =>
-          store.dispatch(new CreatePosition(position, gameInfo))
-        );
-      }
-    );
-    // add each position to the board
+      ofActionSuccessful(CreateAllPositions),
+      map(
+        ({ payload, gameInfo }: CreateAllPositions) => {
+          if (payload !== undefined && gameInfo !== undefined) {
+            payload.forEach(position =>
+              store.dispatch(new CreatePosition(position, gameInfo))
+            );
+          } else {
+            of(null);
+          }
+        }
+      )
+    ).subscribe();
+
     this.actions$.pipe(
-      ofActionSuccessful(CreatePosition)
-    ).subscribe(
-      ({ payload, gameInfo }: CreatePosition) => {
-        store.dispatch(new AddPositionToBoard(payload.Id, payload.boardId, gameInfo));
+      ofActionSuccessful(CreatePosition),
+      map(({ payload, gameInfo }: CreatePosition) => {
+        if (payload !== undefined && gameInfo !== undefined) {
+          store.dispatch(new AddPositionToBoard(payload.Id, payload.boardId, gameInfo))
+        } else {
+          of(null);
+        }
       }
-    );
+      )
+    ).subscribe();
 
     // when a piece is set, make sure to put it where its @
     this.actions$.pipe(
-      ofActionSuccessful(SetPiece)
-    ).subscribe(
-      (action: SetPiece) =>
-        store.dispatch(new SetPieceAtPosition(action.piece, action.piece.coordinates, action.boardId))
-    );
+      ofActionSuccessful(SetPiece),
+      map(
+        ({ piece, boardId }: SetPiece) => {
+          if (piece !== undefined && boardId !== undefined) {
+            store.dispatch(new SetPieceAtPosition(piece, piece.coordinates, boardId))
+          } else {
+            of(null);
+          }
+        }
+      )
+    ).subscribe();
   }
 
   @Selector() static PositionList(state: PositionStateModelList) {

@@ -110,12 +110,14 @@ export class PieceState {
   }
 
   @Action(SetPieceWatchList)
-  setPieceWatchList(payload: SetPieceWatchList) {
-    payload.positions.forEach(
-      positionId => {
-        this.store.dispatch(new AddToPositionWatchList(payload.pieceId, positionId))
-      }
-    )
+  setPieceWatchList({ pieceId, positions }: SetPieceWatchList) {
+    if (pieceId !== undefined && positions !== undefined) {
+      positions.forEach(
+        positionId => {
+          this.store.dispatch(new AddToPositionWatchList(pieceId, positionId))
+        }
+      )
+    }
   }
   @Action(CreateAllPieces)
   createAllPieces(action: CreateAllPieces) { }
