@@ -4,9 +4,6 @@ import { EPieceType } from '@chess/e-piece-type.enum';
 import { EPlayerType } from '@chess/eplayer-type.enum';
 import { IMove } from '@chess/imove.model';
 import { IPiece } from '@chess/ipiece.model';
-import { IPosition } from '@chess/IPosition.model';
-import { Observable } from 'rxjs';
-import { Guid } from '@chess/guid';
 import { ICoordinates } from '@chess/icoordinates.model';
 
 export interface PlayerStateModelList {
