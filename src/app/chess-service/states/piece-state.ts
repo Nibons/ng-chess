@@ -110,16 +110,12 @@ export class PieceState {
   }
 
   @Action(SetPieceWatchList)
-  setPieceWatchList({ positions, pieceId }: SetPieceWatchList) {
-    let addToList$: Observable<any>;
-    positions.forEach(
+  setPieceWatchList(payload: SetPieceWatchList) {
+    payload.positions.forEach(
       positionId => {
-        addToList$ = forkJoin(addToList$,
-          this.store.dispatch(new AddToPositionWatchList(pieceId, positionId))
-        );
+        this.store.dispatch(new AddToPositionWatchList(payload.pieceId, positionId))
       }
-    );
-    return addToList$;
+    )
   }
   @Action(CreateAllPieces)
   createAllPieces(action: CreateAllPieces) { }

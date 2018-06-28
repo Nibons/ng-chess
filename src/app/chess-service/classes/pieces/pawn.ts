@@ -1,5 +1,5 @@
+import { PlayerState } from '@chess/player-state';
 import { PieceStateModel } from './../../interfaces/ipiece.model';
-import { Piece } from '@chess/piece';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { BasePiece } from '@chess/BasePiece';
 import { IPieceActor } from '@chess/IPieceActor.model';
@@ -10,16 +10,20 @@ export class Pawn extends BasePiece implements IPieceActor {
   GetThreatPositionIds(piece: PieceStateModel): Guid[] {
     return this.GetPawnThreat(piece);
   }
-  GetPotentialMovePositionIds(): Guid[] {
-    throw new Error('Method not implemented.');
+  GetPotentialMovePositionIds(piece: PieceStateModel): Guid[] {
+    const pieceDirection = this.store.selectSnapshot(PlayerState.PlayerList)[piece.playerNumber].pieceOrientation
+    const pawnMoveCount = piece.HasMoved ? 1 : 2;
+    return [...this.GetPositionsInDirectionUntilEmpty(piece, pieceDirection, pawnMoveCount)];
   }
   readonly value = 1;
   readonly pieceType = EPieceType.pawn;
   public GetPawnThreat(piece: PieceStateModel): Guid[] {
-    const position_cache = [];
-    this.GetPositionsInDirectionUntilEmpty(piece, { dimensions: [-1, 1] }, 1).forEach(pos => position_cache.push(pos));
-    this.GetPositionsInDirectionUntilEmpty(piece, { dimensions: [1, -1] }, 1).forEach(pos => position_cache.push(pos));
-    return position_cache;
+    const pieceDirection = this.store.selectSnapshot(PlayerState.PlayerList)[piece.playerNumber].pieceOrientation;
+    const pieceDirectionYVal = pieceDirection.dimensions[1];
+    return [
+      ...this.GetPositionsInDirectionUntilEmpty(piece, { dimensions: [-1, pieceDirectionYVal] }, 1),
+      ...this.GetPositionsInDirectionUntilEmpty(piece, { dimensions: [1, pieceDirectionYVal] }, 1)
+    ];
   }
 
   SetPotentialMoves(): void {
