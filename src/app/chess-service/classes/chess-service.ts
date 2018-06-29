@@ -1,3 +1,4 @@
+import { EPieceType } from '@chess/e-piece-type.enum';
 import { Guid } from '@chess/guid';
 import { PieceStateModel } from '@chess/ipiece.model';
 import { Injectable } from '@angular/core';
@@ -15,6 +16,7 @@ import { SetPieceWatchList } from '@chess/SetPieceWatchList';
 import { AllPiecesOnBoardCreated } from '@chess/AllPiecesOnBoardCreated';
 import { map } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { SetPieceActionSet } from '@chess/SetPieceActionSet';
 
 @Injectable()
 export class ChessService {
@@ -23,78 +25,25 @@ export class ChessService {
   constructor(private store: Store, private actions$: Actions) {
     // create each type of piece actor, that will watch the PieceStateModel for changes
     this.createPieceActors();
+
+
     this.actions$.pipe(
       ofActionSuccessful(AllPiecesOnBoardCreated),
       map(
         ({ pieces }: AllPiecesOnBoardCreated) => {
           if (pieces !== undefined) {
             for (const p of pieces) {
-              this.store.dispatch(new SetPieceThreat(p));
+              this.store.dispatch(new SetPieceActionSet(p, this.GetPieceActor(p.pieceType)));
             }
           } else {
             of(null);
           }
         })
     ).subscribe();
-
-    this.actions$.pipe(
-      ofActionSuccessful(SetPieceThreat),
-      map(
-        ({ piece }: SetPieceThreat) => {
-          if (piece !== undefined) {
-            this.store.dispatch(new SetPiecePotentialMoves(this.GetPotentialMoves(piece)));
-          } else {
-            of(null);
-          }
-        }
-      )
-    ).subscribe();
-
-    this.actions$.pipe(
-      ofActionSuccessful(SetPiecePotentialMoves),
-      map(
-        ({ piece }: SetPiecePotentialMoves) => {
-          if (piece !== undefined) {
-            this.store.dispatch(new SetPieceWatchList(piece.Id, this.GetWatchList(piece)));
-          } else {
-            of(null);
-          }
-        }
-      )
-    ).subscribe();
   }
 
-  private GetPieceActor(piece: PieceStateModel): IPieceActor {
-    const pieceActor = this.pieceActors.filter(
-      (pA: IPieceActor) =>
-        pA.pieceType === piece.pieceType
-    );
-    return pieceActor[0];
-  }
-
-  private GetThreat(piece: PieceStateModel): PieceStateModel {
-    if (piece !== undefined) {
-      const pieceActor = this.GetPieceActor(piece);
-      const threatPositions = pieceActor.GetThreatPositionIds(piece);
-      piece.threatList = threatPositions;
-      return piece;
-    }
-  }
-
-  private GetPotentialMoves(piece: PieceStateModel): PieceStateModel {
-    if (piece !== undefined) {
-      const pieceActor = this.GetPieceActor(piece);
-      const positionIds = pieceActor.GetPotentialMovePositionIds(piece);
-      piece.potentialMoves = positionIds;
-      return piece;
-    }
-  }
-
-  private GetWatchList(piece: PieceStateModel): Guid[] {
-    if (piece !== undefined) {
-      const pieceActor = this.GetPieceActor(piece);
-      return pieceActor.GetWatchList(piece);
-    }
+  private GetPieceActor(pieceType: EPieceType): IPieceActor {
+    return this.pieceActors.find(pA => pA.pieceType === pieceType);
   }
 
   private createPieceActors(): void {

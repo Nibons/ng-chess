@@ -1,3 +1,4 @@
+import { SetPieceActionSet } from './../actions/SetPieceActionSet';
 import { SetPieceAtPosition } from '@chess/SetPieceAtPosition';
 import { CreateAllPieces } from './../actions/CreateAllPieces';
 import { debounce, last, map } from 'rxjs/operators';
@@ -14,6 +15,7 @@ import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
 import { forkJoin, Observable, timer } from 'rxjs';
 import { AllPositionsOnBoardCreated } from '@chess/AllPositionsOnBoardCreated';
 import { AllPiecesOnBoardCreated } from '@chess/AllPiecesOnBoardCreated';
+import { ActionContext } from '@ngxs/store/src/actions-stream';
 
 @State<PieceStateModelList>({
   name: 'pieces',
@@ -59,22 +61,21 @@ export class PieceState {
     // onSetPieceAtPosition, check to see if all pieces have been placed
     this.allPiecesCreated$ = this.actions$.pipe(
       ofActionSuccessful(CreatePiece),
-      debounce(() => timer(20)),
-      map(
-        (action: CreatePiece) => {
-          this.store.select(PieceState.PieceList).subscribe(
-            (pieceList: PieceStateModel[]) => {
-              const piecesCreated = pieceList.filter(piece => piece.gameId.IsEqual(action.gameId));
-              const totalPieceCount = action.gameInfo.template.configStateTemplates.pieces.pieces.length;
-              if (piecesCreated.length === totalPieceCount) {
-                this.store.dispatch(new AllPiecesOnBoardCreated(action.gameInfo, piecesCreated));
-                this.allPiecesCreated$.unsubscribe();
-              }
+      debounce(() => timer(100))
+    ).subscribe(
+      (action: CreatePiece) => {
+        this.store.select(PieceState.PieceList).subscribe(
+          (pieceList: PieceStateModel[]) => {
+            const piecesCreated = pieceList.filter(piece => piece.gameId.IsEqual(action.gameId));
+            const totalPieceCount = action.gameInfo.template.configStateTemplates.pieces.pieces.length;
+            if (piecesCreated.length === totalPieceCount) {
+              this.store.dispatch(new AllPiecesOnBoardCreated(action.gameInfo, piecesCreated));
+              this.allPiecesCreated$.unsubscribe();
             }
-          );
-        }
-      )
-    ).subscribe();
+          }
+        );
+      }
+    );
   }
   @Selector() static PieceList(state: PieceStateModelList): PieceStateModel[] {
     return state.pieces;
@@ -103,26 +104,13 @@ export class PieceState {
   @Action(CreatePiece)
   createPiece() { }
 
-  @Action(SetPieceThreat)
-  SetPieceThreat({ piece }: SetPieceThreat) {
-    // const pieceActor = (new GetPieceActor(piece.pieceType)).PieceActor;
-    this.store.dispatch(new SetPiece(piece));
-  }
-  @Action(SetPiecePotentialMoves)
-  SetPiecePotentialMoves({ piece }: SetPiecePotentialMoves) {
-    this.store.dispatch(new SetPiece(piece));
+  @Action(SetPieceActionSet)
+  setPieceActionSet({ getState, patchState }: StateContext<PieceStateModelList>, { piece }: SetPieceActionSet) {
+    // updates threatList, potentialMoves, and invokes the +toWatchList
+    const current_piece = getState().pieces.find(p => p.Id.IsEqual(piece.Id));
   }
 
-  @Action(SetPieceWatchList)
-  setPieceWatchList({ pieceId, positions }: SetPieceWatchList) {
-    if (pieceId !== undefined && positions !== undefined) {
-      positions.forEach(
-        positionId => {
-          this.store.dispatch(new AddToPositionWatchList(pieceId, positionId));
-        }
-      );
-    }
-  }
+
   @Action(CreateAllPieces)
   createAllPieces(action: CreateAllPieces) { }
 }

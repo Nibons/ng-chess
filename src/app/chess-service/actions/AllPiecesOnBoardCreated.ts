@@ -1,7 +1,7 @@
 import { PieceStateModel } from '@chess/ipiece.model';
 
 export class AllPiecesOnBoardCreated {
-  static readonly type = '[Pieces] AllPiecesOnBoardCreated';
+  static readonly type = '[Piece] AllPiecesOnBoardCreated';
   public pieceInfo;
   constructor(public gameInfo, public pieces: PieceStateModel[]) {
     console.log('AllPiecesOnBoardCreated');
