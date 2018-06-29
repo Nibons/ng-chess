@@ -1,21 +1,15 @@
 import { SetPieceActionSet } from './../actions/SetPieceActionSet';
-import { SetPieceAtPosition } from '@chess/SetPieceAtPosition';
 import { CreateAllPieces } from './../actions/CreateAllPieces';
-import { debounce, last, map } from 'rxjs/operators';
+import { debounce, map } from 'rxjs/operators';
 import { BoardState } from '@chess/board-state';
 import { PieceStateModelList, PieceStateModel } from '@chess/ipiece.model';
 import { State, Selector, Action, StateContext, Actions, Store, ofActionSuccessful } from '@ngxs/store';
 import { SetPiece } from '@chess/SetPiece';
 import { Guid } from '@chess/guid';
 import { CreatePiece } from '@chess/CreatePiece';
-import { SetPieceThreat } from '@chess/SetPieceThreat';
-import { SetPiecePotentialMoves } from '@chess/SetPiecePotentialMoves';
-import { SetPieceWatchList } from '@chess/SetPieceWatchList';
-import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
-import { forkJoin, Observable, timer } from 'rxjs';
+import { timer } from 'rxjs';
 import { AllPositionsOnBoardCreated } from '@chess/AllPositionsOnBoardCreated';
 import { AllPiecesOnBoardCreated } from '@chess/AllPiecesOnBoardCreated';
-import { ActionContext } from '@ngxs/store/src/actions-stream';
 
 @State<PieceStateModelList>({
   name: 'pieces',
