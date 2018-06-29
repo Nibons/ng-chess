@@ -1,6 +1,5 @@
-import { IPiece } from '@chess/ipiece.model';
+import { IPiece, PieceStateModel } from '@chess/ipiece.model';
 import { Guid } from '@chess/guid';
-import { Coordinates } from '@chess/coordinates';
 import { IBoard } from '@chess/iboard.model';
 import { IGameItem, GameItemStateModel } from '@chess/igame-item.model';
 import { ICoordinates } from '@chess/icoordinates.model';
@@ -11,6 +10,7 @@ export interface PositionStateModel extends GameItemStateModel {
   Id: Guid;
   boardId: Guid;
   pieceId: Guid;
+  piece: PieceStateModel;
   coordinates: ICoordinates;
   watchList: Guid[];
 }

@@ -55,7 +55,7 @@ export class PositionState {
       ofActionSuccessful(CreatePosition),
       map(({ payload, gameInfo }: CreatePosition) => {
         if (payload !== undefined && gameInfo !== undefined) {
-          store.dispatch(new AddPositionToBoard(payload.Id, payload.boardId, gameInfo))
+          store.dispatch(new AddPositionToBoard(payload.Id, payload.boardId, gameInfo));
         } else {
           of(null);
         }
@@ -69,7 +69,7 @@ export class PositionState {
       map(
         ({ piece, boardId }: SetPiece) => {
           if (piece !== undefined && boardId !== undefined) {
-            store.dispatch(new SetPieceAtPosition(piece, piece.coordinates, boardId))
+            store.dispatch(new SetPieceAtPosition(piece, boardId));
           } else {
             of(null);
           }
@@ -120,11 +120,12 @@ export class PositionState {
   }
 
   @Action(SetPieceAtPosition)
-  setPieceAtPosition({ getState, patchState }: StateContext<PositionStateModelList>, { piece, coordinates, boardId }: SetPieceAtPosition) {
+  setPieceAtPosition({ getState, patchState }: StateContext<PositionStateModelList>, { piece, boardId }: SetPieceAtPosition) {
     const position = getState().positions.find(
       (p: PositionStateModel) =>
-        p.boardId.IsEqual(boardId) && Coordinates.IsSameCoordinates(p.coordinates, coordinates)
+        p.boardId.IsEqual(boardId) && Coordinates.IsSameCoordinates(p.coordinates, piece.coordinates)
     );
+    position.piece = piece;
     position.pieceId = piece.Id;
     patchState({
       positions: [

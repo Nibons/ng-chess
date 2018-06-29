@@ -99,12 +99,10 @@ export class PieceState {
   createPiece() { }
 
   @Action(SetPieceActionSet)
-  setPieceActionSet({ getState, patchState }: StateContext<PieceStateModelList>, { piece }: SetPieceActionSet) {
-    // updates threatList, potentialMoves, and invokes the +toWatchList
-    const current_piece = getState().pieces.find(p => p.Id.IsEqual(piece.Id));
+  setPieceActionSet({ getState }: StateContext<PieceStateModelList>, { piece }: SetPieceActionSet) {
   }
 
 
   @Action(CreateAllPieces)
-  createAllPieces(action: CreateAllPieces) { }
+  createAllPieces() { }
 }
