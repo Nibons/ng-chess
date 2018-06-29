@@ -13,6 +13,8 @@ import { SetPieceThreat } from '@chess/SetPieceThreat';
 import { SetPiecePotentialMoves } from '@chess/SetPiecePotentialMoves';
 import { SetPieceWatchList } from '@chess/SetPieceWatchList';
 import { AllPiecesOnBoardCreated } from '@chess/AllPiecesOnBoardCreated';
+import { map } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable()
 export class ChessService {
@@ -22,30 +24,46 @@ export class ChessService {
     // create each type of piece actor, that will watch the PieceStateModel for changes
     this.createPieceActors();
     this.actions$.pipe(
-      ofActionSuccessful(AllPiecesOnBoardCreated)
-    ).subscribe(
-      ({ pieces }: AllPiecesOnBoardCreated) => {
-        for (const p of pieces) {
-          if (p !== undefined) {
-            this.processPiece(p);
+      ofActionSuccessful(AllPiecesOnBoardCreated),
+      map(
+        ({ pieces }: AllPiecesOnBoardCreated) => {
+          if (pieces !== undefined) {
+            for (const p of pieces) {
+              this.store.dispatch(new SetPieceThreat(p));
+            }
+          } else {
+            of(null);
+          }
+        })
+    ).subscribe();
+
+    this.actions$.pipe(
+      ofActionSuccessful(SetPieceThreat),
+      map(
+        ({ piece }: SetPieceThreat) => {
+          if (piece !== undefined) {
+            this.store.dispatch(new SetPiecePotentialMoves(this.GetPotentialMoves(piece)));
+          } else {
+            of(null);
           }
         }
-      }
-    );
+      )
+    ).subscribe();
+
+    this.actions$.pipe(
+      ofActionSuccessful(SetPiecePotentialMoves),
+      map(
+        ({ piece }: SetPiecePotentialMoves) => {
+          if (piece !== undefined) {
+            this.store.dispatch(new SetPieceWatchList(piece.Id, this.GetWatchList(piece)));
+          } else {
+            of(null);
+          }
+        }
+      )
+    ).subscribe();
   }
-  private processPiece(piece: PieceStateModel) {
-    if (piece !== undefined) {
-      this.store.dispatch(new SetPieceThreat(this.GetThreat(piece)))
-        .subscribe(
-          () =>
-            this.store.dispatch(new SetPiecePotentialMoves(this.GetPotentialMoves(piece)))
-              .subscribe(
-                () =>
-                  this.store.dispatch(new SetPieceWatchList(piece.Id, this.GetWatchList(piece)))
-              )
-        );
-    }
-  }
+
   private GetPieceActor(piece: PieceStateModel): IPieceActor {
     const pieceActor = this.pieceActors.filter(
       (pA: IPieceActor) =>
