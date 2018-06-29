@@ -33,9 +33,7 @@ export class PositionState {
           }
         }
       )
-    ).subscribe(
-
-    );
+    ).subscribe();
 
     // process through and create all the positions
     this.actions$.pipe(
