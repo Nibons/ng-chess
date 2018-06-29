@@ -114,9 +114,9 @@ export class PieceState {
     if (pieceId !== undefined && positions !== undefined) {
       positions.forEach(
         positionId => {
-          this.store.dispatch(new AddToPositionWatchList(pieceId, positionId))
+          this.store.dispatch(new AddToPositionWatchList(pieceId, positionId));
         }
-      )
+      );
     }
   }
   @Action(CreateAllPieces)
