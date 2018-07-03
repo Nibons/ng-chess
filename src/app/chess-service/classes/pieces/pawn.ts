@@ -11,7 +11,7 @@ export class Pawn extends BasePiece implements IPieceActor {
     return this.GetPawnThreat(piece);
   }
   GetPotentialMovePositionIds(piece: PieceStateModel): Guid[] {
-    const pieceDirection = this.store.selectSnapshot(PlayerState.PlayerList)[piece.playerNumber].pieceOrientation
+    const pieceDirection = this.store.selectSnapshot(PlayerState.PlayerList)[piece.playerNumber].pieceOrientation;
     const pawnMoveCount = piece.HasMoved ? 1 : 2;
     return [...this.GetPositionsInDirectionUntilEmpty(piece, pieceDirection, pawnMoveCount)];
   }

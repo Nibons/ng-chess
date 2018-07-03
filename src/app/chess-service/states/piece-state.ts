@@ -99,7 +99,14 @@ export class PieceState {
   createPiece() { }
 
   @Action(SetPieceActionSet)
-  setPieceActionSet({ getState }: StateContext<PieceStateModelList>, { piece }: SetPieceActionSet) {
+  setPieceActionSet({ getState, dispatch }: StateContext<PieceStateModelList>, { payload }: SetPieceActionSet) {
+    const currentPiece = getState().pieces.find(p => p.Id.IsEqual(payload.Id));
+    if (currentPiece.potentialMoves === payload.potentialMoves && currentPiece.threatList === payload.threatList) {
+      console.log('lists are equal');
+    } else {
+      const setPiece = { ...currentPiece, ...payload };
+      dispatch(new SetPiece(setPiece));
+    }
   }
 
 
