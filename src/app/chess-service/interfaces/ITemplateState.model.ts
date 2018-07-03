@@ -1,7 +1,7 @@
 import { PlayerStateModel } from './iplayer.model';
 import { BoardStateModel } from '@chess/iboard.model';
 import { OptionsStateModel } from '@chess/options.model';
-import { PieceStateModelList } from '@chess/ipiece.model';
+import { PieceStateModel } from '@chess/ipiece.model';
 
 export interface TemplateStateModel {
   name: string;
@@ -16,7 +16,7 @@ export interface TemplateStateModel {
   configStateTemplates?: {
     boards: BoardStateModel[];
     options: OptionsStateModel
-    pieces: PieceStateModelList;
+    pieces: PieceStateModel[];
     players: PlayerStateModel[];
   };
 }

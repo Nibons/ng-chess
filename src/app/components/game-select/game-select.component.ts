@@ -4,8 +4,8 @@ import { TemplateState } from '@chess/game-select-state';
 import { Component, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { TemplateStateModel } from '@chess/igame-template.model';
 import { RetrieveTemplateList } from '@chess/RetrieveTemplateList';
+import { TemplateStateModel } from '@chess/ITemplateState.model';
 
 @Component({
   selector: 'app-game-select',

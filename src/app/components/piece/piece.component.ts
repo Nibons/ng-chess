@@ -1,9 +1,7 @@
 import { GameState } from '@chess/game-state';
-import { PieceStateModel, PieceStateModelList } from '@chess/ipiece.model';
+import { PieceStateModel } from '@chess/ipiece.model';
 import { PieceState } from '@chess/piece-state';
 import { Component, OnInit, Input } from '@angular/core';
-import { MatIconModule, MatIcon } from '@angular/material/icon';
-import { IPlayer } from '@chess/iplayer.model';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Select, Store } from '@ngxs/store';
@@ -24,7 +22,7 @@ export class PieceComponent implements OnInit {
   color: string;
   playerNumber: number;
 
-  constructor(private store: Store, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     this.importPieceIcon(iconRegistry, sanitizer);
   }
 
@@ -56,9 +54,8 @@ export class PieceComponent implements OnInit {
   }
   private setColor() {
     this.colors$.pipe(
-      map(val =>
-        this.color = val.find(
-          (colorName, i) => i === this.playerNumber)
+      map((val, index) =>
+        this.color = val[index]
       )
     );
   }

@@ -1,3 +1,4 @@
+import { Guid } from '@chess/guid';
 import { PositionStateModel } from './../interfaces/iposition.model';
 import { AddPositionToBoard } from '@chess/AddPositionToBoard';
 import { CreateAllPositions } from '@chess/CreateAllPositions';
@@ -12,6 +13,7 @@ import { Observable, of } from 'rxjs';
 import { SetPiece } from '@chess/SetPiece';
 import { PieceState } from '@chess/piece-state';
 import { map } from 'rxjs/operators';
+import { ICoordinates } from '@chess/icoordinates.model';
 
 @State<PositionStateModel>({
   name: 'positions',
@@ -79,6 +81,20 @@ export class PositionState {
 
   @Selector() static PositionList(state: PositionStateModel[]) {
     return state;
+  }
+
+  @Selector() static GetPositionById(state: PositionStateModel[]) {
+    return positionId => {
+      return state.find(p => p.Id.IsEqual(positionId));
+    };
+  }
+
+  @Selector() static GetPositionAt(state: PositionStateModel[]) {
+    return (coordinates: ICoordinates, boardId: Guid) => {
+      return state.find(
+        position => position.boardId.IsEqual(boardId) && Coordinates.IsSameCoordinates(coordinates, position.coordinates)
+      );
+    };
   }
 
   @Action(CreatePosition)

@@ -34,8 +34,14 @@ export class GameState {
   @Selector() static GameList(state: GameStateModel[]) {
     return state;
   }
-  @Selector()
-  static getGameList(state) {
+
+  @Selector() static getColors(state: GameStateModel[]) {
+    return gameId => {
+      return state.find(g => g.Id.IsEqual(gameId)).options.colorList;
+    };
+  }
+
+  @Selector() static getGameList(state) {
     return state.games;
   }
   @Action(NewGame) newGame() { }

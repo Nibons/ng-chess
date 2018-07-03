@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { NewGame } from '@chess/NewGame';
-import { TemplateStateModel } from '@chess/igame-template.model';
+import { TemplateStateModel } from '@chess/ITemplateState.model';
 
 @Component({
   selector: 'app-select-template',

@@ -7,13 +7,11 @@ const gameId = Guid.newGuid();
   name: 'players',
   defaults: [
     {
-      gameId: gameId,
       Id: Guid.newGuid(), playerNumber: 0, playerType: EPlayerType.human, playerColor: 'white',
       pieceOrientation: { dimensions: [0, 1] }, viewOrienation: 0,
       SumPieceValue: 0, moves: []
     },
     {
-      gameId: gameId,
       Id: Guid.newGuid(), playerNumber: 1, playerType: EPlayerType.human, playerColor: 'black',
       pieceOrientation: { dimensions: [0, -1] }, viewOrienation: 0,
       SumPieceValue: 0, moves: []

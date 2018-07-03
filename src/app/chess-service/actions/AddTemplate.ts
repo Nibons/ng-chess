@@ -1,4 +1,4 @@
-import { TemplateStateModel } from '@chess/igame-template.model';
+import { TemplateStateModel } from '@chess/ITemplateState.model';
 
 export class AddTemplate {
   public static readonly type = '[gameSelect] AddTemplate';

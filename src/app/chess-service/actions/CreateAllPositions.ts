@@ -24,7 +24,6 @@ export class CreateAllPositions {
       boardId: this.boardId,
       gameId: this.gameId,
       watchList: [],
-      pieceId: null,
       piece: null,
       coordinates: coordinates,
       Id: Guid.newGuid()

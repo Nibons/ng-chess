@@ -1,10 +1,10 @@
 import { Guid } from '@chess/guid';
-import { IBoardDimensions, ICoordinates } from '@chess/icoordinates.model';
-import { PositionStateModelList, PositionStateModel } from '@chess/iposition.model';
-import { BoardStateModelList, BoardStateModel } from '@chess/iboard.model';
+import { ICoordinates } from '@chess/icoordinates.model';
+import { PositionStateModel } from '@chess/iposition.model';
+import { BoardStateModel } from '@chess/iboard.model';
 import { Observable } from 'rxjs';
 import { Component, OnInit, Input } from '@angular/core';
-import { Store, Select } from '@ngxs/store';
+import { Select } from '@ngxs/store';
 import { BoardState } from '@chess/board-state';
 import { PositionState } from '@chess/position-state';
 import { map } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { map } from 'rxjs/operators';
 })
 export class BoardComponent implements OnInit {
   @Input() boardId: Guid;
-  @Select(BoardState) boardState$: Observable<BoardStateModelList>;
+  @Select(BoardState) boardState$: Observable<BoardStateModel[]>;
   @Select(PositionState.GetPositionAt) positionAt$: Observable<(c: ICoordinates) => PositionStateModel>;
   board: BoardStateModel;
   columns = [];
@@ -25,19 +25,19 @@ export class BoardComponent implements OnInit {
 
 
 
-  constructor(private store: Store) {
+  constructor() {
   }
 
   ngOnInit() {
     this.boardState$.subscribe(
-      state => this.setBoard(state.boards.find((b: BoardStateModel) => b.Id === this.boardId))
+      state => this.setBoard(state.find((b: BoardStateModel) => b.Id === this.boardId))
     );
   }
   setBoard(board: BoardStateModel) {
     this.board = board;
-    this.setBoardRange(board.range);
+    this.setBoardRange();
   }
-  setBoardRange(boardDimensions: IBoardDimensions) {
+  setBoardRange() {
     this.columns = Array(this.board.range.max.dimensions[0] - this.board.range.min.dimensions[0]);
     this.rows = Array(this.board.range.max.dimensions[1] - this.board.range.min.dimensions[1]);
   }
