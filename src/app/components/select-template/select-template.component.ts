@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { NewGame } from '@chess/NewGame';
-import { IGameTemplate } from '@chess/igame-template.model';
+import { TemplateStateModel } from '@chess/igame-template.model';
 
 @Component({
   selector: 'app-select-template',
@@ -9,7 +9,7 @@ import { IGameTemplate } from '@chess/igame-template.model';
   styleUrls: ['./select-template.component.css']
 })
 export class SelectTemplateComponent implements OnInit {
-  @Input() template: IGameTemplate;
+  @Input() template: TemplateStateModel;
 
   constructor(private store: Store) { }
 

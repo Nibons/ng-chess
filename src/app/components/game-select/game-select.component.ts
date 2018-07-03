@@ -4,7 +4,7 @@ import { TemplateState } from '@chess/game-select-state';
 import { Component, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { IGameTemplate } from '@chess/igame-template.model';
+import { TemplateStateModel } from '@chess/igame-template.model';
 import { RetrieveTemplateList } from '@chess/RetrieveTemplateList';
 
 @Component({
@@ -13,7 +13,7 @@ import { RetrieveTemplateList } from '@chess/RetrieveTemplateList';
   styleUrls: ['./game-select.component.css']
 })
 export class GameSelectComponent implements OnInit {
-  @Select(TemplateState.TemplateList) templates$: Observable<IGameTemplate[]>;
+  @Select(TemplateState.TemplateList) templates$: Observable<TemplateStateModel[]>;
 
   constructor(private store: Store, private _http: HttpClient) {
     store.dispatch(new RetrieveTemplateList(_http, store));

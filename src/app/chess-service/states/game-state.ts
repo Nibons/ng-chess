@@ -1,6 +1,7 @@
+import { OptionsState } from '@chess/options-state';
+import { BoardState } from './board-state';
 import { ChessService } from '@chess/chess-service';
 import { GameStateModel } from '@chess//GameState.model';
-import { GameStateModelList } from '@chess/GameState.model';
 import { Guid } from '@chess/guid';
 import { OptionsStateModel } from '@chess/options.model';
 import { State, Action, StateContext, Selector, Store, Actions, ofActionSuccessful } from '@ngxs/store';
@@ -8,8 +9,13 @@ import { NewGame } from '@chess/NewGame';
 import { SetGame } from '@chess/SetGame';
 import { CreateAllBoards } from '@chess/CreateAllBoards';
 
-@State<GameStateModelList>({
-  name: 'games'
+@State<GameStateModel[]>({
+  name: 'games',
+  defaults: [],
+  children: [
+    BoardState,
+    OptionsState
+  ]
 })
 export class GameState {
   constructor(
@@ -25,16 +31,8 @@ export class GameState {
       }
     );
   }
-  @Selector() static GameList(state: GameStateModelList) {
-    return state.gameList;
-  }
-  @Selector() static GetGameById(state: GameStateModelList) {
-    return (Id: Guid) => {
-      return state.gameList.find(g => g.Id === Id);
-    };
-  }
-  @Selector() static getColors(state: OptionsStateModel) {
-    return state.colorList;
+  @Selector() static GameList(state: GameStateModel[]) {
+    return state;
   }
   @Selector()
   static getGameList(state) {
@@ -43,18 +41,14 @@ export class GameState {
   @Action(NewGame) newGame() { }
 
   @Action(SetGame)
-  setGame({ getState, patchState }: StateContext<GameStateModelList>, { game }: SetGame) {
-    if (getState().gameList) {
-      patchState({
-        gameList: [
-          ...getState().gameList.filter((g: GameStateModel) => g.Id !== game.Id),
-          game
-        ]
-      });
+  setGame({ getState, patchState }: StateContext<GameStateModel[]>, { game }: SetGame) {
+    if (getState()) {
+      patchState([
+        ...getState().filter((g: GameStateModel) => g.Id !== game.Id),
+        game
+      ]);
     } else {
-      patchState({
-        gameList: [game]
-      });
+      patchState([game]);
     }
   }
 }

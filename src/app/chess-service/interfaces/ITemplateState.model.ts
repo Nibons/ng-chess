@@ -2,11 +2,8 @@ import { PlayerStateModel } from './iplayer.model';
 import { BoardStateModel } from '@chess/iboard.model';
 import { OptionsStateModel } from '@chess/options.model';
 import { PieceStateModelList } from '@chess/ipiece.model';
-export interface IGameTemplateList {
-  templates: IGameTemplate[];
-}
 
-export interface IGameTemplate {
+export interface TemplateStateModel {
   name: string;
   type: string;
   rootFolder?: string;

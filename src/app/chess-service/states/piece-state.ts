@@ -2,7 +2,7 @@ import { SetPieceActionSet } from './../actions/SetPieceActionSet';
 import { CreateAllPieces } from './../actions/CreateAllPieces';
 import { debounce, map } from 'rxjs/operators';
 import { BoardState } from '@chess/board-state';
-import { PieceStateModelList, PieceStateModel } from '@chess/ipiece.model';
+import { PieceStateModel } from '@chess/ipiece.model';
 import { State, Selector, Action, StateContext, Actions, Store, ofActionSuccessful } from '@ngxs/store';
 import { SetPiece } from '@chess/SetPiece';
 import { Guid } from '@chess/guid';
@@ -11,28 +11,9 @@ import { timer } from 'rxjs';
 import { AllPositionsOnBoardCreated } from '@chess/AllPositionsOnBoardCreated';
 import { AllPiecesOnBoardCreated } from '@chess/AllPiecesOnBoardCreated';
 
-@State<PieceStateModelList>({
+@State<PieceStateModel[]>({
   name: 'pieces',
-  defaults: {
-    pieces: [
-      {
-        Id: null,
-        gameId: null,
-        playerNumber: null,
-        playerId: null,
-        pieceType: null,
-        IsVital: null,
-        IsAlive: null,
-        HasMoved: null,
-        positionId: null,
-        threatList: null,
-        potentialMoves: null,
-        value: null,
-        boardNumber: null,
-        coordinates: null
-      }
-    ]
-  }
+  defaults: []
 })
 export class PieceState {
   private allPiecesCreated$;
@@ -71,27 +52,25 @@ export class PieceState {
       }
     );
   }
-  @Selector() static PieceList(state: PieceStateModelList): PieceStateModel[] {
-    return state.pieces;
+  @Selector() static PieceList(state: PieceStateModel[]): PieceStateModel[] {
+    return state;
   }
-  @Selector() static getPieceById(state: PieceStateModelList) {
+  @Selector() static getPieceById(state: PieceStateModel[]) {
     return (Id: Guid) => {
-      return state.pieces.find((piece: PieceStateModel) => piece.Id === Id);
+      return state.find((piece: PieceStateModel) => piece.Id === Id);
     };
   }
 
   @Action(SetPiece)
-  setPiece({ getState, patchState }: StateContext<PieceStateModelList>, action: SetPiece) {
+  setPiece({ getState, patchState }: StateContext<PieceStateModel[]>, action: SetPiece) {
     if (action.piece !== undefined) {
-      if (getState().pieces[0].Id === null) {
-        patchState({ pieces: [action.piece] });
+      if (getState().length === 0) {
+        patchState([action.piece]);
       } else {
-        patchState({
-          pieces: [
-            ...getState().pieces.filter((p: PieceStateModel) => !p.Id.IsEqual(action.piece.Id)),
-            action.piece
-          ]
-        });
+        patchState([
+          ...getState().filter((p: PieceStateModel) => !p.Id.IsEqual(action.piece.Id)),
+          action.piece
+        ]);
       }
     }
   }
@@ -99,8 +78,8 @@ export class PieceState {
   createPiece() { }
 
   @Action(SetPieceActionSet)
-  setPieceActionSet({ getState, dispatch }: StateContext<PieceStateModelList>, { payload }: SetPieceActionSet) {
-    const currentPiece = getState().pieces.find(p => p.Id.IsEqual(payload.Id));
+  setPieceActionSet({ getState, dispatch }: StateContext<PieceStateModel[]>, { payload }: SetPieceActionSet) {
+    const currentPiece = getState().find(p => p.Id.IsEqual(payload.Id));
     if (currentPiece.potentialMoves === payload.potentialMoves && currentPiece.threatList === payload.threatList) {
       console.log('lists are equal');
     } else {

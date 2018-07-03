@@ -1,6 +1,4 @@
-import { BoardStateModelList } from './../interfaces/iboard.model';
 import { SetPiece } from '@chess/SetPiece';
-import { BoardState } from '@chess/board-state';
 import { Guid } from '@chess/guid';
 import { PieceStateModel } from '@chess/ipiece.model';
 import { Store } from '@ngxs/store';

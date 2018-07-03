@@ -1,14 +1,12 @@
 import { RetrieveTemplateList } from '@chess/RetrieveTemplateList';
 import { State, Selector, Action } from '@ngxs/store';
 import { StateContext } from '@ngxs/store';
-import { IGameTemplateList } from '@chess/igame-template.model';
 import { AddTemplate } from '@chess/AddTemplate';
+import { TemplateStateModel } from '@chess/ITemplateState.model';
 
-@State<IGameTemplateList>({
+@State<TemplateStateModel[]>({
   name: 'gameSelect',
-  defaults: {
-    templates: []
-  }
+  defaults: []
 })
 export class TemplateState {
   constructor() { }
@@ -17,19 +15,15 @@ export class TemplateState {
   retrieveGameList(action: RetrieveTemplateList) { }
 
   @Action(AddTemplate)
-  addTemplate({ getState, patchState }: StateContext<IGameTemplateList>, { payload }: AddTemplate) {
-    patchState({
-      templates: [
-        ...getState().templates,
-        payload
-      ]
-    });
+  addTemplate({ getState, patchState }: StateContext<TemplateStateModel[]>, { payload }: AddTemplate) {
+    patchState([
+      ...getState(),
+      payload
+    ]);
   }
 
   @Selector()
-  static TemplateList(state: IGameTemplateList) {
-    return state.templates;
+  static TemplateList(state: TemplateStateModel[]) {
+    return state;
   }
-
-
 }

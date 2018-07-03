@@ -1,6 +1,6 @@
 import { GameStateModel } from '@chess//GameState.model';
-import { IGameTemplate } from '@chess/igame-template.model';
 import { Guid } from '@chess/guid';
+import { TemplateStateModel } from '@chess/ITemplateState.model';
 
 export class NewGame {
   static readonly type = '[Game] CreateGame';
@@ -11,12 +11,10 @@ export class NewGame {
       Id: this.Id,
       options: this.template.configStateTemplates.options,
       boards: null,
-      pieces: null,
-      players: null,
       template: this.template
     };
   }
-  constructor(private template: IGameTemplate) {
+  constructor(private template: TemplateStateModel) {
     this.Id = Guid.newGuid();
   }
 }

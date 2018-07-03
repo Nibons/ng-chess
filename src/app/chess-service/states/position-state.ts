@@ -1,22 +1,21 @@
+import { PositionStateModel } from './../interfaces/iposition.model';
 import { AddPositionToBoard } from '@chess/AddPositionToBoard';
 import { CreateAllPositions } from '@chess/CreateAllPositions';
 import { CreateBoard } from '@chess/CreateBoard';
 import { RemovePieceFromAllWatchLists } from './../actions/RemovePieceFromAllWatchLists';
 import { Coordinates } from '@chess/coordinates';
-import { ICoordinates } from '@chess/icoordinates.model';
-import { Guid } from '@chess/guid';
-import { PositionStateModelList, PositionStateModel } from '@chess/iposition.model';
 import { State, Selector, StateContext, Action, ofActionSuccessful, Store, Actions } from '@ngxs/store';
 import { CreatePosition } from '@chess/CreatePosition';
 import { SetPieceAtPosition } from '@chess/SetPieceAtPosition';
 import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
-import { Observable, of, forkJoin } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { SetPiece } from '@chess/SetPiece';
-import { mergeMap, switchMap, map } from 'rxjs/operators';
+import { PieceState } from '@chess/piece-state';
+import { map } from 'rxjs/operators';
 
-@State<PositionStateModelList>({
+@State<PositionStateModel>({
   name: 'positions',
-  defaults: { positions: [] }
+  children: [PieceState]
 })
 export class PositionState {
   allPositionsCreated$: Observable<any>;
@@ -78,94 +77,58 @@ export class PositionState {
     ).subscribe();
   }
 
-  @Selector() static PositionList(state: PositionStateModelList) {
-    return state.positions;
-  }
-  @Selector() static GetPositionAt(state: PositionStateModelList) {
-    return (coordinates: ICoordinates, boardId: Guid) => {
-      return state.positions.filter(
-        p =>
-          p.boardId === boardId &&
-          Coordinates.IsSameCoordinates(p.coordinates, coordinates));
-    };
-  }
-  @Selector() static GetPositionIdAt(state: PositionStateModelList) {
-    return (coordinates: ICoordinates, boardId: Guid) => {
-      return state.positions.find(
-        p =>
-          p.boardId === boardId &&
-          Coordinates.IsSameCoordinates(p.coordinates, coordinates)
-      ).Id;
-    };
-  }
-  @Selector() static GetPositionByPieceId(state: PositionStateModelList) {
-    return (pieceId: Guid) => {
-      return state.positions.find((position: PositionStateModel) => position.pieceId === pieceId);
-    };
-  }
-  @Selector() static GetPositionById(state) {
-    return (Id: Guid) => {
-      return state.filter((p: PositionStateModel) => p.Id === Id);
-    };
+  @Selector() static PositionList(state: PositionStateModel[]) {
+    return state;
   }
 
   @Action(CreatePosition)
-  createPosition({ getState, patchState }: StateContext<PositionStateModelList>, { payload }: CreatePosition) {
-    patchState({
-      positions: [
-        ...getState().positions,
-        payload
-      ]
-    });
+  createPosition({ getState, patchState }: StateContext<PositionStateModel[]>, { payload }: CreatePosition) {
+    patchState([
+      ...getState(),
+      payload
+    ]);
   }
 
   @Action(SetPieceAtPosition)
-  setPieceAtPosition({ getState, patchState }: StateContext<PositionStateModelList>, { piece, boardId }: SetPieceAtPosition) {
-    const position = getState().positions.find(
+  setPieceAtPosition({ getState, patchState }: StateContext<PositionStateModel[]>, { piece, boardId }: SetPieceAtPosition) {
+    const position = getState().find(
       (p: PositionStateModel) =>
         p.boardId.IsEqual(boardId) && Coordinates.IsSameCoordinates(p.coordinates, piece.coordinates)
     );
     position.piece = piece;
-    position.pieceId = piece.Id;
-    patchState({
-      positions: [
-        ...getState().positions.filter(
-          p => !p.Id.IsEqual(position.Id)
-        ),
-        position
-      ]
-    });
+    patchState([
+      ...getState().filter(
+        p => !p.Id.IsEqual(position.Id)
+      ),
+      position
+    ]);
   }
 
   @Action(AddToPositionWatchList)
-  addToPositionWatchList({ getState, patchState }: StateContext<PositionStateModelList>,
+  addToPositionWatchList({ getState, patchState }: StateContext<PositionStateModel[]>,
     { positionId, pieceId }: AddToPositionWatchList) {
-    const position = getState().positions.find(p => p.Id === positionId);
+    const position = getState().find(p => p.Id === positionId);
     if (position.watchList.includes(pieceId)) {
       position.watchList.push(pieceId);
-      patchState({
-        positions: [
-          ...getState().positions.filter(p => !p.Id.IsEqual(positionId)),
-          position
-        ]
-      });
+      patchState([
+        ...getState().filter(p => !p.Id.IsEqual(positionId)),
+        position
+      ]);
     }
   }
 
   @Action(RemovePieceFromAllWatchLists)
-  removePieceFromAllWatchLists({ getState, patchState }: StateContext<PositionStateModelList>,
+  removePieceFromAllWatchLists({ getState, patchState }: StateContext<PositionStateModel[]>,
     { pieceId }: RemovePieceFromAllWatchLists) {
     const positionsWithPiece: PositionStateModel[] = [];
-    getState().positions
+    getState()
       .filter(position => position.watchList.includes(pieceId))
       .forEach(position => position.watchList = position.watchList.filter(positionsPieceId => positionsPieceId !== pieceId));
     if (positionsWithPiece.length >= 1) {
-      patchState({
-        positions: [
-          ...getState().positions.filter(position => positionsWithPiece.includes(position) === false),
-          ...positionsWithPiece
-        ]
-      });
+      patchState([
+        ...getState().filter(position => positionsWithPiece.includes(position) === false),
+        ...positionsWithPiece
+      ]);
     }
   }
 }

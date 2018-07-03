@@ -1,11 +1,11 @@
+import { PieceState } from '@chess/piece-state';
+import { BoardStateModel } from '@chess/iboard.model';
 import { AddPositionToBoard } from '@chess/AddPositionToBoard';
 import { Guid } from '@chess/guid';
 import { PositionStateModel } from './../interfaces/iposition.model';
-import { PositionStateModelList } from '@chess/iposition.model';
 import { DeleteBoard } from '@chess/DeleteBoard';
 import { CreateBoard } from '@chess/CreateBoard';
 import { State, StateContext, Selector, Store, Actions, ofActionSuccessful, Action } from '@ngxs/store';
-import { BoardStateModelList, BoardStateModel } from '@chess/iboard.model';
 import { PositionState } from '@chess/position-state';
 import { CreateAllBoards } from '@chess/CreateAllBoards';
 import { debounce } from 'rxjs/operators';
@@ -13,9 +13,10 @@ import { timer } from 'rxjs';
 import { AllPositionsOnBoardCreated } from '@chess/AllPositionsOnBoardCreated';
 
 
-@State<BoardStateModelList>({
+@State<BoardStateModel[]>({
   name: 'boards',
-  defaults: { boards: [] }
+  defaults: [],
+  children: [PositionState, PieceState]
 })
 export class BoardState {
   constructor(actions$: Actions, store: Store) {
@@ -42,37 +43,24 @@ export class BoardState {
       }
     );
   }
-  @Selector() static getBoardById(Id: Guid, { getState }: StateContext<BoardStateModelList>) {
-    return getState().boards.filter((b: BoardStateModel) => b.Id === Id);
+  @Selector() static getBoardById(Id: Guid, { getState }: StateContext<BoardStateModel[]>) {
+    return getState().filter((b: BoardStateModel) => b.Id === Id);
   }
-  @Selector() static BoardList(state: BoardStateModelList) {
-    return state.boards;
+  @Selector() static BoardList(state: BoardStateModel[]) {
+    return state;
   }
-  @Selector([PositionState]) static Positions(boardId: Guid, state: PositionStateModelList) {
-    return state.positions.filter((p: PositionStateModel) => p.boardId === boardId);
+  @Selector([PositionState]) static Positions(boardId: Guid, state: PositionStateModel[]) {
+    return state.filter((p: PositionStateModel) => p.boardId === boardId);
   }
   @Action(CreateBoard)
-  CreateBoard({ getState, patchState }: StateContext<BoardStateModelList>, { payload }: CreateBoard) {
-    patchState({
-      boards: [...getState().boards, payload]
-    });
+  CreateBoard({ getState, patchState }: StateContext<BoardStateModel[]>, { payload }: CreateBoard) {
+    patchState([...getState(), payload]);
   }
 
   @Action(DeleteBoard)
-  DeleteBoard({ getState, patchState }: StateContext<BoardStateModelList>, { payload }: DeleteBoard) {
-    patchState({
-      boards: getState().boards.filter((b: BoardStateModel) => b.Id !== payload)
-    });
-  }
-  @Action(AddPositionToBoard)
-  addPositionToBoard({ getState, patchState }: StateContext<BoardStateModelList>, { positionId, boardId }: AddPositionToBoard) {
-    const board: BoardStateModel = getState().boards.find(b => b.Id.IsEqual(boardId));
-    board.positions.push(positionId); // = (typeof board.positions === undefined) ? [positionId] : [...board.positions, positionId];
-    patchState({
-      boards: [
-        ...getState().boards.filter(b => !b.Id.IsEqual(boardId)),
-        board
-      ]
-    });
+  DeleteBoard({ getState, patchState }: StateContext<BoardStateModel[]>, { payload }: DeleteBoard) {
+    patchState([
+      ...getState().filter((b: BoardStateModel) => b.Id !== payload)
+    ]);
   }
 }

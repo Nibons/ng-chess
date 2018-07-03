@@ -14,6 +14,7 @@ import { SetPiece } from '@chess/SetPiece';
 import { AddToPositionWatchList } from '@chess/AddToPositionWatchList';
 import { Coordinates } from '@chess/coordinates';
 import { Guid } from '@chess/guid';
+
 export abstract class BasePiece implements IPieceActor {
 
   abstract pieceType: EPieceType;
@@ -54,7 +55,7 @@ export abstract class BasePiece implements IPieceActor {
   }
   protected GetPosition(piece: PieceStateModel): PositionStateModel {
     return this.store.selectSnapshot(PositionState.PositionList).find(
-      (p: PositionStateModel) => p.pieceId === piece.Id
+      (p: PositionStateModel) => p.piece.Id === piece.Id
     );
   }
 
@@ -64,9 +65,7 @@ export abstract class BasePiece implements IPieceActor {
 
   GetBoard(piece: PieceStateModel): BoardStateModel {
     const position = this.GetPosition(piece);
-    return this.store.selectSnapshot(BoardState.BoardList).find(
-      (b: BoardStateModel) => b.positions.includes(position.Id)
-    );
+    return this.store.selectSnapshot(BoardState.BoardList).find(b => b.Id === position.boardId);
   }
   GetPositionByCoordinates(coordinates: ICoordinates, board: BoardStateModel): PositionStateModel {
     const boardPositionList = this.store.selectSnapshot(PositionState.PositionList).filter(
@@ -92,7 +91,7 @@ export abstract class BasePiece implements IPieceActor {
     for (let i = 0; continue_this_direction; i++) {
       const pos = this.GetPositionByCoordinates(coordinates_in_direction[i], board);
       position_cache.push(pos.Id);
-      continue_this_direction = pos.pieceId !== null;
+      continue_this_direction = pos.piece.Id !== null;
     }
     return position_cache;
   }
