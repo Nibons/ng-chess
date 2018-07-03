@@ -1,7 +1,6 @@
 import { SetPieceActionSet } from './../actions/SetPieceActionSet';
 import { CreateAllPieces } from './../actions/CreateAllPieces';
 import { debounce, map } from 'rxjs/operators';
-import { BoardState } from '@chess/board-state';
 import { PieceStateModel } from '@chess/ipiece.model';
 import { State, Selector, Action, StateContext, Actions, Store, ofActionSuccessful } from '@ngxs/store';
 import { SetPiece } from '@chess/SetPiece';
