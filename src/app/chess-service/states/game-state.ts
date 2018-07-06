@@ -1,3 +1,5 @@
+import { AddBoardToGame } from '@chess/AddBoardToGame';
+import { IdAndStateTemplate } from './../interfaces/GameState.model';
 import { ChessService } from '@chess/chess-service';
 import { GameStateModel } from '@chess//GameState.model';
 import { GameStateModelList } from '@chess/GameState.model';
@@ -16,15 +18,7 @@ export class GameState {
     private store: Store,
     private actions$: Actions,
     private chessService: ChessService = new ChessService(store, actions$)
-  ) {
-    this.actions$.pipe(
-      ofActionSuccessful(NewGame)
-    ).subscribe(
-      ({ gameInfo }: NewGame) => {
-        this.store.dispatch(new CreateAllBoards(gameInfo));
-      }
-    );
-  }
+  ) { }
   @Selector() static GameList(state: GameStateModelList) {
     return state.gameList;
   }
@@ -40,7 +34,23 @@ export class GameState {
   static getGameList(state) {
     return state.games;
   }
-  @Action(NewGame) newGame() { }
+  @Action(NewGame) newGame({ getState, dispatch }: StateContext<GameStateModelList>, { gameInfo }: NewGame) {
+    const IdAndTemplate: IdAndStateTemplate = {
+      Id: gameInfo.Id,
+      gameTemplate: gameInfo.template.configStateTemplates
+    };
+    const game: GameStateModel = {
+      Id: IdAndTemplate.Id,
+      name: gameInfo.name,
+      boards: [],
+      options: IdAndTemplate.gameTemplate.options,
+      pieces: [],
+      players: [],
+      template: gameInfo.template
+    };
+    dispatch(new SetGame(game));
+    dispatch(new CreateAllBoards(IdAndTemplate));
+  }
 
   @Action(SetGame)
   setGame({ getState, patchState }: StateContext<GameStateModelList>, { game }: SetGame) {
@@ -56,5 +66,12 @@ export class GameState {
         gameList: [game]
       });
     }
+  }
+
+  @Action(AddBoardToGame)
+  addBoardToGame({ getState, dispatch }: StateContext<GameStateModelList>, { board, IdAndTemplate }: AddBoardToGame) {
+    const game = getState().gameList.find(g => g.Id.IsEqual(IdAndTemplate.Id));
+    game.boards.push(board);
+    dispatch(new SetGame(game));
   }
 }

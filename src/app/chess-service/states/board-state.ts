@@ -1,3 +1,4 @@
+import { AllPiecesOnBoardCreated } from '@chess/AllPiecesOnBoardCreated';
 import { AddPositionToBoard } from '@chess/AddPositionToBoard';
 import { Guid } from '@chess/guid';
 import { PositionStateModel } from './../interfaces/iposition.model';
@@ -8,9 +9,10 @@ import { State, StateContext, Selector, Store, Actions, ofActionSuccessful, Acti
 import { BoardStateModelList, BoardStateModel } from '@chess/iboard.model';
 import { PositionState } from '@chess/position-state';
 import { CreateAllBoards } from '@chess/CreateAllBoards';
-import { debounce } from 'rxjs/operators';
+import { debounce, map } from 'rxjs/operators';
 import { timer } from 'rxjs';
 import { AllPositionsOnBoardCreated } from '@chess/AllPositionsOnBoardCreated';
+import { AddBoardToGame } from '@chess/AddBoardToGame';
 
 
 @State<BoardStateModelList>({
@@ -18,29 +20,7 @@ import { AllPositionsOnBoardCreated } from '@chess/AllPositionsOnBoardCreated';
   defaults: { boards: [] }
 })
 export class BoardState {
-  constructor(actions$: Actions, store: Store) {
-    actions$.pipe(
-      ofActionSuccessful(CreateAllBoards)
-    ).subscribe(
-      ({ gameInfo }: CreateAllBoards) => {
-        gameInfo.template.configStateTemplates.boards.forEach(
-          boardStateModel => store.dispatch(new CreateBoard(boardStateModel, gameInfo.Id, gameInfo, store))
-        );
-      }
-    );
-    // when the board+PositionCreation is complete
-    actions$.pipe(
-      ofActionSuccessful(AddPositionToBoard),
-      debounce(() => timer(10))
-    ).subscribe(
-      ({ boardId, gameInfo }: AddPositionToBoard) => {
-        const totalPositionCount = store.selectSnapshot(BoardState.BoardList).find(b => b.Id.IsEqual(boardId)).totalPositionCount;
-        const positionCount = store.selectSnapshot(PositionState.PositionList).filter(p => p.boardId.IsEqual(boardId)).length;
-        if (positionCount === totalPositionCount) {
-          store.dispatch(new AllPositionsOnBoardCreated(gameInfo, boardId));
-        }
-      }
-    );
+  constructor(actions$: Actions, public store: Store) {
   }
   @Selector() static getBoardById(Id: Guid, { getState }: StateContext<BoardStateModelList>) {
     return getState().boards.filter((b: BoardStateModel) => b.Id === Id);
@@ -52,7 +32,7 @@ export class BoardState {
     return state.positions.filter((p: PositionStateModel) => p.boardId === boardId);
   }
   @Action(CreateBoard)
-  CreateBoard({ getState, patchState }: StateContext<BoardStateModelList>, { payload }: CreateBoard) {
+  CreateBoard({ getState, patchState, dispatch }: StateContext<BoardStateModelList>, { payload }: CreateBoard) {
     patchState({
       boards: [...getState().boards, payload]
     });
@@ -65,9 +45,9 @@ export class BoardState {
     });
   }
   @Action(AddPositionToBoard)
-  addPositionToBoard({ getState, patchState }: StateContext<BoardStateModelList>, { positionId, boardId }: AddPositionToBoard) {
+  addPositionToBoard({ getState, patchState }: StateContext<BoardStateModelList>, { position, boardId }: AddPositionToBoard) {
     const board: BoardStateModel = getState().boards.find(b => b.Id.IsEqual(boardId));
-    board.positions.push(positionId); // = (typeof board.positions === undefined) ? [positionId] : [...board.positions, positionId];
+    board.positions.push(position);
     patchState({
       boards: [
         ...getState().boards.filter(b => !b.Id.IsEqual(boardId)),
@@ -75,4 +55,19 @@ export class BoardState {
       ]
     });
   }
+  @Action(CreateAllBoards)
+  createAllBoards({ dispatch }: StateContext<BoardStateModelList>, action: CreateAllBoards) {
+    action.gameIdAndTemplate.gameTemplate.boards.forEach(
+      board => {
+        dispatch(new CreateBoard(board, action.gameIdAndTemplate, this.store));
+      }
+    );
+  }
+
+  @Action(AllPositionsOnBoardCreated)
+  AllPositionsOnBoardCreated({ getState, dispatch }: StateContext<BoardStateModelList>, { boardId, gameInfo }: AllPositionsOnBoardCreated) {
+    const board = getState().boards.find(b => b.Id.IsEqual(boardId));
+    dispatch(new AddBoardToGame(board, gameInfo));
+  }
+
 }

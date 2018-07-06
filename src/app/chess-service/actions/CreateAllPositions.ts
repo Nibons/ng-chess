@@ -2,11 +2,12 @@ import { PositionStateModel } from '@chess/IPosition.model';
 import { Guid } from '@chess/guid';
 import { IBoardDimensions, ICoordinates } from '@chess/icoordinates.model';
 import { Store } from '@ngxs/store';
+import { IdAndStateTemplate } from '@chess/GameState.model';
 
 export class CreateAllPositions {
   static readonly type = '[Position] CreateAllPositions';
   public payload: PositionStateModel[] = [];
-  constructor(range: IBoardDimensions, private boardId: Guid, private gameId: Guid, public gameInfo, private store: Store) {
+  constructor(range: IBoardDimensions, public boardId: Guid, private gameId: Guid, public gameInfo: IdAndStateTemplate, private store: Store) {
     for (let x = range.min.dimensions[0]; x <= range.max.dimensions[0]; x++) {
       for (let y = range.min.dimensions[1]; y <= range.max.dimensions[1]; y++) {
         if (range.min.dimensions.length === 3) {

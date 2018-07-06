@@ -19,9 +19,7 @@ export class GameSelectComponent implements OnInit {
     store.dispatch(new RetrieveTemplateList(_http, store));
   }
 
-  ngOnInit() {
-    console.log(this.templates$);
-  }
+  ngOnInit() { }
   clickMe() {
     console.log('button clicked');
   }

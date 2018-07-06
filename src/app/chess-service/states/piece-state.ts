@@ -1,13 +1,12 @@
 import { SetPieceActionSet } from './../actions/SetPieceActionSet';
 import { CreateAllPieces } from './../actions/CreateAllPieces';
-import { debounce, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { BoardState } from '@chess/board-state';
 import { PieceStateModelList, PieceStateModel } from '@chess/ipiece.model';
 import { State, Selector, Action, StateContext, Actions, Store, ofActionSuccessful } from '@ngxs/store';
 import { SetPiece } from '@chess/SetPiece';
 import { Guid } from '@chess/guid';
 import { CreatePiece } from '@chess/CreatePiece';
-import { timer } from 'rxjs';
 import { AllPositionsOnBoardCreated } from '@chess/AllPositionsOnBoardCreated';
 import { AllPiecesOnBoardCreated } from '@chess/AllPiecesOnBoardCreated';
 
@@ -36,7 +35,7 @@ import { AllPiecesOnBoardCreated } from '@chess/AllPiecesOnBoardCreated';
 })
 export class PieceState {
   private allPiecesCreated$;
-  constructor(private actions$: Actions, private store: Store) {
+  constructor(private actions$: Actions, store: Store) {
     // on allPositionsCreated, create the pieces
     this.actions$.pipe(
       ofActionSuccessful(AllPositionsOnBoardCreated),
@@ -45,31 +44,12 @@ export class PieceState {
           store.select(BoardState.BoardList).subscribe(
             boardList => {
               const gameId = boardList.find(b => b.Id.IsEqual(action.boardId)).gameId;
-              store.dispatch(new CreateAllPieces(action.pieces, action.boardId, gameId, action.gameInfo, store));
+              store.dispatch(new CreateAllPieces(action.boardId, gameId, action.gameInfo));
             }
           );
         }
       )
     ).subscribe();
-
-    // onSetPieceAtPosition, check to see if all pieces have been placed
-    this.allPiecesCreated$ = this.actions$.pipe(
-      ofActionSuccessful(CreatePiece),
-      debounce(() => timer(100))
-    ).subscribe(
-      (action: CreatePiece) => {
-        this.store.select(PieceState.PieceList).subscribe(
-          (pieceList: PieceStateModel[]) => {
-            const piecesCreated = pieceList.filter(piece => piece.gameId.IsEqual(action.gameId));
-            const totalPieceCount = action.gameInfo.template.configStateTemplates.pieces.pieces.length;
-            if (piecesCreated.length === totalPieceCount) {
-              this.store.dispatch(new AllPiecesOnBoardCreated(action.gameInfo, piecesCreated));
-              this.allPiecesCreated$.unsubscribe();
-            }
-          }
-        );
-      }
-    );
   }
   @Selector() static PieceList(state: PieceStateModelList): PieceStateModel[] {
     return state.pieces;
@@ -111,5 +91,25 @@ export class PieceState {
 
 
   @Action(CreateAllPieces)
-  createAllPieces() { }
+  createAllPieces({ gameInfo }: CreateAllPieces) {
+    const pieces = gameInfo;
+    // this.allPiecesCreated$ = this.actions$.pipe(
+    //   ofActionSuccessful(CreatePiece),
+    //   debounce(() => timer(100)),
+    //   first(
+    //     (action: CreatePiece) =>
+    //       getState().pieces.filter(p => p.gameId === action.gameId).length === totalPieceCount
+    //   )
+    // ).subscribe(
+    //   () => {
+    //     const piecesCreated = getState().pieces.filter(p => p.gameId === gameId);
+    //     this.store.dispatch(new AllPiecesOnBoardCreated(gameInfo, piecesCreated));
+    //   }
+    // );
+  }
+  @Action(AllPiecesOnBoardCreated)
+  AllPiecesOnBoardCreated() {
+    this.allPiecesCreated$.unsubscribe();
+  }
+
 }

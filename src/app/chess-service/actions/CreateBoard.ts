@@ -1,3 +1,4 @@
+import { IdAndStateTemplate } from './../interfaces/GameState.model';
 import { IBoardDimensions } from '@chess/icoordinates.model';
 import { BoardStateModel } from '@chess/iboard.model';
 import { Store } from '@ngxs/store';
@@ -16,11 +17,11 @@ export class CreateBoard {
     return multiplier;
   }
 
-  constructor(board: BoardStateModel, public gameId: Guid, public gameInfo, public store: Store) {
+  constructor(board: BoardStateModel, public gameIdAndTemplate: IdAndStateTemplate, public store: Store) {
     this.range = board.range;
     this.boardId = Guid.newGuid();
     this.payload = {
-      gameId: gameId,
+      gameId: gameIdAndTemplate.Id,
       Id: this.boardId,
       totalPositionCount: this.getTotalPositionCount(this.range),
       direction: board.direction,

@@ -6,6 +6,13 @@ export interface IGameTemplateList {
   templates: IGameTemplate[];
 }
 
+export interface StateTemplate {
+  boards: BoardStateModel[];
+  options: OptionsStateModel;
+  pieces: PieceStateModelList;
+  players: PlayerStateModel[];
+}
+
 export interface IGameTemplate {
   name: string;
   type: string;
@@ -16,10 +23,5 @@ export interface IGameTemplate {
     pieces: string;
     players: string
   };
-  configStateTemplates?: {
-    boards: BoardStateModel[];
-    options: OptionsStateModel
-    pieces: PieceStateModelList;
-    players: PlayerStateModel[];
-  };
+  configStateTemplates?: StateTemplate;
 }

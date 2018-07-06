@@ -1,5 +1,4 @@
 import { PieceStateModel } from './../../interfaces/ipiece.model';
-import { Piece } from '@chess/piece';
 import { EPieceType } from '@chess/e-piece-type.enum';
 import { Store } from '@ngxs/store';
 import { BasePiece } from '@chess/BasePiece';
