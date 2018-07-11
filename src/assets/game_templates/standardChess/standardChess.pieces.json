@@ -225,5 +225,10 @@
         "dimensions": [7, 6]
       }
     }
-  ]
+  ],
+  "pieceDefaults": {
+    "HasMoved": false,
+    "IsVital": false,
+    "boardNumber": 0
+  }
 }
