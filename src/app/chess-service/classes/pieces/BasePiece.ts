@@ -65,7 +65,7 @@ export abstract class BasePiece implements IPieceActor {
   GetBoard(piece: PieceStateModel): BoardStateModel {
     const position = this.GetPosition(piece);
     return this.store.selectSnapshot(BoardState.BoardList).find(
-      (b: BoardStateModel) => b.positions.includes(position.Id)
+      (b: BoardStateModel) => b.Id.IsEqual(position.boardId)
     );
   }
   GetPositionByCoordinates(coordinates: ICoordinates, board: BoardStateModel): PositionStateModel {
@@ -78,7 +78,8 @@ export abstract class BasePiece implements IPieceActor {
   public GetPositionsInDirectionUntilEmpty(
     piece: PieceStateModel,
     direction: ICoordinates,
-    count = Number.MAX_SAFE_INTEGER): Guid[] {
+    count = Number.MAX_SAFE_INTEGER
+  ): Guid[] {
     const position_cache = [];
     const board = this.GetBoard(piece);
     const coordinates_in_direction = Coordinates.GetCoordinatesInDirection(
