@@ -10,7 +10,6 @@ import { BoardStateModelList, BoardStateModel } from '@chess/iboard.model';
 import { PositionState } from '@chess/position-state';
 import { CreateAllBoards } from '@chess/CreateAllBoards';
 import { debounce, map } from 'rxjs/operators';
-import { timer } from 'rxjs';
 import { AllPositionsOnBoardCreated } from '@chess/AllPositionsOnBoardCreated';
 import { AddBoardToGame } from '@chess/AddBoardToGame';
 
