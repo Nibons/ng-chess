@@ -4,9 +4,11 @@ import { IPosition, PositionStateModel } from '@chess/iposition.model';
 import { IPiece } from '@chess/ipiece.model';
 import { IGameItem, GameItemStateModel } from '@chess/igame-item.model';
 import { Guid } from '@chess/guid';
+
 export interface BoardStateModelList {
   boards: BoardStateModel[];
 }
+
 export interface BoardStateModel extends GameItemStateModel {
   direction: Coordinates;
   range: IBoardDimensions;

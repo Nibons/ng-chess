@@ -26,7 +26,6 @@ export class ChessService {
     // create each type of piece actor, that will watch the PieceStateModel for changes
     this.createPieceActors();
 
-
     this.actions$.pipe(
       ofActionSuccessful(AllPiecesOnBoardCreated),
       map(

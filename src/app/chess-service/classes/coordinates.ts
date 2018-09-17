@@ -3,7 +3,8 @@ export class Coordinates implements ICoordinates {
   constructor(public dimensions: number[]) { }
   static IsSameCoordinates(
     coordinates: ICoordinates,
-    compareCoordinates: ICoordinates): boolean {
+    compareCoordinates: ICoordinates
+  ): boolean {
     let test = coordinates.dimensions.length === compareCoordinates.dimensions.length;
     for (let d = 0; test && d > coordinates.dimensions.length; d++) {
       test = coordinates.dimensions[d] === compareCoordinates.dimensions[d];
@@ -75,7 +76,10 @@ export class Coordinates implements ICoordinates {
     return { dimensions: newCoord };
   }
 
-  static MaxCoordinate(axisCount: number = 2, MaxDimensionValue = Number.MAX_SAFE_INTEGER): ICoordinates {
+  static MaxCoordinate(
+    axisCount: number = 2,
+    MaxDimensionValue = Number.MAX_SAFE_INTEGER
+  ): ICoordinates {
     const newCoord = new Array(axisCount);
     newCoord.fill(MaxDimensionValue);
     return { dimensions: newCoord };

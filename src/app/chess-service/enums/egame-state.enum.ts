@@ -3,6 +3,4 @@ export enum EGameState {
   CreateBoard = -99,
   AddBoardPositions = -98,
   AddPlayers = -97,
-
-
 }
