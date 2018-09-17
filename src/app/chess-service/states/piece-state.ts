@@ -30,7 +30,8 @@ import { AllPiecesOnBoardCreated } from '@chess/AllPiecesOnBoardCreated';
         boardNumber: null,
         coordinates: null
       }
-    ]
+    ],
+    pieceDefaults: {}
   }
 })
 export class PieceState {
