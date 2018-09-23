@@ -1,0 +1,11 @@
+[{
+  "name": "standardChess",
+  "type": "template",
+  "rootFolder": "assets/game_templates/standardChess/",
+  "configFiles": {
+    "boards": "standardChess.board.json",
+    "options": "standardChess.game.json",
+    "pieces": "standardChess.pieces.json",
+    "players": "standardChess.players.json"
+  }
+}]
