@@ -6,14 +6,15 @@ import { EPieceType } from 'src/app/chess-service/enums/e-piece-type.enum';
 
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { Coordinates } from 'src/app/chess-service/classes/coordinates';
 
 export abstract class BasePiece implements IPieceData {
-  playerNumber: number;
+  playerNumber = 0;
   pieceType: EPieceType = EPieceType.base;
-  coordinates: ICoordinates;
-  HasMoved: boolean;
-  IsVital: boolean;
-  boardNumber: number;
+  coordinates: ICoordinates = new Coordinates([0, 0]);
+  HasMoved = false;
+  IsVital = false;
+  boardNumber = 0;
 
   processPieceList: Observable<Piece>;
 
