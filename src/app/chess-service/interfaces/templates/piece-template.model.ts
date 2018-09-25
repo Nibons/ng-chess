@@ -1,7 +1,7 @@
-import { IPiece } from 'src/app/chess-service/interfaces/ipiece.model';
+import { IPieceData } from 'src/app/chess-service/interfaces/ipiece-data.model';
 
 export interface IPieceTemplate {
   boardType: string;
-  pieces: Partial<IPiece>[];
-  pieceDefaults: Partial<IPiece>;
+  pieces: Partial<IPieceData>[];
+  pieceDefaults: Partial<IPieceData>;
 }
