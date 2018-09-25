@@ -24,6 +24,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     BrowserAnimationsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }
