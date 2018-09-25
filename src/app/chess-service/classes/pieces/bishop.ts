@@ -1,4 +1,4 @@
-import { IPiece } from 'src/app/chess-service/interfaces/ipiece.model';
+import { Piece } from './../../state/piece/piece.model';
 import { GameService } from 'src/app/chess-service/classes/GameService';
 import { EPieceType } from 'src/app/chess-service/enums/e-piece-type.enum';
 import { BasePiece } from 'src/app/chess-service/classes/BasePiece';
@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 export class Bishop extends BasePiece {
   pieceType = EPieceType.bishop;
 
-  static bishopThreat(piece: IPiece, distance = Number.MAX_SAFE_INTEGER): void {
+  static bishopThreat(piece: Piece, distance = Number.MAX_SAFE_INTEGER): void {
 
   }
 
@@ -16,7 +16,7 @@ export class Bishop extends BasePiece {
     super(gameService);
   }
 
-  processPiece(piece: IPiece): void {
+  processPiece(piece: Piece): void {
     Bishop.bishopThreat(piece);
   }
 }
