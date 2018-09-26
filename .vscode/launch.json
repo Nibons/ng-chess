@@ -12,6 +12,7 @@
       "name": "Launch Chrome",
       "url": "http://localhost:4200/#",
       "webRoot": "${workspaceFolder}",
+      "userDataDir": true,
       "runtimeArgs": [
         "--remote-debugging-port=9222"
       ]
