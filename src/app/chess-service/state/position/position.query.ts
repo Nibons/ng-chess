@@ -7,7 +7,7 @@ import { count } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class PositionQuery extends QueryEntity<PositionState, Position> {
-  emptyPositions$ = this.selectAll({ filterBy: position => position.piece === null });
+  emptyPositions$ = this.selectAll({ filterBy: position => position.pieceId === null });
 
   constructor(protected store: PositionStore) {
     super(store);
@@ -15,19 +15,19 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
 
   positionsByBoard(id: ID): Observable<Position[]> {
     return this.selectAll({
-      filterBy: position => position.board === id
+      filterBy: position => position.boardId === id
     });
   }
 
   positionCountByBoard$(id: ID): Observable<number> {
     return this.selectCount(
-      position => position.board === id
+      position => position.boardId === id
     );
   }
 
   emptyPositionCountByBoard$(id: ID): Observable<number> {
     return this.selectCount(
-      position => position.board === id && position.piece === null
+      position => position.boardId === id && position.pieceId === null
     );
   }
 
