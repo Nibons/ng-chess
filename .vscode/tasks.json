@@ -13,6 +13,7 @@
     {
       "type": "npm",
       "script": "start",
+      "isBackground": true,
       "problemMatcher": "$tsc-watch"
     },
     {
