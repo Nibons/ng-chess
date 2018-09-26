@@ -1,4 +1,4 @@
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { GamesaveQuery } from 'src/app/chess-service/state/gamesave/gamesave.query';
 
@@ -11,8 +11,11 @@ import { GamesaveQuery } from 'src/app/chess-service/state/gamesave/gamesave.que
 export class NewGameComponent implements OnInit {
 
   isLinear = false;
-  gameStartType$ = this.gameStartType$.pipe();
-  resumeOrNewFormGroup: FormGroup;
+  gameStartType$ = this.gameSaveQuery.selectActive();
+  resumeOrNewFormGroup: FormGroup = new FormGroup({
+    resumeOrNewFormGroup: new FormControl(),
+    secontCtrl: new FormControl()
+  });
 
 
   constructor(protected gameSaveQuery: GamesaveQuery, private _formBuilder: FormBuilder) { }
