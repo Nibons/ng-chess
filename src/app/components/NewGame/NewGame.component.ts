@@ -13,7 +13,7 @@ export class NewGameComponent implements OnInit {
   isLinear = false;
   gameStartType$ = this.gameSaveQuery.selectActive();
   resumeOrNewFormGroup: FormGroup = new FormGroup({
-    resumeOrNewFormGroup: new FormControl(),
+    resumeOrNewFormGroupControl: new FormControl(),
     secontCtrl: new FormControl()
   });
 

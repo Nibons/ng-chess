@@ -7,8 +7,8 @@ import { GameTabsComponent } from 'src/app/components/GameTabs/GameTabs.componen
 import { NewGameComponent } from 'src/app/components/NewGame/NewGame.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatTabsModule, MatStepperModule, MatFormFieldModule } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,10 @@ import { MatStepperModule } from '@angular/material/stepper';
     BrowserModule,
     MatTabsModule,
     MatStepperModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule
   ],
   providers: [],
   bootstrap: [
