@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { GameConsoleComponent } from 'src/app/components/GameConsole/GameConsole.component';
@@ -10,6 +11,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule, MatStepperModule, MatFormFieldModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { environment } from '../environments/environment';
+import { CoreModule } from 'src/app/core.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,12 +23,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     BrowserModule,
+    CoreModule,
+
+    // Material + forms stuff
     MatTabsModule,
     MatStepperModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule
+    MatFormFieldModule,
   ],
   providers: [],
   bootstrap: [
