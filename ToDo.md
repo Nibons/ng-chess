@@ -12,8 +12,8 @@
 
 [some Jwt stuff](https://medium.com/@ryanchenkie_40935/angular-authentication-using-route-guards-bf7a4ca13ae3)
 
-[mostly all inclusive guide](http://jasonwatmore.com/post/2018/05/23/angular-6-jwt-authentication-example-tutorial)
-
 [Firebase](https://firebase.google.com/)
 
 [GCloud console](https://console.cloud.google.com/home/dashboard?project=ng-chess-217905)
+
+[another neat example](http://www.dotnetmob.com/angular-5-tutorial/angular-5-login-and-logout-with-web-api-using-token-based-authentication/)
