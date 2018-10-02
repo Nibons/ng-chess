@@ -7,6 +7,10 @@ import { AuthService } from '@authentication/_services/auth.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  private status = {
+    errorMessage: '',
+    successMessage: ''
+  };
   private errorMessage: string = '';
   private successMessage: string = '';
 
@@ -19,12 +23,10 @@ export class RegisterComponent implements OnInit {
     this.authService.doRegister(value)
       .then(res => {
         console.log(res);
-        this.errorMessage = "";
-        this.successMessage = "Your account has been created";
+        this.status = { errorMessage: '', successMessage: 'Your Account has been created' }
       }, err => {
         console.log(err);
-        this.errorMessage = err.message;
-        this.successMessage = "";
+        this.status = { errorMessage: err.message, successMessage: '' }
       })
   }
 }
