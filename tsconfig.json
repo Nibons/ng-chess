@@ -14,6 +14,9 @@
     "typeRoots": [
       "node_modules/@types"
     ],
+    "paths": {
+      "@authentication/*": ["src/app/authentication/*"]
+    },
     "lib": [
       "es2017",
       "dom"

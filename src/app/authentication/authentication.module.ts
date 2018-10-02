@@ -10,6 +10,9 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 
+import { LoginComponent } from '@authentication/login/login.component';
+import { RegisterComponent } from '@authentication/register/register.component';
+
 @NgModule({
   imports: [
     CommonModule,
