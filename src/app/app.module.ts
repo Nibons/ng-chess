@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { GameConsoleComponent } from 'src/app/components/GameConsole/GameConsole.component';

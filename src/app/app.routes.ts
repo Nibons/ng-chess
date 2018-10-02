@@ -9,7 +9,7 @@ import { AdminConsoleComponent } from 'src/app/components/AdminConsole/AdminCons
 
 export const routes: Routes = [
     { path: '', component: AppComponent },
-    { path: 'auth', component: AuthenticationComponent, canActivate: [AuthGuard] },
+    { path: 'auth', loadChildren: 'app/authentication/authentication.module#AuthenticationModule', canActivate: [AuthGuard] },
     { path: 'NewGame', component: NewGameComponent },
     { path: 'admin', component: AdminConsoleComponent, canActivate: [RoleGuard] },
     { path: '**', component: PageNotFoundComponent }
