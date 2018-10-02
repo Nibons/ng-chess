@@ -33,7 +33,7 @@ import { RegisterComponent } from '@authentication/register/register.component';
     LoginComponent,
     RegisterComponent
   ],
-  declarations: [AuthenticationComponent],
+  declarations: [AuthenticationComponent, LoginComponent, RegisterComponent],
   providers: [],
   exports: [
     AuthGuard,

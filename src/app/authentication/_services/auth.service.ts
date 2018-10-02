@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-import { resolve } from 'path';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { firebase as firebase_config } from '@authentication/config/firebase.config';
+import { firebase as firebase_config } from '@authentication/_config/firebase.config';
 
 @Injectable({
   providedIn: 'root'
