@@ -12,7 +12,7 @@ import { routes as rootRoutes } from './app.routes';
         AuthenticationModule,
         RouterModule.forRoot(rootRoutes)
     ],
-    exports: [AuthenticationModule],
+    exports: [AuthenticationModule, RouterModule],
     providers: [],
 })
 export class CoreModule { }
