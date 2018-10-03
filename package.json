@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^6.1.0",
+    "@angular/animations": "^6.1.9",
     "@angular/cdk": "^6.4.7",
     "@angular/common": "^6.1.0",
     "@angular/compiler": "^6.1.0",
@@ -24,6 +24,9 @@
     "@angular/router": "^6.1.0",
     "@auth0/angular-jwt": "^2.0.0",
     "@datorama/akita": "^1.9.4",
+    "@nebular/auth": "^2.0.1",
+    "@nebular/security": "^2.0.1",
+    "@nebular/theme": "^2.0.1",
     "angularfire2": "^5.0.2",
     "core-js": "^2.5.4",
     "firebase": "^5.5.2",
