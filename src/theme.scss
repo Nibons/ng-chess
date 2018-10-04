@@ -1,0 +1,5 @@
+// Import Nebular theme 'cosmic'
+@import '~@nebular/theme/styles/theming';
+@import '~@nebular/theme/styles/themes/cosmic';
+
+$nb-themes: nb-register-theme((), default, default); // leave all options as default
