@@ -73,7 +73,7 @@ export class Coordinates implements ICoordinates {
     return { dimensions: newCoord };
   }
 
-  static MaxCoordinate(
+  static GetMaxCoordinate(
     axisCount: number = 2,
     MaxDimensionValue = Number.MAX_SAFE_INTEGER
   ): ICoordinates {
@@ -86,7 +86,7 @@ export class Coordinates implements ICoordinates {
     coordinates: ICoordinates,
     direction: ICoordinates,
     min: ICoordinates = Coordinates.GetOrigin(coordinates.dimensions.length),
-    max: ICoordinates = Coordinates.MaxCoordinate(coordinates.dimensions.length),
+    max: ICoordinates = Coordinates.GetMaxCoordinate(coordinates.dimensions.length),
     count: number = Number.MAX_SAFE_INTEGER,
     coordinateList: ICoordinates[] = new Array(), // used for recursion!
   ): ICoordinates[] {
