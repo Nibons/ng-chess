@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { QueryEntity, ID } from '@datorama/akita';
 import { PositionStore, PositionState } from './position.store';
 import { Position } from './position.model';
-import { count } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { ICoordinates } from 'src/app/chess-service/interfaces/icoordinates.model';
+import { Coordinates } from 'src/app/chess-service/classes/coordinates';
 
 @Injectable({ providedIn: 'root' })
 export class PositionQuery extends QueryEntity<PositionState, Position> {
@@ -13,9 +15,9 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
     super(store);
   }
 
-  positionsByBoard(id: ID): Observable<Position[]> {
+  positionsByBoard$(boardId: ID): Observable<Position[]> {
     return this.selectAll({
-      filterBy: position => position.boardId === id
+      filterBy: position => position.boardId === boardId
     });
   }
 
@@ -29,6 +31,16 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
     return this.selectCount(
       position => position.boardId === id && position.pieceId === null
     );
+  }
+
+  positionByCoordinates$(coordinates: ICoordinates, boardId: ID): Observable<Position> {
+    return this.selectAll({ filterBy: position => position.boardId === boardId })
+      .pipe(
+        map(positionList => positionList.filter(
+          position => Coordinates.IsSameCoordinates(position.coordinates, coordinates)
+        )),
+        map(positionList => positionList[0])
+      );
   }
 
 }
