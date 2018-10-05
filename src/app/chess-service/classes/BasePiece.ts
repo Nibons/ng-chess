@@ -30,7 +30,7 @@ export abstract class BasePiece implements IPieceData {
     return { ...pieceDefaults, ...pieceTemplate } as IPieceData;
   }
 
-  constructor(public gameService: GameService) {
+  constructor(protected gameService: GameService) {
 
     this.processPieceList = gameService.processPieceList
       .pipe(
