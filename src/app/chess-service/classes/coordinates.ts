@@ -1,4 +1,5 @@
 import { ICoordinates } from 'src/app/chess-service/interfaces/icoordinates.model';
+import { of, Observable, from } from 'rxjs';
 
 export class Coordinates implements ICoordinates {
   constructor(public dimensions: number[]) { }
@@ -15,11 +16,12 @@ export class Coordinates implements ICoordinates {
 
   static GetDelta(
     coordinates: ICoordinates,
-    delta: ICoordinates
+    delta: ICoordinates,
+    multiplier: number = 1
   ): ICoordinates {
     const newCoordinates = { dimensions: [0, 0, 0] };
     coordinates.dimensions.forEach(
-      (value, axis) => newCoordinates.dimensions[axis] = value + delta.dimensions[axis]
+      (value, axis) => newCoordinates.dimensions[axis] = value + (delta.dimensions[axis] * multiplier)
     );
     return newCoordinates;
   }
@@ -107,5 +109,16 @@ export class Coordinates implements ICoordinates {
 
   public IsEqual(coordinates: ICoordinates) {
     return Coordinates.IsSameCoordinates(this, coordinates);
+  }
+
+  static GetCoordinatesInDirection$(
+    coordinates: ICoordinates,
+    direction: ICoordinates,
+    min: ICoordinates = Coordinates.GetOrigin(coordinates.dimensions.length),
+    max: ICoordinates = Coordinates.GetMaxCoordinate(coordinates.dimensions.length),
+    count: number = Number.MAX_SAFE_INTEGER,
+    coordinateList: ICoordinates[] = new Array(), // used for recursion!
+  ): Observable<ICoordinates> {
+    return from(this.GetCoordinatesInDirection(coordinates, direction, min, max, count));
   }
 }
