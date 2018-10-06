@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { QueryEntity } from '@datorama/akita';
+import { QueryEntity, ID } from '@datorama/akita';
 import { PieceStore, PieceState } from './piece.store';
 import { Piece } from './piece.model';
 
@@ -10,4 +10,7 @@ export class PieceQuery extends QueryEntity<PieceState, Piece> {
     super(store);
   }
 
+  pieceById$(pieceId: ID) {
+    return this.selectEntity(pieceId);
+  }
 }
