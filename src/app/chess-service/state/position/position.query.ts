@@ -1,11 +1,12 @@
-import { Observable, range, Subject, of, from, observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { QueryEntity, ID } from '@datorama/akita';
 import { PositionStore, PositionState } from './position.store';
 import { Position } from './position.model';
-import { map, scan, mergeMap, switchMap, takeWhile, tap, withLatestFrom } from 'rxjs/operators';
+import { map, mergeMap, takeWhile, tap, filter, take } from 'rxjs/operators';
 import { ICoordinates } from 'src/app/chess-service/interfaces/icoordinates.model';
 import { Coordinates } from 'src/app/chess-service/classes/coordinates';
+import { Piece } from 'src/app/chess-service/state/piece';
 import { getEntityByObservableId$ } from 'src/app/chess-service/state/shared/shared.query';
 
 @Injectable({ providedIn: 'root' })
@@ -19,9 +20,13 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
   positionById$(positionId$: Observable<ID>): Observable<Position> {
     return getEntityByObservableId$(this.selectAll(), positionId$);
   }
+
+  positionsByBoard$(boardId: ID): Observable<Position> {
     return this.selectAll({
       filterBy: position => position.boardId === boardId
-    });
+    }).pipe(
+      mergeMap(positionList => from(positionList))
+    );
   }
 
   positionCountByBoard$(id: ID): Observable<number> {
@@ -37,13 +42,10 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
   }
 
   positionByCoordinates$(coordinates: ICoordinates, boardId: ID): Observable<Position> {
-    return this.selectAll({ filterBy: position => position.boardId === boardId })
-      .pipe(
-        map(positionList => positionList.filter(
-          position => Coordinates.IsSameCoordinates(position.coordinates, coordinates)
-        )),
-        map(positionList => positionList[0])
-      );
+    return this.positionsByBoard$(boardId).pipe(
+      filter(position => Coordinates.IsSameCoordinates(position.coordinates, coordinates)),
+      take(1)
+    );
   }
 
   deltaPosition$(
@@ -55,7 +57,10 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
     return this.positionByCoordinates$(new_coords, boardID);
   }
 
-  isEmpty$(coordinates: ICoordinates, boardId: ID): Observable<boolean> {
+  isEmpty$(
+    coordinates: ICoordinates,
+    boardId: ID
+  ): Observable<boolean> {
     return this.positionByCoordinates$(coordinates, boardId)
       .pipe(
         map(position => position.pieceId !== null)
@@ -72,7 +77,8 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
       .pipe(
         mergeMap(coord => this.positionByCoordinates$(coord, boardNumber)),
         takeWhile(() => still_empty),
-        tap(position => still_empty = position.pieceId !== null)
+        tap(position => still_empty = position.pieceId !== null),
+        take(max)
       );
   }
 }
