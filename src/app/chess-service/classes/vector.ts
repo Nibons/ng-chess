@@ -1,7 +1,6 @@
 import { Coordinates } from './coordinates';
 import { ICoordinates } from '../interfaces/icoordinates.model';
 import { IVector } from 'src/app/chess-service/interfaces/ivector';
-import { start } from 'repl';
 
 const maxIteration = Number.MAX_SAFE_INTEGER;
 
