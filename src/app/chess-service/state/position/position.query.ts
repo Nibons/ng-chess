@@ -6,7 +6,7 @@ import { Position } from './position.model';
 import { map, scan, mergeMap, switchMap, takeWhile, tap, withLatestFrom } from 'rxjs/operators';
 import { ICoordinates } from 'src/app/chess-service/interfaces/icoordinates.model';
 import { Coordinates } from 'src/app/chess-service/classes/coordinates';
-import { Piece, PieceQuery } from 'src/app/chess-service/state/piece';
+import { getEntityByObservableId$ } from 'src/app/chess-service/state/shared/shared.query';
 
 @Injectable({ providedIn: 'root' })
 export class PositionQuery extends QueryEntity<PositionState, Position> {
@@ -16,7 +16,9 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
     super(store);
   }
 
-  positionsByBoard$(boardId: ID): Observable<Position[]> {
+  positionById$(positionId$: Observable<ID>): Observable<Position> {
+    return getEntityByObservableId$(this.selectAll(), positionId$);
+  }
     return this.selectAll({
       filterBy: position => position.boardId === boardId
     });

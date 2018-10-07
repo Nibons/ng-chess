@@ -2,17 +2,18 @@ import { Injectable } from '@angular/core';
 import { QueryEntity, ID } from '@datorama/akita';
 import { BoardStore, BoardState } from './board.store';
 import { Board } from './board.model';
-import { PositionQuery } from 'src/app/chess-service/state/position';
+import { Observable } from 'rxjs';
+import { getEntityByObservableId$ } from 'src/app/chess-service/state/shared/shared.query';
 
 @Injectable({ providedIn: 'root' })
 export class BoardQuery extends QueryEntity<BoardState, Board> {
   incompleteBoards$ = this.selectAll({ filterBy: board => !!board.positionsPlaced });
 
-  constructor(protected store: BoardStore, private positionQuery: PositionQuery) {
+  constructor(protected store: BoardStore) {
     super(store);
   }
 
-  // GetPositionsUntilOccupied$(vector: IVector, boardId: ID): Observable<Position[]> {
-  //   this.positionQuery;
-  // }
+  getBoardById$(boardId$: Observable<ID>): Observable<Board> {
+    return getEntityByObservableId$(this.selectAll(), boardId$);
+  }
 }
