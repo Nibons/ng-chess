@@ -13,6 +13,13 @@ export class PieceQuery extends QueryEntity<PieceState, Piece> {
     super(store);
   }
 
+  getAllPieces$(): Observable<Piece> {
+    return this.selectAll()
+      .pipe(
+        mergeMap(pieceList => from(pieceList))
+      );
+  }
+
   getPieceById$(pieceId$: Observable<ID>): Observable<Piece> {
     return getEntityByObservableId$(this.selectAll(), pieceId$);
   }

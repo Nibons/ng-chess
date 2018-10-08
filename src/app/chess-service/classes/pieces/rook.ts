@@ -13,15 +13,24 @@ import { PieceStreamService } from 'src/app/chess-service/services/piece-stream.
 export class Rook extends BasePiece {
   pieceType = EPieceType.rook;
 
-  static rookThreat(piece: Piece, distance = Number.MAX_SAFE_INTEGER) {
-
+  static rookThreat(piece: Piece, positionQuery: PositionQuery): Observable<ID> {
+    let vectorResultList$ = Observable.create();
+    VectorLibrary.cardinalDirections.forEach(
+      direction =>
+        vectorResultList$ = vectorResultList$.merge(
+          positionQuery.nextPositionUntilOccupied$(piece, direction)
+        )
+    );
+    return vectorResultList$;
   }
 
-  constructor(public gameService: GameService) {
-    super(gameService);
+  constructor(
+    pieceStreamService: PieceStreamService,
+    public positionQuery: PositionQuery) {
+    super(pieceStreamService, positionQuery);
   }
 
-  processPiece(piece: Piece): void {
-    Rook.rookThreat(piece);
+  threatLocationIDs$(piece: Piece): Observable<ID> {
+    return Rook.rookThreat(piece, this.positionQuery);
   }
 }

@@ -13,15 +13,28 @@ import { merge } from 'rxjs/operators';
 export class Bishop extends BasePiece {
   pieceType = EPieceType.bishop;
 
-  static bishopThreat(piece: Piece, distance = Number.MAX_SAFE_INTEGER): IVector[] {
-    return VectorLibrary.GetDiagonalDirectionVectorList(piece.coordinates, distance);
+  static bishopThreat(piece: Piece, positionQuery: PositionQuery): Observable<ID> {
+    let mergedObservable = Observable.create();
+    VectorLibrary.diagonalDirections.forEach(
+      direction =>
+        mergedObservable = mergedObservable.pipe(
+          merge(
+            positionQuery.nextPositionUntilOccupied$(piece, direction)
+          )
+        )
+    );
+    return mergedObservable;
   }
 
-  constructor(public gameService: GameService) {
-    super(gameService);
+  constructor(
+    pieceStreamService: PieceStreamService,
+    positionQuery: PositionQuery) {
+    super(pieceStreamService, positionQuery);
   }
 
-  processPiece(piece: Piece): void {
-    Bishop.bishopThreat(piece);
+  threatLocationIDs$(piece: Piece): Observable<ID> {
+    return Bishop.bishopThreat(piece, this.positionQuery);
   }
+
+
 }

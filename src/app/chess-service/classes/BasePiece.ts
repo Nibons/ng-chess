@@ -34,16 +34,29 @@ export abstract class BasePiece implements IPieceData {
     return { ...pieceDefaults, ...pieceTemplate } as IPieceData;
   }
 
-  constructor(protected gameService: GameService) {
+  constructor(
+    protected pieceStreamService: PieceStreamService,
+    protected positionQuery: PositionQuery
+  ) {
+    this.pieceOfThisType$ = pieceStreamService.piecesFilteredByType$(this.pieceType);
 
-    this.processPieceList = gameService.processPieceList
-      .pipe(
-        filter((piece: Piece) => piece.pieceType === this.pieceType)
+  }
+
+  public selectPieceWithThreatList(pieceStream$: Observable<Piece>): Observable<Piece> {
+    return pieceStream$.pipe(
+      mergeMap(piece => this.threatList$(piece)),
+      withLatestFrom(pieceStream$),
+      map(
+        ([positionList, piece]) => {
+          piece.threatList = positionList;
+          return piece;
+        })
       );
 
-    this.processPieceList.subscribe(
-      (piece: Piece) => this.processPiece(piece),
-      () => console.error('Error on IPiece')
+  abstract threatLocationIDs$(piece: Piece): Observable<ID>;
+  private threatList$(piece: Piece): Observable<ID[]> {
+    return this.threatList$(piece).pipe(
+      reduce((total: ID[], current_id: ID) => [...total, current_id], new Array<ID>())
     );
   }
 
