@@ -12,6 +12,9 @@ import { Injectable } from '@angular/core';
 import { ID } from '@datorama/akita';
 import { PositionQuery } from 'src/app/chess-service/state/position';
 
+@Injectable({
+  providedIn: 'root'
+})
 export abstract class BasePiece implements IPieceData {
   playerNumber = 0;
   pieceType: EPieceType = EPieceType.base;
