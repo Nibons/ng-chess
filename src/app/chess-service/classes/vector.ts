@@ -5,22 +5,26 @@ import { IVector } from 'src/app/chess-service/interfaces/ivector';
 const maxIteration = Number.MAX_SAFE_INTEGER;
 
 // Cardinal Directions
-const north: ICoordinates = { dimensions: [0, 1] }
-const south: ICoordinates = { dimensions: [0, -1] }
-const east: ICoordinates = { dimensions: [1, 0] }
-const west: ICoordinates = { dimensions: [-1, 0] }
-const cardinalDirections = [north, south, east, west]
+const north: ICoordinates = { dimensions: [0, 1] };
+const south: ICoordinates = { dimensions: [0, -1] };
+const east: ICoordinates = { dimensions: [1, 0] };
+const west: ICoordinates = { dimensions: [-1, 0] };
+const cardinalDirections = [north, south, east, west];
 
 // Diagonal Directions
-const northEast: ICoordinates = { dimensions: [1, 1] }
-const southEast: ICoordinates = { dimensions: [1, -1] }
-const northWest: ICoordinates = { dimensions: [-1, 1] }
-const southWest: ICoordinates = { dimensions: [-1, -1] }
-const diagonalDirections = [northEast, southEast, northWest, southWest]
+const northEast: ICoordinates = { dimensions: [1, 1] };
+const southEast: ICoordinates = { dimensions: [1, -1] };
+const northWest: ICoordinates = { dimensions: [-1, 1] };
+const southWest: ICoordinates = { dimensions: [-1, -1] };
+const diagonalDirections = [northEast, southEast, northWest, southWest];
 
-const allDirections = [...cardinalDirections, ...diagonalDirections]
+const allDirections = [...cardinalDirections, ...diagonalDirections];
 
 export class VectorLibrary {
+
+  public static diagonalDirections = diagonalDirections;
+  public static cardinalDirections = cardinalDirections;
+  public static allDirections = allDirections;
 
   constructor() { }
 
@@ -85,7 +89,7 @@ export class VectorLibrary {
       VectorLibrary.GetNorthWestVector(startingPosition, max),
       VectorLibrary.GetSouthEastVector(startingPosition, max),
       VectorLibrary.GetSouthWestVector(startingPosition, max),
-    ]
+    ];
   }
   static GetAllDirectionsVectorList(startingPosition: ICoordinates, max: number = maxIteration): IVector[] {
     return [
