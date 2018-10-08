@@ -23,7 +23,7 @@ export abstract class BasePiece implements IPieceData {
   IsVital = false;
   boardNumber = 0;
 
-  processPieceList: Observable<Piece>;
+  pieceOfThisType$: Observable<Piece>;
 
   static PieceFactory(pieceTemplate: Partial<IPieceData>, pieceDefaults: Partial<IPieceData>, gameService: GameService) {
     const pieceInfo = BasePiece.combine(pieceTemplate, pieceDefaults) as Piece;
@@ -54,7 +54,21 @@ export abstract class BasePiece implements IPieceData {
           piece.threatList = positionList;
           return piece;
         })
-      );
+    );
+  }
+
+  // TODO
+  // public selectPieceWithPotentialMoveList(pieceStream$: Observable<Piece>): Observable<Piece> {
+  //   return pieceStream$.pipe(
+  //     mergeMap(piece => this.potentialMoveList$(piece)),
+  //     withLatestFrom(pieceStream$),
+  //     map(
+  //       ([potentialMoveList, piece]) => {
+  //         return piece;
+  //       }
+  //     )
+  //   );
+  // }
 
   abstract threatLocationIDs$(piece: Piece): Observable<ID>;
   private threatList$(piece: Piece): Observable<ID[]> {
@@ -63,6 +77,5 @@ export abstract class BasePiece implements IPieceData {
     );
   }
 
-  abstract processPiece(piece: Piece): void;
-
+  abstract potentialMoveLocationIDs$(piece: Piece): Observable<ID>;
 }
