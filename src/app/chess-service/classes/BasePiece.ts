@@ -5,8 +5,12 @@ import { ICoordinates } from 'src/app/chess-service/interfaces/icoordinates.mode
 import { EPieceType } from 'src/app/chess-service/enums/e-piece-type.enum';
 
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { map, mergeMap, reduce, withLatestFrom } from 'rxjs/operators';
 import { Coordinates } from 'src/app/chess-service/classes/coordinates';
+import { PieceStreamService } from 'src/app/chess-service/services/piece-stream.service';
+import { Injectable } from '@angular/core';
+import { ID } from '@datorama/akita';
+import { PositionQuery } from 'src/app/chess-service/state/position';
 
 export abstract class BasePiece implements IPieceData {
   playerNumber = 0;

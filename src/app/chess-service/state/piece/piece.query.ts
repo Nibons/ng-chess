@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { QueryEntity, ID } from '@datorama/akita';
 import { PieceStore, PieceState } from './piece.store';
 import { Piece } from './piece.model';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { getEntityByObservableId$ } from 'src/app/chess-service/state/shared/shared.query';
+import { mergeMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class PieceQuery extends QueryEntity<PieceState, Piece> {
