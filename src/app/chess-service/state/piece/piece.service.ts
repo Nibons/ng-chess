@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ID } from '@datorama/akita';
 import { PieceStore } from './piece.store';
-import { HttpClient } from '@angular/common/http';
+import { Piece } from 'src/app/chess-service/state/piece/piece.model';
 
 @Injectable({ providedIn: 'root' })
 export class PieceService {
@@ -15,10 +15,11 @@ export class PieceService {
     // });
   }
 
-  add() {
-    // this.http.post().subscribe((entity: ServerResponse) => {
-    // this.pieceStore.add(entity);
-    // });
+  add(piece: Piece): void {
+    this.pieceStore.add(piece);
+  }
+  update(id: ID, piece: Partial<Piece>): void {
+    this.pieceStore.update(id, piece);
   }
 
 }
