@@ -35,6 +35,4 @@ export class Bishop extends BasePiece {
   threatLocationIDs$(piece: Piece): Observable<ID> {
     return Bishop.bishopThreat(piece, this.positionQuery);
   }
-
-
 }
