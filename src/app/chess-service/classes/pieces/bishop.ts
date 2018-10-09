@@ -12,6 +12,11 @@ import { IPieceType } from 'src/app/chess-service/interfaces/ipiece-type.model';
 
 @Injectable({ providedIn: 'root' })
 export class Bishop extends BasePiece implements IPieceType {
+  constructor(
+    pieceStreamService: PieceStreamService,
+    positionQuery: PositionQuery) {
+    super(pieceStreamService, positionQuery);
+  }
   pieceType = EPieceType.bishop;
 
   static bishopThreat(piece: Piece, positionQuery: PositionQuery): Observable<ID> {
@@ -26,11 +31,8 @@ export class Bishop extends BasePiece implements IPieceType {
     );
     return mergedObservable;
   }
-
-  constructor(
-    pieceStreamService: PieceStreamService,
-    positionQuery: PositionQuery) {
-    super(pieceStreamService, positionQuery);
+  potentialMoveLocationIDs$(piece: Piece): Observable<ID> {
+    throw new Error('Method not implemented.');
   }
 
   threatLocationIDs$(piece: Piece): Observable<ID> {
