@@ -10,7 +10,7 @@ import { PieceStreamService } from 'src/app/chess-service/services/piece-stream.
 
 
 @Injectable({ providedIn: 'root' })
-export class Rook extends BasePiece {
+export class Rook extends BasePiece implements IPieceType {
   pieceType = EPieceType.rook;
 
   static rookThreat(piece: Piece, positionQuery: PositionQuery): Observable<ID> {

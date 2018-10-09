@@ -8,9 +8,10 @@ import { Observable } from 'rxjs';
 import { ID } from '@datorama/akita';
 import { PositionQuery } from 'src/app/chess-service/state/position';
 import { merge } from 'rxjs/operators';
+import { IPieceType } from 'src/app/chess-service/interfaces/ipiece-type.model';
 
 @Injectable({ providedIn: 'root' })
-export class Bishop extends BasePiece {
+export class Bishop extends BasePiece implements IPieceType {
   pieceType = EPieceType.bishop;
 
   static bishopThreat(piece: Piece, positionQuery: PositionQuery): Observable<ID> {

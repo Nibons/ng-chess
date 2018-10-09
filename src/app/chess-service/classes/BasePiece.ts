@@ -11,11 +11,12 @@ import { PieceStreamService } from 'src/app/chess-service/services/piece-stream.
 import { Injectable } from '@angular/core';
 import { ID } from '@datorama/akita';
 import { PositionQuery } from 'src/app/chess-service/state/position';
+import { IPieceType } from 'src/app/chess-service/interfaces/ipiece-type.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export abstract class BasePiece implements IPieceData {
+export abstract class BasePiece implements IPieceData, IPieceType {
   playerNumber = 0;
   pieceType: EPieceType = EPieceType.base;
   coordinates: ICoordinates = new Coordinates([0, 0]);
