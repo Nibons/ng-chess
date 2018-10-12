@@ -16,6 +16,8 @@ import { CoreModule } from 'src/app/core.module';
 import { BoardComponent } from 'src/app/components/board/board.component';
 import { PositionComponent } from 'src/app/components/board/position/position.component';
 import { PieceComponent } from 'src/app/components/board/piece/piece.component';
+import { StateProviderModule } from 'src/app/chess-service/state/state-provider.module';
+import { ChessGameProviderModule } from 'src/app/chess-service/ChessGame.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { PieceComponent } from 'src/app/components/board/piece/piece.component';
   imports: [
     BrowserModule,
     CoreModule,
+    StateProviderModule,
+    ChessGameProviderModule,
 
     // Material + forms stuff
     MatTabsModule,
