@@ -13,11 +13,13 @@ export interface Position extends IQueryableById {
   selected: boolean;
 }
 
-export function createPosition(params: Partial<Position>, board: ID) {
-  return {
+export function createPosition(params: Partial<Position>, board: ID): Position {
+  const default_position: Position = {
     id: id++,
-    board: board,
-    piece: null,
-    ...params
-  } as Position;
+    boardId: board,
+    pieceId: null,
+    coordinates: { dimensions: [] },
+    selected: false
+  };
+  return { ...default_position, ...params };
 }

@@ -11,11 +11,11 @@ export interface Game {
   template: Gamesave;
 }
 
-export function createGame(params: Gamesave) {
+export function createGame(params: Gamesave): Game {
   return {
     id: id++,
     name: '', // TODO fix this, cus this information needs a name
     board: [],
     template: params
-  } as Game;
+  };
 }

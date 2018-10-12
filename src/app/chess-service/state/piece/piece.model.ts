@@ -12,12 +12,12 @@ export interface Piece extends IPieceData, IQueryableById {
   potentialMoveList: IMove[];
 }
 
-export function createPiece(params: IPieceData) {
+export function createPiece(params: IPieceData): Piece {
   return {
     id: id++,
     potentialMoveList: [],
     threatList: [],
     moveList: [],
     ...params
-  } as Piece;
+  };
 }

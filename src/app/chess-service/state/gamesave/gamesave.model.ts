@@ -8,8 +8,14 @@ export interface Gamesave extends IGameTemplate {
 }
 
 export function createGamesave(params: Partial<Gamesave>): Gamesave {
-  return {
+  const default_gameSave: Partial<Gamesave> = {
     id: id++,
+    name: 'default_save',
+    boards: [],
+    players: []
+  };
+  return {
+    ...default_gameSave,
     ...params
   } as Gamesave;
 }

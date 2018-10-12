@@ -4,16 +4,16 @@ import { ID } from '@datorama/akita';
 let id = 0;
 
 export interface Board extends IBoardTemplate {
-    id: ID;
-    positionsPlaced: boolean;
-    piecesPlaced: boolean;
+  id: ID;
+  positionsPlaced: boolean;
+  piecesPlaced: boolean;
 }
 
-export function createBoard(params: IBoardTemplate) {
-    return {
-        id: id++,
-        positionsPlaced: false,
-        piecesPlaced: false,
-        ...params
-    } as Board;
+export function createBoard(params: IBoardTemplate): Board {
+  return {
+    id: id++,
+    positionsPlaced: false,
+    piecesPlaced: false,
+    ...params
+  };
 }
