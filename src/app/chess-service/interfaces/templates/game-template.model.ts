@@ -6,7 +6,7 @@ import { IPieceTemplate } from 'src/app/chess-service/interfaces/templates/piece
 export interface IGameTemplate {
   name: string;
   options: IOptionsTemplate;
-  board: IBoardTemplate;
-  players: IPlayerTemplate;
+  boards: IBoardTemplate[];
+  players: IPlayerTemplate[];
   pieces: IPieceTemplate;
 }
