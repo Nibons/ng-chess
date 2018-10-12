@@ -7,10 +7,17 @@ import { Observable } from 'rxjs';
 import { ID } from '@datorama/akita';
 import { PositionQuery } from '../../state/position';
 import { PieceStreamService } from 'src/app/chess-service/services/piece-stream.service';
+import { IPieceType } from 'src/app/chess-service/interfaces/ipiece-type.model';
 
 
 @Injectable({ providedIn: 'root' })
 export class Rook extends BasePiece implements IPieceType {
+
+  constructor(
+    pieceStreamService: PieceStreamService,
+    public positionQuery: PositionQuery) {
+    super(pieceStreamService, positionQuery);
+  }
   pieceType = EPieceType.rook;
 
   static rookThreat(piece: Piece, positionQuery: PositionQuery): Observable<ID> {
@@ -23,11 +30,8 @@ export class Rook extends BasePiece implements IPieceType {
     );
     return vectorResultList$;
   }
-
-  constructor(
-    pieceStreamService: PieceStreamService,
-    public positionQuery: PositionQuery) {
-    super(pieceStreamService, positionQuery);
+  potentialMoveLocationIDs$(piece: Piece): Observable<ID> {
+    throw new Error('Method not implemented.');
   }
 
   threatLocationIDs$(piece: Piece): Observable<ID> {
