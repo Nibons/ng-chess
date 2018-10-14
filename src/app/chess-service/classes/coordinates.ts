@@ -107,10 +107,6 @@ export class Coordinates implements ICoordinates {
     return coordinateList;
   }
 
-  public IsEqual(coordinates: ICoordinates) {
-    return Coordinates.IsSameCoordinates(this, coordinates);
-  }
-
   static GetCoordinatesInDirection$(
     coordinates: ICoordinates,
     direction: ICoordinates,
@@ -120,5 +116,9 @@ export class Coordinates implements ICoordinates {
     coordinateList: ICoordinates[] = new Array(), // used for recursion!
   ): Observable<ICoordinates> {
     return from(this.GetCoordinatesInDirection(coordinates, direction, min, max, count));
+  }
+
+  public IsEqual(coordinates: ICoordinates) {
+    return Coordinates.IsSameCoordinates(this, coordinates);
   }
 }
