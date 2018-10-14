@@ -14,16 +14,7 @@ import { CombinedQuery } from './combined.query';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
-
-    BoardService, BoardQuery, BoardStore,
-    GameService, GameQuery, GameStore,
-    GamesaveService, GamesaveQuery, GamesaveStore,
-    PieceService, PieceQuery, PieceStore,
-    PositionService, PositionQuery, PositionQuery
-  ],
-  exports: [
-
+    CommonModule
   ],
   providers: [
     BoardService, BoardQuery, BoardStore,
