@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ID } from '@datorama/akita';
 import { GamesaveStore } from './gamesave.store';
 import { HttpClient } from '@angular/common/http';
 import { Gamesave, createGamesave } from 'src/app/chess-service/state/gamesave/gamesave.model';
 import { IGameTemplateLoader } from 'src/app/chess-service/interfaces/templates/game-template-loader.model';
-import { mergeMap, map, reduce, withLatestFrom, combineLatest } from 'rxjs/operators';
-import { from, Observable, of, merge, zip, Subscription } from 'rxjs';
+import { mergeMap, combineLatest } from 'rxjs/operators';
+import { from, Observable, Subscription } from 'rxjs';
 import { IGameTemplate } from 'src/app/chess-service/interfaces/templates/game-template.model';
 import { IBoardTemplate } from 'src/app/chess-service/interfaces/templates/board-template.model';
 import { IOptionsTemplate } from 'src/app/chess-service/interfaces/templates/options-template.model';

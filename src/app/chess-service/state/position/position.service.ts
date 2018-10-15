@@ -5,8 +5,7 @@ import { Board } from './../board/board.model';
 import { Injectable } from '@angular/core';
 import { ID } from '@datorama/akita';
 import { PositionStore } from './position.store';
-import { HttpClient } from '@angular/common/http';
-import { BoardQuery, BoardService } from 'src/app/chess-service/state/board';
+import { BoardQuery } from 'src/app/chess-service/state/board/board.query';
 
 @Injectable({ providedIn: 'root' })
 export class PositionService {
