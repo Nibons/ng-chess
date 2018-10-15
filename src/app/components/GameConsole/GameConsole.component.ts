@@ -10,7 +10,7 @@ import { ID } from '@datorama/akita';
   styleUrls: ['./GameConsole.component.css']
 })
 export class GameConsoleComponent implements OnInit {
-  games$!: Observable<Gamesave[]>;
+  games$: Observable<Gamesave[]> = this.gameQuery.selectAll();
   gameSave$: Observable<Gamesave> = this.games$.pipe(map(boardList => boardList[0]));
   build_game: ID = 0;
 
