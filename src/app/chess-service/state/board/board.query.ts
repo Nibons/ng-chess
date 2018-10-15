@@ -16,4 +16,8 @@ export class BoardQuery extends QueryEntity<BoardState, Board> {
   getBoardById$(boardId$: Observable<ID>): Observable<Board> {
     return getEntityByObservableId$(this.selectAll(), boardId$);
   }
+
+  selectBoardsInGame(gameId: ID): Observable<Board[]> {
+    return this.selectAll({ filterBy: board => board.gameId === gameId });
+  }
 }
