@@ -5,7 +5,7 @@ import { BoardService, BoardQuery, BoardStore } from './board';
 import { GameService, GameQuery, GameStore } from './game';
 import { GamesaveService, GamesaveQuery, GamesaveStore } from './gamesave';
 import { PieceService, PieceQuery, PieceStore } from './piece';
-import { PositionService, PositionQuery } from './position';
+import { PositionService, PositionQuery, PositionStore } from './position';
 import { CombinedQuery } from './combined.query';
 
 
@@ -17,12 +17,12 @@ import { CombinedQuery } from './combined.query';
     CommonModule
   ],
   providers: [
+    CombinedQuery,
     BoardService, BoardQuery, BoardStore,
     GameService, GameQuery, GameStore,
     GamesaveService, GamesaveQuery, GamesaveStore,
     PieceService, PieceQuery, PieceStore,
-    PositionService, PositionQuery, PositionQuery,
-    CombinedQuery
+    PositionService, PositionQuery, PositionStore
   ],
 })
 export class StateProviderModule { }
