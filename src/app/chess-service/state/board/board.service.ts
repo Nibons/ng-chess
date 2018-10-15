@@ -1,16 +1,25 @@
 import { Board } from './board.model';
-import { Injectable } from '@angular/core';
-import { ID } from '@datorama/akita';
+import { Injectable, Inject, forwardRef } from '@angular/core';
 import { BoardStore } from './board.store';
-import { PieceQuery } from 'src/app/chess-service/state/piece';
+import { PositionService } from 'src/app/chess-service/state/position/position.service';
+import { Coordinates } from 'src/app/chess-service/classes/coordinates';
+import { createPosition } from 'src/app/chess-service/state/position/position.model';
 
 @Injectable({ providedIn: 'root' })
 export class BoardService {
 
-  constructor(private boardStore: BoardStore) { }
+  constructor(
+    private boardStore: BoardStore,
+    @Inject(forwardRef(() => PositionService)) private positionService: PositionService
+  ) { }
 
   add(board: Board) {
     this.boardStore.add(board);
+    Coordinates.GetAllCoordinatesWithin(board.range.min, board.range.max).forEach(
+      coordinates =>
+        this.positionService.add(createPosition({ coordinates: coordinates }, board.id))
+    );
+    this.OnAllPositionsPlaced(board);
   }
 
   OnAllPositionsPlaced(board: Board) {
