@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { ID } from '@datorama/akita';
 
 @Component({
-  selector: 'app-GameConsole',
+  selector: 'app-gameconsole',
   templateUrl: './GameConsole.component.html',
   styleUrls: ['./GameConsole.component.css']
 })
