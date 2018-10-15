@@ -10,9 +10,10 @@ import { BoardQuery } from 'src/app/chess-service/state/board/board.query';
 @Injectable({ providedIn: 'root' })
 export class PositionService {
 
-  constructor(private positionStore: PositionStore,
-    private boardService: BoardService,
-    private boardQuery: BoardQuery) {
+  constructor(
+    private positionStore: PositionStore,
+    private boardQuery: BoardQuery
+  ) {
     this.boardQuery.incompleteBoards$.subscribe(
       boardList => this.iterateOverBoardList(boardList)
     );
@@ -22,7 +23,6 @@ export class PositionService {
     boardList.forEach(
       (board) => {
         this.iterateOverBoardPositions(board);
-        this.boardService.OnAllPositionsPlaced(board);
       }
     );
   }
@@ -46,6 +46,10 @@ export class PositionService {
 
   add(position: Position) {
     this.positionStore.add(position);
+  }
+
+  placePiece(position: Position, pieceId: ID): void {
+    this.positionStore.update(position.id, { pieceId: pieceId });
   }
 
 }
