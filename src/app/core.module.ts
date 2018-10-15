@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+
 // import { RouterModule } from '@angular/router';
 
 // import { routes as rootRoutes } from './app.routes';
@@ -8,11 +10,12 @@ import { CommonModule } from '@angular/common';
   declarations: [],
   imports: [
     CommonModule,
+    HttpClientModule
     // RouterModule.forRoot(rootRoutes)
   ],
   exports: [
     // RouterModule
   ],
-  providers: [],
+  providers: [HttpClient],
 })
 export class CoreModule { }
