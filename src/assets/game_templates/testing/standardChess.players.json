@@ -1,0 +1,20 @@
+{
+  "boardType": "standardChess",
+  "players": [{
+      "playerNumber": 0,
+      "playerColor": "white",
+      "pieceOrientation": {
+        "dimensions": [0, 1]
+      },
+      "viewOrientation": 0
+    },
+    {
+      "playerNumber": 1,
+      "playerColor": "black",
+      "pieceOrientation": {
+        "dimensions": [0, -1]
+      },
+      "viewOrientation": 180
+    }
+  ]
+}

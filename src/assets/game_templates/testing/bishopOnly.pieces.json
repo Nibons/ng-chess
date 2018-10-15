@@ -1,0 +1,15 @@
+{
+  "boardType": "standardChess",
+  "pieces": [{
+    "playerNumber": 0,
+    "pieceType": "bishop",
+    "coordinates": {
+      "dimensions": [1, 1]
+    }
+  }],
+  "pieceDefaults": {
+    "HasMoved": false,
+    "IsVital": false,
+    "boardNumber": 0
+  }
+}

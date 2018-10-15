@@ -1,0 +1,5 @@
+{
+  "currentTurnPlayerNumber": 0,
+  "friendlyFire": false,
+  "colorList": ["white", "black"]
+}
