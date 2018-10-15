@@ -7,15 +7,13 @@ let id = 0;
 export interface Game {
   id: ID;
   name: string;
-  board: ID[];
   template: Gamesave;
 }
 
-export function createGame(params: Gamesave): Game {
+export function createGame(params: Gamesave, name: string): Game {
   return {
     id: id++,
-    name: '', // TODO fix this, cus this information needs a name
-    board: [],
+    name: name, // TODO fix this, cus this information needs a name
     template: params
   };
 }
