@@ -118,6 +118,23 @@ export class Coordinates implements ICoordinates {
     return from(this.GetCoordinatesInDirection(coordinates, direction, min, max, count));
   }
 
+  static GetAllCoordinatesWithin(origin: ICoordinates, max: ICoordinates): ICoordinates[] {
+    if (origin.dimensions.length > 2) {
+      Error('Dimensions other than 2d have not been implemented yet');
+      return [];
+    } else {
+      const coordinate_list = Array<ICoordinates>(0);
+      for (let x = origin.dimensions[0]; x <= origin.dimensions[0]; x++) {
+        for (let y = origin.dimensions[1]; y <= origin.dimensions[1]; y++) {
+          coordinate_list.push(
+            { dimensions: [x, y] }
+          );
+        }
+      }
+      return coordinate_list;
+    }
+  }
+
   public IsEqual(coordinates: ICoordinates) {
     return Coordinates.IsSameCoordinates(this, coordinates);
   }
