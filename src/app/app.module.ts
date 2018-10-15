@@ -18,6 +18,7 @@ import { PositionComponent } from 'src/app/components/board/position/position.co
 import { PieceComponent } from 'src/app/components/board/piece/piece.component';
 import { StateProviderModule } from 'src/app/chess-service/state/state-provider.module';
 import { ChessGameProviderModule } from 'src/app/chess-service/ChessGame.module';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,11 @@ import { ChessGameProviderModule } from 'src/app/chess-service/ChessGame.module'
     BrowserModule,
     CoreModule,
     StateProviderModule,
+    environment.production ? [] : AkitaNgDevtools.forRoot({
+      // maxAge: 50
+      // logTrace: true,
+      // actionsBlacklist: ['@@INIT']
+    }),
     ChessGameProviderModule,
 
     // Material + forms stuff
