@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { GamesaveStore } from './gamesave.store';
 import { HttpClient } from '@angular/common/http';
 import { Gamesave, createGamesave } from 'src/app/chess-service/state/gamesave/gamesave.model';
 import { IGameTemplateLoader } from 'src/app/chess-service/interfaces/templates/game-template-loader.model';
-import { mergeMap, tap, map } from 'rxjs/operators';
-import { from, Observable, Subscription, forkJoin } from 'rxjs';
+import { mergeMap, tap, map, concat } from 'rxjs/operators';
+import { from, Observable, Subscription, forkJoin, of } from 'rxjs';
 import { IGameTemplate } from 'src/app/chess-service/interfaces/templates/game-template.model';
 import { IBoardTemplate } from 'src/app/chess-service/interfaces/templates/board-template.model';
 import { IOptionsTemplate } from 'src/app/chess-service/interfaces/templates/options-template.model';
@@ -15,8 +15,9 @@ import { action, ID } from '@datorama/akita';
 const templatesURI = '/assets/game_templates/GameTemplates.json';
 
 @Injectable({ providedIn: 'root' })
-export class GamesaveService {
-  loadTemplatesSubscription: Subscription = new Subscription;
+export class GamesaveService implements OnDestroy {
+
+  loadTemplatesSubscription: Subscription;
 
   constructor(
     private gamesaveStore: GamesaveStore,
@@ -24,24 +25,23 @@ export class GamesaveService {
   ) {
 
     // Subscribe to loaded defaults
-    this.loadDefaultTemplates(templatesURI);
+    this.loadTemplatesSubscription = this.loadDefaultTemplates(templatesURI).subscribe({
+      complete: () => {
+        console.log('Template Loading Complete');
+        this.gamesaveStore.setLoading(false);
+      }
+    });
   }
 
+  ngOnDestroy(): void {
+    this.loadTemplatesSubscription.unsubscribe();
+  }
 
-
-  private loadDefaultTemplates(uri: string): Subscription {
-    const loader$ = this.http.get<IGameTemplateLoader[]>(uri).pipe(
-      tap(() => this.gamesaveStore.setLoading(true)),
+  private loadDefaultTemplates(uri: string): Observable<any> {
+    this.gamesaveStore.setLoading(true);
+    return this.http.get<IGameTemplateLoader[]>(uri).pipe(
       mergeMap(gameTemplateLoaderList => from(gameTemplateLoaderList)),
       mergeMap(gameTemplateLoader => this.loadTemplate(gameTemplateLoader))
-    );
-    return loader$.subscribe(
-      () => { },
-      (err) => console.log(err),
-      () => {
-        this.gamesaveStore.setLoading(false);
-        console.log('Default Game Saves Loaded');
-      }
     );
   }
 
