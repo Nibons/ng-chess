@@ -19,7 +19,7 @@ export class Bishop extends BasePiece implements IPieceType {
   }
   pieceType = EPieceType.bishop;
 
-  static bishopThreat(piece: Piece, positionQuery: PositionQuery): Observable<ID> {
+  static bishopThreat(piece: Piece, positionQuery: PositionQuery, count = Number.MAX_SAFE_INTEGER): Observable<ID> {
     let mergedObservable = Observable.create();
     VectorLibrary.diagonalDirections.forEach(
       direction =>

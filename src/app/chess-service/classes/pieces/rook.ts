@@ -20,7 +20,7 @@ export class Rook extends BasePiece implements IPieceType {
   }
   pieceType = EPieceType.rook;
 
-  static rookThreat(piece: Piece, positionQuery: PositionQuery): Observable<ID> {
+  static rookThreat(piece: Piece, positionQuery: PositionQuery, count = Number.MAX_SAFE_INTEGER): Observable<ID> {
     let vectorResultList$ = Observable.create();
     VectorLibrary.cardinalDirections.forEach(
       direction =>
