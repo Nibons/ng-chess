@@ -3,30 +3,29 @@ import { GamesaveStore } from './gamesave.store';
 import { HttpClient } from '@angular/common/http';
 import { Gamesave, createGamesave } from 'src/app/chess-service/state/gamesave/gamesave.model';
 import { IGameTemplateLoader } from 'src/app/chess-service/interfaces/templates/game-template-loader.model';
-import { mergeMap, combineLatest } from 'rxjs/operators';
-import { from, Observable, Subscription } from 'rxjs';
+import { mergeMap, tap, map } from 'rxjs/operators';
+import { from, Observable, Subscription, forkJoin } from 'rxjs';
 import { IGameTemplate } from 'src/app/chess-service/interfaces/templates/game-template.model';
 import { IBoardTemplate } from 'src/app/chess-service/interfaces/templates/board-template.model';
 import { IOptionsTemplate } from 'src/app/chess-service/interfaces/templates/options-template.model';
 import { IPieceTemplate } from 'src/app/chess-service/interfaces/templates/piece-template.model';
 import { IPlayerTemplate } from 'src/app/chess-service/interfaces/templates/player-template.model';
+import { action, ID } from '@datorama/akita';
 
 const templatesURI = '/assets/game_templates/GameTemplates.json';
 
 @Injectable({ providedIn: 'root' })
 export class GamesaveService {
-  loaderSubscription: Subscription;
+  loadTemplatesSubscription: Subscription;
 
   constructor(
     private gamesaveStore: GamesaveStore,
     private http: HttpClient
   ) {
 
-    // Subscribe + unsubscribe to loaded defaults
-    this.loaderSubscription = this.loadDefaultTemplates().subscribe(
-      (gameTemplate: IGameTemplate) => { this.add(gameTemplate); },
-      (err: Error) => { console.log(err); },
-      () => { this.loaderSubscription.unsubscribe(); }
+    // Subscribe to loaded defaults
+    this.loadTemplatesSubscription = this.loadDefaultTemplates().subscribe(
+      next => console.log(next)
     );
 
   }
@@ -38,43 +37,42 @@ export class GamesaveService {
     );
   }
 
-  private loadTemplate(gameTemplateLoader: IGameTemplateLoader): Observable<IGameTemplate> {
+  private loadTemplate(gameTemplateLoader: IGameTemplateLoader): Observable<any> {
     const rootFolder = gameTemplateLoader.rootFolder;
     const configFiles = gameTemplateLoader.configFiles;
 
-    return Observable.create().pipe(
-      combineLatest(
-        this.loadBoards(rootFolder, configFiles.boards),
-        this.loadOptions(rootFolder, configFiles.options),
-        this.loadPlayers(rootFolder, configFiles.players),
-        this.loadPieces(rootFolder, configFiles.pieces),
-        (board, options, players, pieces) => {
-          return {
-            name: gameTemplateLoader.name,
-            options: options,
-            boards: board,
-            players: players,
-            pieces: pieces
-          };
-        }
-      )
+    const gameId = this.add(gameTemplateLoader);
+
+    return forkJoin(
+      this.loadBoards(gameId, rootFolder, configFiles.boards),
+      this.loadOptions(gameId, rootFolder, configFiles.options),
+      this.loadPieces(gameId, rootFolder, configFiles.pieces),
+      this.loadPlayers(gameId, rootFolder, configFiles.players)
     );
   }
 
-  private loadBoards(root: string, url: string = ''): Observable<IBoardTemplate[]> {
-    return this.http.get<IBoardTemplate[]>(root + url);
+  private loadBoards(gameId: ID, root: string, url: string = ''): Observable<IBoardTemplate[]> {
+    return this.http.get<IBoardTemplate[]>(root + url).pipe(
+      tap(boardTemplate => this.update({ boards: boardTemplate }, gameId))
+    );
   }
 
-  private loadOptions(root: string, url: string = ''): Observable<IOptionsTemplate> {
-    return this.http.get<IOptionsTemplate>(root + url);
+  private loadOptions(gameId: ID, root: string, url: string = ''): Observable<IOptionsTemplate> {
+    return this.http.get<IOptionsTemplate>(root + url).pipe(
+      tap(optionsTemplate => this.update({ options: optionsTemplate }, gameId))
+    );
   }
 
-  private loadPieces(root: string, url: string = ''): Observable<IPieceTemplate> {
-    return this.http.get<IPieceTemplate>(root + url);
+  private loadPieces(gameId: ID, root: string, url: string = ''): Observable<IPieceTemplate> {
+    return this.http.get<IPieceTemplate>(root + url).pipe(
+      tap(pieceTemplate => this.update({ pieces: pieceTemplate }, gameId))
+    );
   }
 
-  private loadPlayers(root: string, url: string = ''): Observable<IPlayerTemplate[]> {
-    return this.http.get<IPlayerTemplate[]>(root + url);
+  private loadPlayers(gameId: ID, root: string, url: string = ''): Observable<IPlayerTemplate[]> {
+    return this.http.get<IPlayerTemplate[]>(root + url).pipe(
+      tap(playerTemplate => this.update({ players: playerTemplate }, gameId))
+    );
   }
 
 
@@ -84,9 +82,17 @@ export class GamesaveService {
     // });
   }
 
-  add(partialGameSave: Partial<Gamesave>) {
+  @action({ type: 'Add Game Save' })
+  add(partialGameSave: Partial<Gamesave>): ID {
     const gameSave = createGamesave(partialGameSave);
     this.gamesaveStore.add(gameSave);
+    return gameSave.id;
+  }
+
+  update(partialGameSave: Partial<Gamesave>, gameSaveId: ID) {
+    this.gamesaveStore.update(gameSaveId, partialGameSave);
   }
 
 }
+
+
