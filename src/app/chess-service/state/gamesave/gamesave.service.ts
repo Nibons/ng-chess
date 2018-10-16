@@ -16,7 +16,7 @@ const templatesURI = '/assets/game_templates/GameTemplates.json';
 
 @Injectable({ providedIn: 'root' })
 export class GamesaveService {
-  loadTemplatesSubscription: Subscription;
+  loadTemplatesSubscription: Subscription = new Subscription;
 
   constructor(
     private gamesaveStore: GamesaveStore,
@@ -24,16 +24,24 @@ export class GamesaveService {
   ) {
 
     // Subscribe to loaded defaults
-    this.loadTemplatesSubscription = this.loadDefaultTemplates().subscribe(
-      next => console.log(next)
-    );
-
+    this.loadDefaultTemplates(templatesURI);
   }
 
-  private loadDefaultTemplates(): Observable<IGameTemplate> {
-    return this.http.get<IGameTemplateLoader[]>(templatesURI).pipe(
+
+
+  private loadDefaultTemplates(uri: string): Subscription {
+    const loader$ = this.http.get<IGameTemplateLoader[]>(uri).pipe(
+      tap(() => this.gamesaveStore.setLoading(true)),
       mergeMap(gameTemplateLoaderList => from(gameTemplateLoaderList)),
       mergeMap(gameTemplateLoader => this.loadTemplate(gameTemplateLoader))
+    );
+    return loader$.subscribe(
+      () => { },
+      (err) => console.log(err),
+      () => {
+        this.gamesaveStore.setLoading(false);
+        console.log('Default Game Saves Loaded');
+      }
     );
   }
 
