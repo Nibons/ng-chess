@@ -19,6 +19,8 @@ import { PieceComponent } from 'src/app/components/board/piece/piece.component';
 import { StateProviderModule } from 'src/app/chess-service/state/state-provider.module';
 import { ChessGameProviderModule } from 'src/app/chess-service/ChessGame.module';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { RootRouterModule } from 'src/app/router.module';
+import { CreateGameComponent } from 'src/app/components/CreateGame/CreateGame.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
     AppComponent,
     GameConsoleComponent,
     GameTabsComponent,
-    NewGameComponent
+    NewGameComponent,
+    CreateGameComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
       // actionsBlacklist: ['@@INIT']
     }),
     ChessGameProviderModule,
+    RootRouterModule,
 
     // Material + forms stuff
     MatTabsModule,

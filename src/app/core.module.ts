@@ -11,11 +11,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
   imports: [
     CommonModule,
     HttpClientModule
-    // RouterModule.forRoot(rootRoutes)
   ],
-  exports: [
-    // RouterModule
-  ],
+  exports: [],
   providers: [HttpClient],
 })
 export class CoreModule { }
