@@ -5,6 +5,7 @@ import { switchMap } from 'rxjs/operators';
 import { Observable, observable, Subscription } from 'rxjs';
 import { GameQuery, Game } from 'src/app/chess-service/state/game';
 import { ID } from '@datorama/akita';
+import { GameService } from 'src/app/chess-service/classes/GameService';
 
 @Component({
   selector: 'app-creategame',
@@ -20,7 +21,8 @@ export class CreateGameComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private gameSaveQuery: GamesaveQuery,
-    private gameQuery: GameQuery) { }
+    private gameQuery: GameQuery,
+    private gameService: GameService) { }
 
   ngOnInit() {
     this.gameSave$ = this.route.paramMap.pipe(
@@ -29,7 +31,7 @@ export class CreateGameComponent implements OnInit, OnDestroy {
       )
     );
 
-
+    this.game$ = gameService.createFromSave()
   }
 
   ngOnDestroy() {

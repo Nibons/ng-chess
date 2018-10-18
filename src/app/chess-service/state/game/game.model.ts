@@ -10,10 +10,11 @@ export interface Game {
   template: Gamesave;
 }
 
-export function createGame(params: Gamesave, name: string): Game {
+export function createGame(params: Gamesave, name: string | null): Game {
+  const gameName = name ? name : `${params.name}-${id}`;
   return {
     id: id++,
-    name: name, // TODO fix this, cus this information needs a name
+    name: gameName, // TODO fix this, cus this information needs a name
     template: params
   };
 }
