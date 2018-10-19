@@ -31,7 +31,8 @@ export class CreateGameComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.game$ = gameService.createFromSave()
+    // TODO this should output
+    // this.game$ = this.gameService.createFromSave()
   }
 
   ngOnDestroy() {

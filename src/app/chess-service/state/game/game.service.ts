@@ -7,6 +7,7 @@ import { GameQuery } from 'src/app/chess-service/state/game/game.query';
 import { PieceService } from 'src/app/chess-service/state/piece/piece.service';
 import { createBoard } from 'src/app/chess-service/state/board/board.model';
 import { Gamesave } from 'src/app/chess-service/state/gamesave';
+import { ID } from '@datorama/akita';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
@@ -34,7 +35,7 @@ export class GameService {
     this.pieceService.populatePieces(game.id);
   }
 
-  createFromSave(gameTemplate: Gamesave): ID {
+  createFromSave(gameTemplate: Gamesave) {
 
   }
 }

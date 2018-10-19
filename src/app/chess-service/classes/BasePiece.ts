@@ -73,9 +73,14 @@ export abstract class BasePiece implements IPieceData, IPieceType {
 
   abstract threatLocationIDs$(piece: Piece): Observable<ID>;
   private threatList$(piece: Piece): Observable<ID[]> {
-    return this.threatList$(piece).pipe(
-      reduce((total: ID[], current_id: ID) => [...total, current_id], new Array<ID>())
-    );
+    const accumulator = function (piece_list: ID[], piece_id: ID) {
+      piece_list.push(piece_id);
+      return piece_list;
+    };
+    return this.threatLocationIDs$(piece)
+      .pipe(
+        reduce(accumulator, new Array())
+      );
   }
 
   abstract potentialMoveLocationIDs$(piece: Piece): Observable<ID>;
