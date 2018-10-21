@@ -6,7 +6,7 @@ import { CreateGameComponent } from 'src/app/components/CreateGame/CreateGame.co
 const rootRoutes: Routes = [
   { path: 'startGame/:templateId', component: CreateGameComponent },
   { path: 'game/:gameId', component: GameConsoleComponent },
-  { path: '**', redirectTo: 'startgame/0' }
+  { path: '**', redirectTo: 'startGame/0' }
 ];
 
 
