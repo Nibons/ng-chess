@@ -3,15 +3,17 @@ import { ID } from '@datorama/akita';
 import { PieceStore } from './piece.store';
 import { Piece, createPiece } from 'src/app/chess-service/state/piece/piece.model';
 import { GameQuery } from 'src/app/chess-service/state/game/game.query';
-import { map, mergeMap, withLatestFrom } from 'rxjs/operators';
-import { from, Observable } from 'rxjs';
+import { map, tap, last, concatMap, mergeMap } from 'rxjs/operators';
+import { Observable, concat, of } from 'rxjs';
+import { PieceQuery } from 'src/app/chess-service/state/piece/piece.query';
 
 @Injectable({ providedIn: 'root' })
 export class PieceService {
 
   constructor(
     private pieceStore: PieceStore,
-    private gameQuery: GameQuery) {
+    private gameQuery: GameQuery,
+    private pieceQuery: PieceQuery) {
   }
 
   get() {
@@ -27,23 +29,21 @@ export class PieceService {
     this.pieceStore.update(id, piece);
   }
 
-
-  populatePieces(gameId: ID) {
-    const template$ = this.gameQuery.selectEntity(gameId).pipe(
-      map(game => game.template.pieces)
+  private populatePiece(gameId: ID): Observable<Piece> {
+    return this.gameQuery.selectPieceListFromTemplate(gameId).pipe(
+      tap(() => this.pieceStore.setLoading(true)),
+      map(pieceData => createPiece(pieceData, gameId)),
+      tap(piece => this.add(piece))
     );
-    const pieceDefaults$ = template$.pipe(map(template => template.pieceDefaults));
-    const pieceList$: Observable<Piece> = template$.pipe(
-      map(pieceTemplate => pieceTemplate.pieces),
-      mergeMap(pieceList => from(pieceList)),
-      withLatestFrom(pieceDefaults$),
-      map(([piece, template]) => createPiece(piece, template, gameId))
-    );
-
-    const createPieceSubscription = pieceList$.subscribe(
-      (piece => this.add(piece)),
-      ((err) => console.log(err))
-    );
-    createPieceSubscription.unsubscribe();
   }
+
+  populateAllPieces(gameId: ID): Observable<Piece[]> {
+    return this.populatePiece(gameId).pipe(
+      last(),
+      mergeMap(piece =>
+        this.pieceQuery.selectPieceListByGameId(piece.gameId)
+      )
+    );
+  }
+
 }

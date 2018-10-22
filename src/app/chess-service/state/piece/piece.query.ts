@@ -23,4 +23,9 @@ export class PieceQuery extends QueryEntity<PieceState, Piece> {
   getPieceById$(pieceId$: Observable<ID>): Observable<Piece> {
     return getEntityByObservableId$(this.selectAll(), pieceId$);
   }
+  selectPieceListByGameId(gameId: ID): Observable<Piece[]> {
+    return this.selectAll({
+      filterBy: piece => piece.gameId === gameId
+    });
+  }
 }

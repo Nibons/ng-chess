@@ -10,7 +10,7 @@ export interface Game {
   template: Gamesave;
 }
 
-export function createGame(params: Gamesave, name: string | null): Game {
+export function createGame(params: Gamesave, name: string | null = null): Game {
   const gameName = name ? name : `${params.name}-${id}`;
   return {
     id: id++,

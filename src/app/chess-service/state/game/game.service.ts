@@ -1,6 +1,6 @@
 import { Injectable, Inject, forwardRef } from '@angular/core';
 import { GameStore } from './game.store';
-import { Game } from 'src/app/chess-service/state/game/game.model';
+import { Game, createGame } from 'src/app/chess-service/state/game/game.model';
 import { BoardService } from 'src/app/chess-service/state/board/board.service';
 
 import { GameQuery } from 'src/app/chess-service/state/game/game.query';
@@ -27,15 +27,19 @@ export class GameService {
 
   add(game: Game) {
     // adds the game to the game service
+    this.gameStore.setLoading(true);
     this.gameStore.add(game);
     game.template.boards.forEach(
       boardTemplate =>
         this.boardService.add(createBoard(boardTemplate, game.id))
     );
-    this.pieceService.populatePieces(game.id);
+    this.pieceService.populateAllPieces(game.id);
+    this.gameStore.setLoading(false);
   }
 
-  createFromSave(gameTemplate: Gamesave) {
-
+  createFromGameSave(gameSave: Gamesave): ID {
+    const newGame = createGame(gameSave);
+    this.add(newGame);
+    return newGame.id;
   }
 }
