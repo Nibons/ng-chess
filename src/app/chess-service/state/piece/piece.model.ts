@@ -1,4 +1,4 @@
-import { IPieceData } from 'src/app/chess-service/interfaces/ipiece-data.model';
+import { IPieceData, pieceDefaults } from 'src/app/chess-service/interfaces/ipiece-data.model';
 import { ID } from '@datorama/akita';
 import { IQueryableById } from 'src/app/chess-service/state/shared/queryableById.model';
 import { IMove } from 'src/app/chess-service/interfaces/imove.model';
@@ -13,7 +13,11 @@ export interface Piece extends IPieceData, IQueryableById {
   potentialMoveList: IMove[];
 }
 
-export function createPiece(pieceInfo: Partial<IPieceData>, template: Partial<IPieceData>, gameId: ID): Piece {
+export function createPiece(
+  pieceInfo: Partial<IPieceData>,
+  gameId: ID,
+  template: Partial<IPieceData> = pieceDefaults,
+): Piece {
   const params = { ...template, ...pieceInfo } as IPieceData;
   return {
     id: id++,

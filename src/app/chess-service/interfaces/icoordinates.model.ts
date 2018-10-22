@@ -1,3 +1,7 @@
 export interface ICoordinates {
-    dimensions: number[];
+  dimensions: number[];
 }
+
+export const defaultCoordinates: ICoordinates = {
+  dimensions: [0, 0]
+};
