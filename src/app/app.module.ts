@@ -21,6 +21,7 @@ import { ChessGameProviderModule } from 'src/app/chess-service/ChessGame.module'
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { RootRouterModule } from 'src/app/router.module';
 import { CreateGameComponent } from 'src/app/components/CreateGame/CreateGame.component';
+import { GameLayoutComponent } from 'src/app/components/GameLayout/GameLayout.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CreateGameComponent } from 'src/app/components/CreateGame/CreateGame.co
     GameConsoleComponent,
     GameTabsComponent,
     NewGameComponent,
+    GameLayoutComponent,
     CreateGameComponent
   ],
   imports: [

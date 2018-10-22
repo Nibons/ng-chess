@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GameConsoleComponent } from 'src/app/components/GameConsole/GameConsole.component';
 import { CreateGameComponent } from 'src/app/components/CreateGame/CreateGame.component';
+import { GameLayoutComponent } from 'src/app/components/GameLayout/GameLayout.component';
 
 const rootRoutes: Routes = [
   { path: 'startGame/:templateId', component: CreateGameComponent },
-  { path: 'game/:gameId', component: GameConsoleComponent },
+  { path: 'game/:gameId', component: GameLayoutComponent },
   { path: '**', redirectTo: 'startGame/0' }
 ];
 

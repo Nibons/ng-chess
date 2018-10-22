@@ -1,0 +1,7 @@
+<div *ngIf="game$ | async ; else loading ; let game">
+  <h1>{{game.name}}</h1>
+</div>
+<div *ngFor="let board of boards$ | async">
+  <app-board [boardId]="board.id"></app-board>
+</div>
+<ng-template #loading>Game Loading</ng-template>
