@@ -1,11 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GamesaveQuery, Gamesave } from 'src/app/chess-service/state/gamesave';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
-import { Observable, observable, Subscription } from 'rxjs';
-import { GameQuery, Game } from 'src/app/chess-service/state/game';
+import { mergeMap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
 import { ID } from '@datorama/akita';
-import { GameService } from 'src/app/chess-service/classes/GameService';
 
 @Component({
   selector: 'app-creategame',
@@ -14,24 +12,22 @@ import { GameService } from 'src/app/chess-service/classes/GameService';
 })
 export class CreateGameComponent implements OnInit, OnDestroy {
   gameSave$: Observable<Gamesave> = new Observable<Gamesave>();
-  game$: Observable<Game> = new Observable<Game>();
   gameCreatingSubscription: Subscription = new Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private gameSaveQuery: GamesaveQuery,
-    private gameQuery: GameQuery,
-    private gameService: GameService) { }
+    private gameSaveQuery: GamesaveQuery) { }
 
   ngOnInit() {
+    // use the templateId parameter to filter the game to make
     this.gameSave$ = this.route.paramMap.pipe(
-      switchMap((params: ParamMap) =>
+      mergeMap(params =>
         this.gameSaveQuery.getById(params.get('templateId'))
       )
     );
 
-    // TODO this should output
+    // TODO this should output the game (id | game)
     // this.game$ = this.gameService.createFromSave()
   }
 

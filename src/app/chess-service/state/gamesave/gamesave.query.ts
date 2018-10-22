@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { QueryEntity } from '@datorama/akita';
+import { QueryEntity, ID } from '@datorama/akita';
 import { GamesaveStore, GamesaveState } from './gamesave.store';
 import { Gamesave } from './gamesave.model';
-import { Observable, from, of } from 'rxjs';
-import { map, mergeMap, filter } from 'rxjs/operators';
+import { Observable, from } from 'rxjs';
+import { mergeMap, filter } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class GamesaveQuery extends QueryEntity<GamesaveState, Gamesave> {
@@ -12,11 +12,10 @@ export class GamesaveQuery extends QueryEntity<GamesaveState, Gamesave> {
     super(store);
   }
 
-  getById(id: string | null): Observable<Gamesave> {
+  getById(id: ID | string | null): Observable<Gamesave> {
     return this.selectAll().pipe(
       mergeMap(gameSaveList => from(gameSaveList)),
-      filter(gameSave => gameSave.id === id)
+      filter(gameSave => gameSave.id === Number(id))
     );
   }
-
 }

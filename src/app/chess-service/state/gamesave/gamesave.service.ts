@@ -27,7 +27,7 @@ export class GamesaveService implements OnDestroy {
     // Subscribe to loaded defaults
     this.loadTemplatesSubscription = this.loadDefaultTemplates(templatesURI).subscribe({
       complete: () => {
-        console.log('Template Loading Complete');
+        console.log('gameSave.Service[constructor] Template Loading Complete');
         this.gamesaveStore.setLoading(false);
       }
     });
