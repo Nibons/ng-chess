@@ -6,7 +6,7 @@ import { Observable, from } from 'rxjs';
 import { filter, mergeMap, distinctUntilChanged, buffer, map, withLatestFrom, concatMap } from 'rxjs/operators';
 import { IPieceTemplate } from 'src/app/chess-service/interfaces/templates/piece-template.model';
 import { IPieceData } from 'src/app/chess-service/interfaces/ipiece-data.model';
-import { Piece, createPiece } from 'src/app/chess-service/state/piece/piece.model';
+import { IBoardTemplate } from 'src/app/chess-service/interfaces/templates/board-template.model';
 
 @Injectable({ providedIn: 'root' })
 export class GameQuery extends QueryEntity<GameState, Game> {
@@ -22,6 +22,12 @@ export class GameQuery extends QueryEntity<GameState, Game> {
     );
   }
 
+  selectByObservableId(gameId: Observable<ID>): Observable<Game> {
+    return gameId.pipe(
+      mergeMap(id => this.selectEntity(id))
+    );
+  }
+
   private storeLoaded(): Observable<boolean> {
     return this.selectLoading().pipe(
       filter(b => b),
@@ -32,6 +38,13 @@ export class GameQuery extends QueryEntity<GameState, Game> {
   onLoaded(id: ID | null): Observable<Game> {
     return this.getById(id).pipe(
       buffer(this.storeLoaded()),
+      mergeMap(list => from(list))
+    );
+  }
+
+  selectBoardTemplate(gameId: ID): Observable<IBoardTemplate> {
+    return this.selectEntity(gameId).pipe(
+      map(game => game.template.boards),
       mergeMap(list => from(list))
     );
   }
