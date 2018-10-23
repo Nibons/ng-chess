@@ -6,7 +6,10 @@ import { GameService, GameQuery, GameStore } from './game';
 import { GamesaveService, GamesaveQuery, GamesaveStore } from './gamesave';
 import { PieceService, PieceQuery, PieceStore } from './piece';
 import { PositionService, PositionQuery, PositionStore } from './position';
+
 import { CombinedQuery } from './combined.query';
+import { CombinedStore } from './combined.store';
+import { CombinedService } from './combined.service';
 
 
 
@@ -17,7 +20,7 @@ import { CombinedQuery } from './combined.query';
     CommonModule
   ],
   providers: [
-    CombinedQuery,
+    CombinedQuery, CombinedService, CombinedStore,
     BoardService, BoardQuery, BoardStore,
     GameService, GameQuery, GameStore,
     GamesaveService, GamesaveQuery, GamesaveStore,
