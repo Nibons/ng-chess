@@ -1,33 +1,33 @@
-import { Board } from './board.model';
-import { Injectable, Inject, forwardRef } from '@angular/core';
+import { Board, createBoard } from './board.model';
+import { Injectable } from '@angular/core';
 import { BoardStore } from './board.store';
+import { GameQuery } from 'src/app/chess-service/state/game/game.query';
+import { ID } from '@datorama/akita';
 import { PositionService } from 'src/app/chess-service/state/position/position.service';
-import { Coordinates } from 'src/app/chess-service/classes/coordinates';
-import { createPosition } from 'src/app/chess-service/state/position/position.model';
 
 @Injectable({ providedIn: 'root' })
 export class BoardService {
 
   constructor(
     private boardStore: BoardStore,
-    @Inject(forwardRef(() => PositionService)) private positionService: PositionService
-  ) { }
+    private gameQuery: GameQuery,
+    private positionService: PositionService) { }
 
-  add(board: Board) {
-    this.boardStore.add(board);
-    Coordinates.GetAllCoordinatesWithin(board.range.min, board.range.max).forEach(
-      coordinates =>
-        this.positionService.add(createPosition({ coordinates: coordinates }, board.id))
+  createBoardsFromGame(gameId: ID): void {
+    this.boardStore.setLoading(true);
+    const boardList = this.gameQuery.getEntity(gameId).template.boards;
+    boardList.forEach(
+      boardTemplate => {
+        const board = createBoard(boardTemplate, gameId);
+        this.add(board);
+      }
     );
-    this.OnAllPositionsPlaced(board);
+    this.boardStore.setLoading(false);
   }
 
-  OnAllPositionsPlaced(board: Board) {
-    this.boardStore.update(board.id, { positionsPlaced: true });
-  }
 
-  OnAllPiecesPlaced(board: Board) {
-    this.boardStore.update(board.id, { piecesPlaced: true });
+  private add(board: Board) {
+    this.boardStore.add(board);
+    this.positionService.populatePositionsFromBoard(board.id);
   }
-
 }

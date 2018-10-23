@@ -1,11 +1,10 @@
-import { ICoordinates } from 'src/app/chess-service/interfaces/icoordinates.model';
 import { Position, createPosition } from './position.model';
-import { Board } from './../board/board.model';
 
 import { Injectable } from '@angular/core';
 import { ID } from '@datorama/akita';
 import { PositionStore } from './position.store';
 import { BoardQuery } from 'src/app/chess-service/state/board/board.query';
+import { Coordinates } from 'src/app/chess-service/classes/coordinates';
 
 @Injectable({ providedIn: 'root' })
 export class PositionService {
@@ -13,38 +12,22 @@ export class PositionService {
   constructor(
     private positionStore: PositionStore,
     private boardQuery: BoardQuery
-  ) {
-    this.boardQuery.incompleteBoards$.subscribe(
-      boardList => this.iterateOverBoardList(boardList)
-    );
-  }
+  ) { }
 
-  private iterateOverBoardList(boardList: Board[]) {
-    boardList.forEach(
-      (board) => {
-        this.iterateOverBoardPositions(board);
+  populatePositionsFromBoard(boardId: ID): void {
+    const range =
+      this.boardQuery.getEntity(boardId).range;
+    const list_coordinates =
+      Coordinates.GetAllCoordinatesWithin(range.min, range.max);
+    list_coordinates.forEach(
+      coordinates => {
+        const position = createPosition({ coordinates: coordinates }, boardId);
+        this.add(position);
       }
     );
   }
 
-  private iterateOverBoardPositions(board: Board) {
-    const range = board.range;
-    let coordinates: ICoordinates = { dimensions: [] };
-    for (let x = range.min.dimensions[0]; x <= range.max.dimensions[0]; x++) {
-      for (let y = range.min.dimensions[1]; y <= range.max.dimensions[1]; y++) {
-        if (range.min.dimensions.length === 3) {
-          for (let z = range.min.dimensions[2]; z <= range.max.dimensions[2]; z++) {
-            coordinates = { dimensions: [x, y, z] };
-          }
-        } else {
-          coordinates = { dimensions: [x, y] };
-        }
-        this.add(createPosition({ coordinates: coordinates }, board.id));
-      }
-    }
-  }
-
-  add(position: Position) {
+  private add(position: Position) {
     this.positionStore.add(position);
   }
 
