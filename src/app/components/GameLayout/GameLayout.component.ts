@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ID } from '@datorama/akita';
-import { mergeMap, map, tap } from 'rxjs/operators';
+import { mergeMap, map, tap, distinctUntilChanged } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Game, GameQuery } from 'src/app/chess-service/state/game';
 import { Board } from 'src/app/chess-service/state/board/board.model';
@@ -14,22 +14,9 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./GameLayout.component.css']
 })
 export class GameLayoutComponent implements OnInit {
-  gameId$: Observable<ID> = this.route.paramMap.pipe(
-    mergeMap(params => params.get('gameId') as string),
-    map(s => Number(s))
-  );
-
-  game$: Observable<Game> = this.gameId$.pipe(
-    // mergeMap(id => this.gameQuery.onLoaded(id))
-    mergeMap(id => this.gameQuery.selectEntity(id)),
-    tap(game => this.setTitle(game.name))
-  );
-
-  boards$: Observable<Board[]> = this.gameId$.pipe(
-    mergeMap(id =>
-      this.boardQuery.selectBoardsInGame(id)
-    )
-  );
+  gameId$: Observable<ID> = new Observable<ID>();
+  game$: Observable<Game> = new Observable<Game>();
+  boards$: Observable<Board[]> = new Observable<Board[]>();
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +27,30 @@ export class GameLayoutComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.gameId$ = this.setGameId();
+    this.game$ = this.setGame();
+    this.boards$ = this.setBoards();
+  }
+
+  private setGameId() {
+    return this.route.paramMap.pipe(
+      mergeMap(params => params.get('gameId') as string),
+      map(s => Number(s)),
+      distinctUntilChanged(),
+      tap(n => console.log('gameId: ' + n))
+    );
+  }
+
+  private setGame() {
+    return this.gameQuery.selectByObservableId(this.gameId$);
+  }
+
+  private setBoards() {
+    return this.gameId$.pipe(
+      mergeMap(id =>
+        this.boardQuery.selectBoardsInGame(id)
+      )
+    );
   }
 
   private setTitle(title: string) {
