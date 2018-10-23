@@ -3,7 +3,7 @@ import { GamesaveStore } from './gamesave.store';
 import { HttpClient } from '@angular/common/http';
 import { Gamesave, createGamesave } from 'src/app/chess-service/state/gamesave/gamesave.model';
 import { IGameTemplateLoader } from 'src/app/chess-service/interfaces/templates/game-template-loader.model';
-import { mergeMap, tap } from 'rxjs/operators';
+import { mergeMap, map } from 'rxjs/operators';
 import { from, Observable, Subscription, forkJoin } from 'rxjs';
 import { IBoardTemplate } from 'src/app/chess-service/interfaces/templates/board-template.model';
 import { IOptionsTemplate } from 'src/app/chess-service/interfaces/templates/options-template.model';
@@ -58,28 +58,42 @@ export class GamesaveService implements OnDestroy {
     );
   }
 
-  private loadBoards(gameId: ID, root: string, url: string = ''): Observable<IBoardTemplate[]> {
+  private loadBoards(gameId: ID, root: string, url: string = ''): Observable<void> {
     return this.http.get<IBoardTemplate[]>(root + url).pipe(
-      tap(boardTemplate => this.update({ boards: boardTemplate }, gameId))
+      map(boardTemplate => this.updateBoards(boardTemplate, gameId))
     );
   }
-
-  private loadOptions(gameId: ID, root: string, url: string = ''): Observable<IOptionsTemplate> {
+  private loadOptions(gameId: ID, root: string, url: string = ''): Observable<void> {
     return this.http.get<IOptionsTemplate>(root + url).pipe(
-      tap(optionsTemplate => this.update({ options: optionsTemplate }, gameId))
+      map(optionsTemplate => this.updateOptions(optionsTemplate, gameId))
     );
   }
-
-  private loadPieces(gameId: ID, root: string, url: string = ''): Observable<IPieceTemplate> {
+  private loadPieces(gameId: ID, root: string, url: string = ''): Observable<void> {
     return this.http.get<IPieceTemplate>(root + url).pipe(
-      tap(pieceTemplate => this.update({ pieces: pieceTemplate }, gameId))
+      map(pieceTemplate => this.updatePieces(pieceTemplate, gameId))
+    );
+  }
+  private loadPlayers(gameId: ID, root: string, url: string = ''): Observable<void> {
+    return this.http.get<IPlayerTemplate[]>(root + url).pipe(
+      map(playerTemplate => this.updatePlayers(playerTemplate, gameId))
     );
   }
 
-  private loadPlayers(gameId: ID, root: string, url: string = ''): Observable<IPlayerTemplate[]> {
-    return this.http.get<IPlayerTemplate[]>(root + url).pipe(
-      tap(playerTemplate => this.update({ players: playerTemplate }, gameId))
-    );
+  @action({ type: 'Add BoardList' })
+  private updateBoards(boardTemplateList: IBoardTemplate[], saveId: ID): void {
+    this.update({ boards: boardTemplateList }, saveId);
+  }
+  @action({ type: 'Add GameOptions' })
+  private updateOptions(optionsTemplate: IOptionsTemplate, saveId: ID): void {
+    this.update({ options: optionsTemplate }, saveId);
+  }
+  @action({ type: 'Add PieceList' })
+  private updatePieces(pieceTemplate: IPieceTemplate, saveId: ID): void {
+    this.update({ pieces: pieceTemplate }, saveId);
+  }
+  @action({ type: 'Add Players' })
+  private updatePlayers(playerTemplateList: IPlayerTemplate[], saveId: ID): void {
+    this.update({ players: playerTemplateList }, saveId);
   }
 
 
