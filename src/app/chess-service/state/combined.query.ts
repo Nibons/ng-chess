@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { PieceQuery, Piece } from './piece';
-import { PositionQuery } from './position';
-import { BoardQuery } from './board';
+import { PieceQuery, } from './piece/piece.query';
+import { Piece } from './piece/piece.model';
+import { PositionQuery } from './position/position.query';
+import { BoardQuery } from './board/board.query';
 import { ID } from '@datorama/akita';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
