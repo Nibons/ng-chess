@@ -118,24 +118,43 @@ export class Coordinates implements ICoordinates {
     return from(this.GetCoordinatesInDirection(coordinates, direction, min, max, count));
   }
 
+  // Test1: origin:{dimensions:[0,0]},max:{dimensions:[7,7]}
+  // Test1.length should == (0..7).length * (0..7).length
+  // Test2: origin:{dimensions[0,0,0]},max:{dimensions:[4,3,2]}
+  // Test2.length should == (0..4).length * (0..3).length * (0..2).length
   static GetAllCoordinatesWithin(origin: ICoordinates, max: ICoordinates): ICoordinates[] {
-    if (origin.dimensions.length > 2) {
-      Error('Dimensions other than 2d have not been implemented yet');
-      return [];
-    } else {
-      const coordinate_list = Array<ICoordinates>(0);
-      for (let x = origin.dimensions[0]; x <= origin.dimensions[0]; x++) {
-        for (let y = origin.dimensions[1]; y <= origin.dimensions[1]; y++) {
-          coordinate_list.push(
-            { dimensions: [x, y] }
-          );
-        }
+    const coordinate_list: ICoordinates[] = new Array<ICoordinates>();
+    range(origin.dimensions[0], max.dimensions[0]).forEach(
+      x_value => {
+        range(origin.dimensions[1], max.dimensions[1]).forEach(
+          y_value => {
+            if (origin.dimensions.length > 2) {
+              range(origin.dimensions[1], max.dimensions[1]).forEach(
+                z_value => coordinate_list.push({ dimensions: [x_value, y_value, z_value] })
+              );
+            } else {
+              coordinate_list.push({ dimensions: [x_value, y_value] });
+            }
+          }
+        );
       }
-      return coordinate_list;
-    }
+    );
+    return coordinate_list;
   }
+
 
   public IsEqual(coordinates: ICoordinates) {
     return Coordinates.IsSameCoordinates(this, coordinates);
   }
+}
+
+export function range(start: number, end: number, step?: number, offset?: number): number[] {
+  const len = (Math.abs(end - start) + ((offset || 0) * 2)) / (step || 1) + 1;
+  const direction = start < end ? 1 : -1;
+  const startingPoint = start - (direction * (offset || 0));
+  const stepSize = direction * (step || 1);
+
+  return Array(len).fill(0).map(function (_, index) {
+    return startingPoint + (stepSize * index);
+  });
 }
