@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { GamesaveQuery } from './gamesave.query';
 
 @Injectable({ providedIn: 'root' })
 export class GameSaveLoadedGuardService implements CanActivate {
 
   constructor(private gameSaveQuery: GamesaveQuery, private router: Router) { }
-  canActivate(): boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.loading()) {
-      this.router.navigate(['/startGame/0']);
+      const gameId = route.paramMap.get('gameId');
+      this.router.navigate([`/startGame/${gameId}`]);
       return false;
     }
     return true;
