@@ -41,7 +41,11 @@ export class CreateGameComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.gameCreatingSubscription =
       this.game$.subscribe(
-        game => this.goToGame(game.id)
+        // game => this.goToGame(game.id)
+        game => {
+          console.log(`GameLoaded: ${game.id}`);
+          this.goToGame(game.id);
+        }
       );
   }
 

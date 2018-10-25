@@ -14,10 +14,13 @@ export class GameConsoleComponent implements OnInit {
   gameSave$: Observable<Gamesave> = this.games$.pipe(map(boardList => boardList[0]));
   build_game: ID = 0;
 
-  constructor(private gameQuery: GamesaveQuery, private gameSaveService: GamesaveService) { }
+  templatesLoading$: Observable<boolean> = this.gameQuery.selectLoading();
 
-  ngOnInit() {
-    this.games$ = this.gameQuery.selectAll();
-  }
+  constructor(
+    private gameQuery: GamesaveQuery,
+    private gameSaveService: GamesaveService
+  ) { }
+
+  ngOnInit() { }
 
 }
