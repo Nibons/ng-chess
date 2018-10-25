@@ -7,6 +7,8 @@ import { Game, GameQuery } from 'src/app/chess-service/state/game';
 import { Board } from 'src/app/chess-service/state/board/board.model';
 import { BoardQuery } from 'src/app/chess-service/state/board';
 import { Title } from '@angular/platform-browser';
+import { GameService } from 'src/app/chess-service/state/game/game.service';
+import { GamesaveQuery } from 'src/app/chess-service/state/gamesave';
 
 @Component({
   selector: 'app-gamelayout',
@@ -14,16 +16,18 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./GameLayout.component.css']
 })
 export class GameLayoutComponent implements OnInit, OnDestroy {
-  _gameId$: Observable<ID> = this.route.paramMap.pipe(
+  private gameCreateSubscription = new Subscription;
+  gameId$: Observable<ID> = this.route.paramMap.pipe(
     mergeMap(params => params.get('gameId') as string),
     map(s => Number(s)),
   );
 
-  game$ = this._gameId$.pipe(
+  game$ = this.gameId$.pipe(
     mergeMap(id => this.gameQuery.selectEntity(id)),
+    tap(game => console.log('Got a game: ' + game.name)),
     tap(game => this.setTitle(game.name))
   );
-  boardList$ = this._gameId$.pipe(
+  boardList$ = this.gameId$.pipe(
     mergeMap(id => this.boardQuery.selectBoardsInGame(id))
   );
 
@@ -32,11 +36,21 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private gameQuery: GameQuery,
     private boardQuery: BoardQuery,
+    private gameSaveQuery: GamesaveQuery,
+    private gameService: GameService,
     private titleService: Title
   ) { }
 
-  ngOnInit() { }
-  ngOnDestroy() { }
+  ngOnInit() {
+    this.gameCreateSubscription = this.gameId$.pipe(
+      mergeMap(id => this.gameSaveQuery.selectEntity(id))
+    ).subscribe(
+      gameSave => this.gameService.createFromGameSave(gameSave)
+    );
+  }
+  ngOnDestroy() {
+    this.gameCreateSubscription.unsubscribe();
+  }
 
   private setTitle(title: string) {
     this.titleService.setTitle(title);
