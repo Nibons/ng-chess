@@ -36,9 +36,14 @@ export class GameQuery extends QueryEntity<GameState, Game> {
   }
 
   onLoaded(id: ID | null): Observable<Game> {
-    return this.getById(id).pipe(
-      buffer(this.storeLoaded()),
-      mergeMap(list => from(list))
+    // return this.getById(id).pipe(
+    //   buffer(this.storeLoaded()),
+    //   mergeMap(list => from(list))
+    // );
+    return this.storeLoaded().pipe(
+      distinctUntilChanged(),
+      filter(b => b === true),
+      mergeMap(() => this.getById(id))
     );
   }
 
@@ -76,5 +81,9 @@ export class GameQuery extends QueryEntity<GameState, Game> {
         }
       )
     );
+  }
+
+  doesGameExist(gameId: ID): boolean {
+    return this.getEntity(gameId).id !== null;
   }
 }

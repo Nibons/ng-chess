@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GamesaveQuery, Gamesave } from 'src/app/chess-service/state/gamesave';
-import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-import { mergeMap, map, switchMap, filter, distinctUntilChanged, distinct, buffer } from 'rxjs/operators';
+import { ActivatedRoute, Router, ParamMap, ActivatedRouteSnapshot } from '@angular/router';
+import { mergeMap, map, switchMap, filter, distinctUntilChanged, distinct, buffer, tap } from 'rxjs/operators';
 import { Observable, Subscription, of, from } from 'rxjs';
 import { ID } from '@datorama/akita';
 import { GameQuery, GameService, Game } from 'src/app/chess-service/state/game';
@@ -12,49 +12,47 @@ import { GameQuery, GameService, Game } from 'src/app/chess-service/state/game';
   styleUrls: ['./CreateGame.component.css']
 })
 export class CreateGameComponent implements OnInit, OnDestroy {
-  gameSaveId$: Observable<ID> = this.route.paramMap.pipe(
+  private _gameSaveId$: Observable<ID> = this.route.paramMap.pipe(
     mergeMap(params => params.get('templateId') as string),
     map(s => Number(s))
   );
+  private _gameSaveQuerySubscription: Subscription = new Subscription;
+  private _createGameSubscription: Subscription = new Subscription;
 
-  gameSave$: Observable<Gamesave> = this.gameSaveId$.pipe(
-    mergeMap(id => this.gameSaveQuery.getById(id))
+  gameId$ = this._gameSaveId$.pipe(
+    mergeMap(id => this.gameSaveQuery.getById(id)),
+    map(game => game.id)
   );
-
-  game$: Observable<Game> = this.gameSave$.pipe(
-    map(gameSave => this.gameService.createFromGameSave(gameSave)),
-    mergeMap(gameId =>
-      this.gameQuery.onLoaded(gameId)
-    )
-  );
-
-  gameCreatingSubscription: Subscription = new Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private gameSaveQuery: GamesaveQuery,
-    private gameQuery: GameQuery,
     private gameService: GameService
   ) { }
 
   ngOnInit() {
-    this.gameCreatingSubscription =
-      this.game$.subscribe(
-        // game => this.goToGame(game.id)
-        game => {
-          console.log(`GameLoaded: ${game.id}`);
-          this.goToGame(game.id);
-        }
-      );
+    this._gameSaveQuerySubscription = this._gameSaveId$.pipe(
+      mergeMap(id => this.gameSaveQuery.getById(id))
+    ).subscribe(
+      gameSave => this.gameService.createFromGameSave(gameSave)
+    );
+
+    this._createGameSubscription = this.gameId$.subscribe(
+      // id => this.router.navigate([`/game/${id}`])
+      id => this.goToGame(id)
+    );
   }
 
   ngOnDestroy() {
-    this.gameCreatingSubscription.unsubscribe();
+    // this._createGameSubscription.unsubscribe();
+    // this._gameSaveQuerySubscription.unsubscribe();
   }
 
-  goToGame(gameId: ID) {
-    this.router.navigate([`/game/${gameId}`]);
+  private goToGame(gameId: ID) {
+    const url = `/game/${gameId}`;
+    console.log('Want to go to ' + url);
+    this.router.navigate([url]);
   }
 
 }
