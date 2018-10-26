@@ -29,8 +29,8 @@ export class Pawn extends BasePiece implements IPieceType {
 
     return Observable.create().pipe(
       merge(
-        positionQuery.positionByCoordinates$(piece_relative_NE, piece.boardNumber),
-        positionQuery.positionByCoordinates$(piece_relative_NW, piece.boardNumber)
+        positionQuery.selectPositionByCoordinates$(piece_relative_NE, piece.boardNumber),
+        positionQuery.selectPositionByCoordinates$(piece_relative_NW, piece.boardNumber)
       )
     );
   }

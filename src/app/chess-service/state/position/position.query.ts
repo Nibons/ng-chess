@@ -41,7 +41,7 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
     );
   }
 
-  positionByCoordinates$(coordinates: ICoordinates, boardId: ID): Observable<Position> {
+  selectPositionByCoordinates$(coordinates: ICoordinates, boardId: ID): Observable<Position> {
     return this.positionsByBoard$(boardId).pipe(
       filter(position => Coordinates.IsSameCoordinates(position.coordinates, coordinates)),
       take(1)
@@ -54,14 +54,14 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
     boardID: ID
   ): Observable<Position> {
     const new_coords = Coordinates.GetDelta(position.coordinates, direction);
-    return this.positionByCoordinates$(new_coords, boardID);
+    return this.selectPositionByCoordinates$(new_coords, boardID);
   }
 
   isEmpty$(
     coordinates: ICoordinates,
     boardId: ID
   ): Observable<boolean> {
-    return this.positionByCoordinates$(coordinates, boardId)
+    return this.selectPositionByCoordinates$(coordinates, boardId)
       .pipe(
         map(position => position.pieceId !== null)
       );
@@ -75,7 +75,7 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
     let still_empty = true;
     return Coordinates.GetCoordinatesInDirection$(coordinates, direction)
       .pipe(
-        mergeMap(coord => this.positionByCoordinates$(coord, boardNumber)),
+        mergeMap(coord => this.selectPositionByCoordinates$(coord, boardNumber)),
         takeWhile(() => still_empty),
         tap(position => still_empty = position.pieceId !== null),
         take(max)
