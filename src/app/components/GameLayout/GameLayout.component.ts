@@ -1,10 +1,9 @@
-import { Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ID } from '@datorama/akita';
-import { mergeMap, map, tap, distinctUntilChanged, withLatestFrom, filter, switchMap, single } from 'rxjs/operators';
-import { Observable, Subject, Subscription, merge, interval, of } from 'rxjs';
-import { Game, GameQuery } from 'src/app/chess-service/state/game';
-import { Board } from 'src/app/chess-service/state/board/board.model';
+import { mergeMap, map, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { GameQuery } from 'src/app/chess-service/state/game';
 import { BoardQuery } from 'src/app/chess-service/state/board';
 import { Title } from '@angular/platform-browser';
 import { GameService } from 'src/app/chess-service/state/game/game.service';
@@ -55,16 +54,4 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
   private setTitle(title: string) {
     this.titleService.setTitle(title);
   }
-
-  // private setBoards(gameId: ID): void {
-  //   this.boards = this.boardQuery.getAll().filter(
-  //     board => board.gameId === gameId
-  //   );
-  // }
-
-  // private setGame(gameId: ID): void {
-  //   const game = this.gameQuery.getEntity(gameId);
-  //   this.gameName = game.name;
-  // }
-
 }

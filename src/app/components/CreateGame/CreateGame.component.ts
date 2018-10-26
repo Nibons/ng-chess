@@ -19,9 +19,8 @@ export class CreateGameComponent implements OnInit, OnDestroy {
   private _gameSaveQuerySubscription: Subscription = new Subscription;
   private _createGameSubscription: Subscription = new Subscription;
 
-  gameId$ = this._gameSaveId$.pipe(
-    mergeMap(id => this.gameSaveQuery.getById(id)),
-    map(game => game.id)
+  gameInfo$ = this._gameSaveId$.pipe(
+    mergeMap(id => this.gameSaveQuery.getById(id))
   );
 
   constructor(
@@ -38,20 +37,18 @@ export class CreateGameComponent implements OnInit, OnDestroy {
       gameSave => this.gameService.createFromGameSave(gameSave)
     );
 
-    this._createGameSubscription = this.gameId$.subscribe(
-      // id => this.router.navigate([`/game/${id}`])
-      id => this.goToGame(id)
+    this._createGameSubscription = this.gameInfo$.subscribe(
+      game => this.goToGame(game.id)
     );
   }
 
   ngOnDestroy() {
-    // this._createGameSubscription.unsubscribe();
-    // this._gameSaveQuerySubscription.unsubscribe();
+    this._createGameSubscription.unsubscribe();
+    this._gameSaveQuerySubscription.unsubscribe();
   }
 
   private goToGame(gameId: ID) {
     const url = `/game/${gameId}`;
-    console.log('Want to go to ' + url);
     this.router.navigate([url]);
   }
 
