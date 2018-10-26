@@ -1,16 +1,3 @@
-<div *ngIf="board$ | async as board">
-  <p>Board: {{board.id}}</p>
-  <p>rowCount: {{board.rowCount}}</p>
-  <p>columnCount: {{board.columnCount}}</p>
-  <p>range: {{board.range.min.dimensions}} {{board.range.max.dimensions}}</p>
-  <div *ngIf="rowIterate$ | async as rowIterate">
-    RowIterate: {{rowIterate}}
-  </div>
-  <div *ngIf="columnIterate$ | async as columnIterate">
-    ColumnIterate: {{columnIterate}}
-  </div>
-</div>
-
 <table>
   <tr *ngFor="let row of rowIterate$ | async">
     <td *ngFor="let column of columnIterate$ | async">
