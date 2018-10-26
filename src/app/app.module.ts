@@ -7,7 +7,7 @@ import { GameTabsComponent } from 'src/app/components/GameTabs/GameTabs.componen
 import { NewGameComponent } from 'src/app/components/NewGame/NewGame.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTabsModule, MatStepperModule, MatFormFieldModule } from '@angular/material';
+import { MatTabsModule, MatStepperModule, MatFormFieldModule, MatToolbarModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { environment } from '../environments/environment';
@@ -50,6 +50,7 @@ import { RootRouterModule } from 'src/app/app.routes';
     RootRouterModule,
 
     // Material + forms stuff
+    MatToolbarModule,
     MatTabsModule,
     MatStepperModule,
     BrowserAnimationsModule,

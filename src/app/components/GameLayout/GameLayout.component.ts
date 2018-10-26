@@ -8,6 +8,7 @@ import { BoardQuery } from 'src/app/chess-service/state/board';
 import { Title } from '@angular/platform-browser';
 import { GameService } from 'src/app/chess-service/state/game/game.service';
 import { GamesaveQuery } from 'src/app/chess-service/state/gamesave';
+import { tag } from 'rxjs-spy/operators';
 
 @Component({
   selector: 'app-gamelayout',
@@ -23,8 +24,8 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
 
   game$ = this.gameId$.pipe(
     mergeMap(id => this.gameQuery.selectEntity(id)),
-    tap(game => console.log('Got a game: ' + game.name)),
-    tap(game => this.setTitle(game.name))
+    tap(game => this.setTitle(game.name)),
+    tag(`gamelayout-gameCreated`),
   );
   boardList$ = this.gameId$.pipe(
     mergeMap(id => this.boardQuery.selectBoardsInGame(id))

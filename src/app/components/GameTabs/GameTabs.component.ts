@@ -1,9 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { GameQuery } from 'src/app/chess-service/state/game';
 import { MatTabGroup, MatTab } from '@angular/material/tabs';
-import { startWith } from 'rxjs/operators';
+import { MatToolbar } from '@angular/material/toolbar';
+import { startWith, toArray, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { ID } from '@datorama/akita';
 
-const newGameTab = { name: '+', IsNewGame: true };
+export interface TabInfo {
+  name: string;
+  id: ID;
+}
+const newGameTab: TabInfo = { name: '+', id: 0 };
 
 @Component({
   selector: 'app-gametabs',
@@ -12,9 +19,9 @@ const newGameTab = { name: '+', IsNewGame: true };
 })
 export class GameTabsComponent implements OnInit {
 
-  gameList$ = this.gamesQuery.selectAll()
+  gameList$: Observable<TabInfo[]> = this.gamesQuery.selectAll()
     .pipe(
-      startWith(newGameTab)
+      map(gameList => [...gameList, newGameTab])
     );
 
   constructor(private gamesQuery: GameQuery) { }

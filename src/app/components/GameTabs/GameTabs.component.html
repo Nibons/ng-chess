@@ -1,4 +1,20 @@
-<mat-tab-group [disableRipple]="false">
+<!-- <mat-tab-group [disableRipple]="false">
   <mat-tab *ngFor="let game_item of gameList$" label="game_item.name">
   </mat-tab>
-</mat-tab-group>
+</mat-tab-group> -->
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>NG-Chess <a [routerLink]=''>Back</a></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row color="secondary">
+    <nav mat-tab-nav-bar>
+      <!-- <a mat-tab-link *ngFor="let game of gameList$ | async" [routerLink]="'/game/' + game.id" routerLinkActive #rla="routerLinkActive"
+        [active]="rla.isActive">
+        {{game.name}}
+      </a> -->
+    </nav>
+    <!-- <mat-tab-group>
+      <mat-tab *ngFor="let game of gameList$ | async">{{game.name}}</mat-tab>
+    </mat-tab-group> -->
+  </mat-toolbar-row>
+</mat-toolbar>

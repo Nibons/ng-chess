@@ -3,5 +3,8 @@
   "typescript.implementationsCodeLens.enabled": false,
   "typescript.referencesCodeLens.enabled": false,
   "gitlens.codeLens.authors.enabled": false,
-  "gitlens.codeLens.recentChange.enabled": false
+  "gitlens.codeLens.recentChange.enabled": false,
+  "beautify.ignore": [
+    "*.html"
+  ]
 }
