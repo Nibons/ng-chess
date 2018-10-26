@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ID } from '@datorama/akita';
 import { PositionQuery, Position } from 'src/app/chess-service/state/position';
-import { Observable, from } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { ICoordinates } from 'src/app/chess-service/interfaces/icoordinates.model';
-import { map, reduce } from 'rxjs/operators';
-
+import { map, reduce, tap, mergeMap } from 'rxjs/operators';
+const add = (a: number, b: number) => a + b as number;
 @Component({
   selector: 'app-position',
   templateUrl: './position.component.html',
@@ -35,21 +35,18 @@ export class PositionComponent implements OnInit {
   pieceId$: Observable<ID | null> =
     this.position$.pipe(map(position => position.pieceId));
 
-  isShaded$: Observable<boolean> = from(this.positionCoords.dimensions).pipe(
-    // | |x|
-    // |x| |
-    // ex. [0,0] = true
-    // ex. [0,1] = false
-    // ex. [1,0] = false
-    // ex. [1,1] = true
-    reduce(((acc, val) => acc + val), 0),
-    map(value => (value % 2) === 0)
-  );
-
   constructor(
     protected positionQuery: PositionQuery
   ) { }
 
   ngOnInit() { }
 
+  private isShaded(): boolean {
+    const array_sum: number = this.positionCoords.dimensions.reduce((a, b) => a + b);
+    return array_sum % 2 === 1;
+  }
+
+  shadeClass(): string {
+    return this.isShaded() ? 'shaded-position' : 'unshaded-position';
+  }
 }
