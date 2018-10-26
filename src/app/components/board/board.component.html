@@ -1,7 +1,7 @@
 <table>
   <tr *ngFor="let row of rowIterate$ | async">
     <td *ngFor="let column of columnIterate$ | async">
-      <app-position [boardId]="boardId" [positionCoords]="{dimensions: [row,column]}"></app-position>
+      <app-position [boardId]="boardId" [positionCoords]="{dimensions: [column,row]}"></app-position>
     </td>
   </tr>
 </table>
