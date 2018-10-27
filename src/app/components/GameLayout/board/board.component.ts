@@ -1,25 +1,27 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { BoardQuery, Board } from 'src/app/chess-service/state/board';
 import { ID } from '@datorama/akita';
-import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { tag } from 'rxjs-spy/operators';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, OnDestroy {
   @Input() boardId: ID = 0;
   protected board$: Observable<Board> = this.boardQuery$.getBoardById$(of(this.boardId));
+  private subscriptionList: Subscription = new Subscription;
 
   // column = x value
   // row = y value
-  columnIterate$: Observable<number[]> =
+  private columnIterate$: Observable<number[]> =
     this.boardQuery$.selectBoardDimensionIterate(this.boardId, 0).pipe(
       tap(list => this.columnCount = list.length)
     );
-  rowIterate$: Observable<number[]> =
+  private rowIterate$: Observable<number[]> =
     this.boardQuery$.selectBoardDimensionIterate(this.boardId, 1).pipe(
     // this makes the graph look like this, which is how i wrote everything else
     // [0,1][1,1]
@@ -27,9 +29,29 @@ export class BoardComponent implements OnInit {
     map(rowNumberList => rowNumberList.reverse()),
     tap(list => this.rowCount = list.length)
   );
+  private columnCount$: Observable<number> =
+    this.boardQuery$.selectBoardDimensionCount(this.boardId, 0);
+  private rowCount$: Observable<number> =
+    this.boardQuery$.selectBoardDimensionCount(this.boardId, 1);
+
+  columnIterate: number[] = [];
+  rowIterate: number[] = [];
   columnCount = 0;
   rowCount = 0;
 
   constructor(protected boardQuery$: BoardQuery) { }
-  ngOnInit() { }
+  ngOnInit() {
+    [
+      this.rowIterate$.subscribe(list => this.rowIterate = list),
+      this.columnIterate$.subscribe(list => this.columnIterate = list),
+      this.rowCount$.subscribe(n => this.rowCount = n),
+      this.columnCount$.subscribe(n => this.columnCount = n)
+    ].forEach(
+      s => this.subscriptionList.add(s)
+    );
+  }
+
+   ngOnDestroy(): void {
+     this.subscriptionList.unsubscribe();
+  }
 }

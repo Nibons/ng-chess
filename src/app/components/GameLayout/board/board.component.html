@@ -1,11 +1,11 @@
 <div class="wrapper">
   <div class="top">
     <div class="wrapper-inner">
-      <div *ngFor="let i of columnIterate$ | async" class="box-inner">{{i + 1}}</div>
+      <div *ngFor="let i of columnIterate" class="box-inner">{{i + 1}}</div>
     </div>
   </div>
-  <ng-template ngFor let-row [ngForOf]="rowIterate$ | async">
-    <ng-template ngFor let-column [ngForOf]="columnIterate$ | async">
+  <ng-template ngFor let-row [ngForOf]="rowIterate">
+    <ng-template ngFor let-column [ngForOf]="columnIterate">
       <!-- <app-position
         [boardId]="boardId"
         [positionCoords]="{dimensions: [column,row]}"
@@ -17,7 +17,7 @@
   </ng-template>
   <div class="bottom">
     <div class="wrapper-inner">
-      <div *ngFor="let i of columnIterate$ | async" class="box-inner">{{i + 1}}</div>
+      <div *ngFor="let i of columnIterate" class="box-inner">{{i + 1}}</div>
     </div>
   </div>
 </div>
