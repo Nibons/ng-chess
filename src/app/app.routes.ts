@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NewGameComponent } from 'src/app/components/NewGame/NewGame.component';
+
 import { GameLayoutComponent } from 'src/app/components/GameLayout/GameLayout.component';
+import { NewGameComponent } from 'src/app/components/GameTabs/NewGame/NewGame.component';
 // import { GameGuardService as GameExists } from 'src/app/chess-service/state/game/game.guard';
 
 const rootRoutes: Routes = [

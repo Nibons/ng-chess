@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { GameConsoleComponent } from 'src/app/components/GameConsole/GameConsole.component';
 import { GameTabsComponent } from 'src/app/components/GameTabs/GameTabs.component';
-import { NewGameComponent } from 'src/app/components/NewGame/NewGame.component';
+
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule, MatStepperModule, MatFormFieldModule, MatToolbarModule } from '@angular/material';
@@ -24,6 +24,7 @@ import { BoardComponent } from 'src/app/components/GameLayout/board/board.compon
 import { PositionComponent } from 'src/app/components/GameLayout/board/position/position.component';
 import { PieceComponent } from 'src/app/components/GameLayout/board/piece/piece.component';
 import { HistoryComponent } from 'src/app/components/GameLayout/History/History.component';
+import { NewGameComponent } from 'src/app/components/GameTabs/NewGame/NewGame.component';
 
 @NgModule({
   declarations: [
