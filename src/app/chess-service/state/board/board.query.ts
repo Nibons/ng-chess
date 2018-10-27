@@ -34,6 +34,13 @@ export class BoardQuery extends QueryEntity<BoardState, Board> {
       tag(`board-dimension-${dimension}`)
     );
   }
+
+  selectBoardDimensionCount(boardId: ID, dimension: number): Observable<number> {
+    return this.selectBoardDimensionIterate(boardId, dimension).pipe(
+      map(list => list.length),
+      tag(`board-dimensionCount-${dimension}`)
+    );
+  }
 }
 export function numberToCountArray(endNumber: number, startingNumber = 0): number[] {
   // ex. (8 => [0,1,2,3,4,5,6,7])
