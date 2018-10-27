@@ -1,10 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { GamesaveQuery, Gamesave } from 'src/app/chess-service/state/gamesave';
-import { ActivatedRoute, Router, ParamMap, ActivatedRouteSnapshot } from '@angular/router';
-import { mergeMap, map, switchMap, filter, distinctUntilChanged, distinct, buffer, tap } from 'rxjs/operators';
-import { Observable, Subscription, of, from } from 'rxjs';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { GamesaveQuery } from 'src/app/chess-service/state/gamesave';
+import { mergeMap } from 'rxjs/operators';
 import { ID } from '@datorama/akita';
-import { GameQuery, GameService, Game } from 'src/app/chess-service/state/game';
+import { GameService } from 'src/app/chess-service/state/game';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-creategame',
@@ -12,44 +11,27 @@ import { GameQuery, GameService, Game } from 'src/app/chess-service/state/game';
   styleUrls: ['./CreateGame.component.css']
 })
 export class CreateGameComponent implements OnInit, OnDestroy {
-  private _gameSaveId$: Observable<ID> = this.route.paramMap.pipe(
-    mergeMap(params => params.get('templateId') as string),
-    map(s => Number(s))
-  );
+  @Input() gameId: ID = 0;
   private _gameSaveQuerySubscription: Subscription = new Subscription;
-  private _createGameSubscription: Subscription = new Subscription;
 
-  gameInfo$ = this._gameSaveId$.pipe(
-    mergeMap(id => this.gameSaveQuery.getById(id))
-  );
+  gameInfo$ = this.gameSaveQuery.selectActive();
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
     private gameSaveQuery: GamesaveQuery,
     private gameService: GameService
   ) { }
 
   ngOnInit() {
-    this._gameSaveQuerySubscription = this._gameSaveId$.pipe(
-      mergeMap(id => this.gameSaveQuery.getById(id))
-    ).subscribe(
-      gameSave => this.gameService.createFromGameSave(gameSave)
-    );
-
-    this._createGameSubscription = this.gameInfo$.subscribe(
-      game => this.goToGame(game.id)
+    this._gameSaveQuerySubscription = this.gameInfo$
+    .subscribe(
+      gameSave => {
+        gameSave.id = this.gameId;
+        this.gameService.createFromGameSave(gameSave);
+      }
     );
   }
 
   ngOnDestroy() {
-    this._createGameSubscription.unsubscribe();
     this._gameSaveQuerySubscription.unsubscribe();
   }
-
-  private goToGame(gameId: ID) {
-    const url = `/game/${gameId}`;
-    this.router.navigate([url]);
-  }
-
 }
