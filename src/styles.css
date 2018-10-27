@@ -1,4 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: 'Roboto', sans-serif; }
+/* html, body { height: 100%; }
+body { margin: 0; font-family: 'Roboto', sans-serif; } */
+
+.two-d-board {
+  border-collapse: collapse;
+  border-spacing: 0;
+  padding: 0px;
+  margin: 0 auto;
+  border: 2px solid black;
+  flex: 1 1 auto;
+}
+
+.two-d-board, .two-d-board > * {
+    margin: 0;
+    padding: 0;
+    flex: 1 1 auto;
+}
+
+.two-d-board tr,.two-d-board td {
+  width: 60px;
+  height: 60px;
+  border: 1px solid rgb(61, 61, 61);
+}

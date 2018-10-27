@@ -1,8 +1,9 @@
-<table #chessboard>
+<table [ngClass]="boardCssClass">
   <tr *ngFor="let row of rowIterate$ | async">
-    <td *ngFor="let column of columnIterate$ | async">
-      <app-position [boardId]="boardId" [positionCoords]="{dimensions: [column,row]}">
-      </app-position>
-    </td>
+    <app-position
+      *ngFor="let column of columnIterate$ | async"
+      [boardId]="boardId"
+      [positionCoords]="{dimensions: [column,row]}">
+    </app-position>
   </tr>
 </table>

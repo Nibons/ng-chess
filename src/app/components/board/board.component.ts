@@ -13,6 +13,8 @@ export class BoardComponent implements OnInit {
   @Input() boardId: ID = 0;
   protected board$: Observable<Board> = this.boardQuery$.getBoardById$(of(this.boardId));
 
+  boardCssClass = 'two-d-board';
+
   // column = x value
   // row = y value
   columnIterate$: Observable<number[]> = this.boardQuery$.selectBoardDimensionIterate(this.boardId, 0);
