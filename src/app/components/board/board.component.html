@@ -1,9 +1,23 @@
-<table [ngClass]="boardCssClass">
-  <tr *ngFor="let row of rowIterate$ | async">
-    <app-position
-      *ngFor="let column of columnIterate$ | async"
-      [boardId]="boardId"
-      [positionCoords]="{dimensions: [column,row]}">
-    </app-position>
-  </tr>
-</table>
+<div class="wrapper">
+  <div class="top">
+    <div class="wrapper-inner">
+      <div *ngFor="let i of columnIterate$ | async" class="box-inner">{{i + 1}}</div>
+    </div>
+  </div>
+  <ng-template ngFor let-row [ngForOf]="rowIterate$ | async">
+    <ng-template ngFor let-column [ngForOf]="columnIterate$ | async">
+      <!-- <app-position
+        [boardId]="boardId"
+        [positionCoords]="{dimensions: [column,row]}"
+        class="box">
+        [{{column}},{{row}}]
+      </app-position> -->
+      <div class="box">[{{column}},{{row}}]</div>
+    </ng-template>
+  </ng-template>
+  <div class="bottom">
+    <div class="wrapper-inner">
+      <div *ngFor="let i of columnIterate$ | async" class="box-inner">{{i + 1}}</div>
+    </div>
+  </div>
+</div>

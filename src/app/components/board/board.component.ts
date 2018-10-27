@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { BoardQuery, Board } from 'src/app/chess-service/state/board';
 import { ID } from '@datorama/akita';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-board',
@@ -13,17 +13,22 @@ export class BoardComponent implements OnInit {
   @Input() boardId: ID = 0;
   protected board$: Observable<Board> = this.boardQuery$.getBoardById$(of(this.boardId));
 
-  boardCssClass = 'two-d-board';
-
   // column = x value
   // row = y value
-  columnIterate$: Observable<number[]> = this.boardQuery$.selectBoardDimensionIterate(this.boardId, 0);
-  rowIterate$: Observable<number[]> = this.boardQuery$.selectBoardDimensionIterate(this.boardId, 1).pipe(
+  columnIterate$: Observable<number[]> =
+    this.boardQuery$.selectBoardDimensionIterate(this.boardId, 0).pipe(
+      tap(list => this.columnCount = list.length)
+    );
+  rowIterate$: Observable<number[]> =
+    this.boardQuery$.selectBoardDimensionIterate(this.boardId, 1).pipe(
     // this makes the graph look like this, which is how i wrote everything else
     // [0,1][1,1]
     // [0,0][1,0]
-    map(rowNumberList => rowNumberList.reverse())
+    map(rowNumberList => rowNumberList.reverse()),
+    tap(list => this.rowCount = list.length)
   );
+  columnCount = 0;
+  rowCount = 0;
 
   constructor(protected boardQuery$: BoardQuery) { }
   ngOnInit() { }
