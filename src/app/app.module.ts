@@ -20,7 +20,7 @@ import { StateProviderModule } from 'src/app/chess-service/state/state-provider.
 import { ChessGameProviderModule } from 'src/app/chess-service/ChessGame.module';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
-import { CreateGameComponent } from 'src/app/components/CreateGame/CreateGame.component';
+import { CreateGameComponent } from 'src/app/components/GameLayout/CreateGame/CreateGame.component';
 import { GameLayoutComponent } from 'src/app/components/GameLayout/GameLayout.component';
 import { RootRouterModule } from 'src/app/app.routes';
 
