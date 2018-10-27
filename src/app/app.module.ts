@@ -13,9 +13,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../environments/environment';
 import { CoreModule } from 'src/app/core.module';
 
-import { BoardComponent } from 'src/app/components/board/board.component';
-import { PositionComponent } from 'src/app/components/board/position/position.component';
-import { PieceComponent } from 'src/app/components/board/piece/piece.component';
 import { StateProviderModule } from 'src/app/chess-service/state/state-provider.module';
 import { ChessGameProviderModule } from 'src/app/chess-service/ChessGame.module';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
@@ -23,6 +20,9 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { CreateGameComponent } from 'src/app/components/GameLayout/CreateGame/CreateGame.component';
 import { GameLayoutComponent } from 'src/app/components/GameLayout/GameLayout.component';
 import { RootRouterModule } from 'src/app/app.routes';
+import { BoardComponent } from 'src/app/components/GameLayout/board/board.component';
+import { PositionComponent } from 'src/app/components/GameLayout/board/position/position.component';
+import { PieceComponent } from 'src/app/components/GameLayout/board/piece/piece.component';
 
 @NgModule({
   declarations: [
