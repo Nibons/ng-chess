@@ -19,7 +19,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   // row = y value
   private columnIterate$: Observable<number[]> =
     this.boardQuery$.selectBoardDimensionIterate(this.boardId, 0).pipe(
-      tap(list => this.columnCount = list.length)
+      tag('board-columnIterate')
     );
   private rowIterate$: Observable<number[]> =
     this.boardQuery$.selectBoardDimensionIterate(this.boardId, 1).pipe(
@@ -27,7 +27,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     // [0,1][1,1]
     // [0,0][1,0]
     map(rowNumberList => rowNumberList.reverse()),
-    tap(list => this.rowCount = list.length)
+    tag('board-rowIterate')
   );
   private columnCount$: Observable<number> =
     this.boardQuery$.selectBoardDimensionCount(this.boardId, 0);
