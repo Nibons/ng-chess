@@ -1,8 +1,10 @@
-<td [ngClass]="shadeClass()" [ngClass]="'boardPosition'">
+<div
+  [ngClass]="shadeClass()"
+  [ngClass]="'boardPosition'">
   {{positionCoords.dimensions[0]}},{{positionCoords.dimensions[1]}}
 
   <!-- Adds a Piece, if not null -->
   <ng-container *ngIf="isOccupied$ | async">
     <app-piece [pieceId$]="pieceId$"></app-piece>
   </ng-container>
-</td>
+</div>
