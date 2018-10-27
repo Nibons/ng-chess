@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
 import { GameQuery } from 'src/app/chess-service/state/game';
-import { MatTabGroup, MatTab } from '@angular/material/tabs';
-import { MatToolbar } from '@angular/material/toolbar';
-import { startWith, toArray, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, delay } from 'rxjs/operators';
+import { Observable, Subscription, Subject, of } from 'rxjs';
 import { ID } from '@datorama/akita';
 
 export interface TabInfo {
@@ -18,11 +16,12 @@ const newGameTab: TabInfo = { name: '+', id: 0 };
   styleUrls: ['./GameTabs.component.css']
 })
 export class GameTabsComponent implements OnInit {
+  gameList$: Observable<TabInfo[]> = this.gamesQuery.selectAll().pipe(
+    map(list => [...list, newGameTab]),
+    delay(0) // this is added to remove the 'ExpressionChangedAfterItHasBeenCheckedError'
+    // details can be found https://blog.angular-university.io/angular-debugging/
+  );
 
-  gameList$: Observable<TabInfo[]> = this.gamesQuery.selectAll()
-    .pipe(
-      map(gameList => [...gameList, newGameTab])
-    );
 
   constructor(private gamesQuery: GameQuery) { }
 
