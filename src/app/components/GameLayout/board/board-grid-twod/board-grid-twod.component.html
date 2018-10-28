@@ -1,0 +1,19 @@
+<div class='container'
+  [style.grid-template-columns]="repeat(columnCount, squareSize)"
+  [style.grid-template-rows]="repeat(rowCount, squareSize)">
+  <ng-template ngFor let-row [ngForOf]="rowList">
+    <ng-template ngFor let-column [ngForOf]="columnList">
+      <!-- <app-position
+        [boardId]="boardId"
+        [positionCoords]="{dimensions: [column,row]}"
+        class="box">
+        [{{column}},{{row}}]
+      </app-position> -->
+      <div
+        class='square '
+        [ngClass]="isDarkened(column,row) ? 'dark' : 'light'">
+        [{{column}},{{row}}]
+      </div>
+    </ng-template>
+  </ng-template>
+</div>

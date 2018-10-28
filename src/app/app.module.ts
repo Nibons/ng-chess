@@ -25,6 +25,7 @@ import { PositionComponent } from 'src/app/components/GameLayout/board/position/
 import { PieceComponent } from 'src/app/components/GameLayout/board/piece/piece.component';
 import { HistoryComponent } from 'src/app/components/GameLayout/History/History.component';
 import { NewGameComponent } from 'src/app/components/GameTabs/NewGame/NewGame.component';
+import { BoardGridTwodComponent } from 'src/app/components/GameLayout/board/board-grid-twod/board-grid-twod.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { NewGameComponent } from 'src/app/components/GameTabs/NewGame/NewGame.co
     GameTabsComponent,
     NewGameComponent,
     GameLayoutComponent,
+    BoardGridTwodComponent,
     CreateGameComponent
   ],
   imports: [

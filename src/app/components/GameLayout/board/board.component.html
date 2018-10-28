@@ -1,23 +1,17 @@
 <div class="wrapper">
   <div class="top">
     <div class="wrapper-inner">
-      <div *ngFor="let i of columnIterate" class="box-inner">{{i + 1}}</div>
+      <div *ngFor="let i of columnIterate" class="box-inner">{{i}}</div>
     </div>
   </div>
-  <ng-template ngFor let-row [ngForOf]="rowIterate">
-    <ng-template ngFor let-column [ngForOf]="columnIterate">
-      <!-- <app-position
-        [boardId]="boardId"
-        [positionCoords]="{dimensions: [column,row]}"
-        class="box">
-        [{{column}},{{row}}]
-      </app-position> -->
-      <div class="box">[{{column}},{{row}}]</div>
-    </ng-template>
-  </ng-template>
+  <app-board-grid-twod
+    [boardId]="boardId"
+    [columnList]="columnIterate"
+    [rowList]="rowIterate"
+  ></app-board-grid-twod>
   <div class="bottom">
     <div class="wrapper-inner">
-      <div *ngFor="let i of columnIterate" class="box-inner">{{i + 1}}</div>
+      <div *ngFor="let i of columnIterate" class="box-inner">{{i}}</div>
     </div>
   </div>
 </div>

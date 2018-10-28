@@ -18,7 +18,7 @@ body {
   grid-auto-flow: row;
 }
 .wrapper-inner{
-display: grid;
+  display: grid;
   grid-gap: 0;
   grid-template-columns: repeat(var(--column-count), auto);
   grid-template-rows: auto;
@@ -54,16 +54,4 @@ display: grid;
   grid-column-end: calc(var(--column-count) + 1);
   grid-row-start: calc(var(--row-count) + 2);
   grid-row-end: calc(var(--row-count) + 2);
-}
-
-.box:nth-child(-2n+9),
-.box:nth-child(9) ~ div:nth-child(-2n+16),
-.box:nth-child(17) ~ div:nth-child(-2n+25),
-.box:nth-child(25) ~ div:nth-child(-2n+32),
-.box:nth-child(33) ~ div:nth-child(-2n+41),
-.box:nth-child(41) ~ div:nth-child(-2n+48),
-.box:nth-child(49) ~ div:nth-child(-2n+57),
-.box:nth-child(57) ~ div:nth-child(-2n+64){
-  background-color: #441a03;
-  color: #fff;
 }
