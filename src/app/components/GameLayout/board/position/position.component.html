@@ -1,4 +1,6 @@
-[{{positionCoords.dimensions[0]}}, {{positionCoords.dimensions[1]}}]
+<ng-container *ngIf="showCoords$ | async">
+  [{{positionCoords.dimensions[0]}}, {{positionCoords.dimensions[1]}}]
+</ng-container>
 <!-- Adds a Piece, if not null -->
 <ng-container *ngIf="isOccupied$ | async">
   <app-piece [pieceId$]="pieceId$"></app-piece>

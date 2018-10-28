@@ -19,6 +19,9 @@ export class PositionComponent implements OnInit {
     this.positionQuery.selectPositionByCoordinates$(this.positionCoords, this.boardId);
   positionId$: Observable<ID> = this.position$.pipe(map(p => p.id));
 
+  // TODO make this actually do something
+  showCoords$: Observable<boolean> = of(true);
+
 
   isOccupied$: Observable<boolean> = this.position$.pipe(
     map(position => position.pieceId !== null)
