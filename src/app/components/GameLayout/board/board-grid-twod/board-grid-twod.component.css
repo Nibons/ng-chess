@@ -8,12 +8,12 @@
   text-align: start;
 }
 
-.dark {
+.position-dark {
   background-color: #441a03;
   color: #fff;
 }
 
-.light {
+.position-light {
   background-color: #b5915f;
   color: #000;
 }

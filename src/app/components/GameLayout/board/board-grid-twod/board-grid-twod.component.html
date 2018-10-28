@@ -7,11 +7,11 @@
     <ng-template ngFor
                  let-column
                  [ngForOf]="columnList">
-      <app-position [boardId]="boardId"
+      <app-position class="box"
+                    [ngClass]="isDarkened(column,row) ? 'position-dark' : 'position-light'"
+                    [boardId]="boardId"
                     [positionCoords]="{dimensions: [column,row]}"
-                    [isDarkened]="isDarkened(column,row)"
-                    class="box">
-        [{{column}},{{row}}]
+                    [isDarkened]="isDarkened(column,row)">
       </app-position>
     </ng-template>
   </ng-template>

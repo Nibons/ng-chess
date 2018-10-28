@@ -1,12 +1,5 @@
-<div [ngClass]="darkenedClass()"
-     [ngClass]="'boardPosition'">
-
-  <!-- Adds a Piece, if not null -->
-  <ng-container *ngIf="isOccupied$ | async ; else emptyPosition">
-    <app-piece [pieceId$]="pieceId$"></app-piece>
-  </ng-container>
-</div>
-
-<ng-template #emptyPosition>
-  {{positionCoords.dimensions[0]}},{{positionCoords.dimensions[1]}}
-</ng-template>
+[{{positionCoords.dimensions[0]}}, {{positionCoords.dimensions[1]}}]
+<!-- Adds a Piece, if not null -->
+<ng-container *ngIf="isOccupied$ | async">
+  <app-piece [pieceId$]="pieceId$"></app-piece>
+</ng-container>
