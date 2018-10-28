@@ -7,6 +7,7 @@ import { filter, mergeMap, distinctUntilChanged, buffer, map, withLatestFrom, co
 import { IPieceTemplate } from 'src/app/chess-service/interfaces/templates/piece-template.model';
 import { IPieceData } from 'src/app/chess-service/interfaces/ipiece-data.model';
 import { IBoardTemplate } from 'src/app/chess-service/interfaces/templates/board-template.model';
+import { mergePieceListAndDefault } from 'src/app/chess-service/state/piece';
 
 @Injectable({ providedIn: 'root' })
 export class GameQuery extends QueryEntity<GameState, Game> {
@@ -59,9 +60,14 @@ export class GameQuery extends QueryEntity<GameState, Game> {
       map(game => game.template.pieces)
     );
   }
-  private selectPieceDefaultsFromTemplate(gameId: ID): Observable<Partial<IPieceData>> {
+  private selectPieceDefaults(gameId: ID): Observable<Partial<IPieceData>> {
     return this.selectPieceTemplate(gameId).pipe(
       map(template => template.pieceDefaults)
+    );
+  }
+  private selectPieceList(gameId: ID): Observable<Partial<IPieceData>[]> {
+    return this.selectPieceTemplate(gameId).pipe(
+      map(template => template.pieces)
     );
   }
   selectPieceCountFromTemplate(gameId: ID): Observable<number> {
@@ -71,15 +77,16 @@ export class GameQuery extends QueryEntity<GameState, Game> {
       )
     );
   }
-  selectPieceListFromTemplate(gameId: ID): Observable<IPieceData> {
-    return this.selectPieceDefaultsFromTemplate(gameId).pipe(
-      concatMap(
-        () => this.selectPieceListFromTemplate(gameId),
-        (template, piece) => {
-          const combined: IPieceData = { ...template, ...piece };
-          return combined;
-        }
-      )
+  selectPieceListAndDefaultsFromTemplate(gameId: ID):
+    Observable<{ pieceList: Partial<IPieceData>[], defaults: Partial<IPieceData> }> {
+    return this.selectPieceList(gameId).pipe(
+      withLatestFrom(this.selectPieceDefaults(gameId)),
+      map(([list, defaults]) => {
+        return {
+          pieceList: list,
+          defaults: defaults
+        };
+      })
     );
   }
 

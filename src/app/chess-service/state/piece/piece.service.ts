@@ -1,25 +1,29 @@
-import { Injectable } from '@angular/core';
-import { ID } from '@datorama/akita';
+import { Injectable, OnDestroy } from '@angular/core';
+import { ID, transaction, action } from '@datorama/akita';
 import { PieceStore } from './piece.store';
-import { Piece, createPiece } from 'src/app/chess-service/state/piece/piece.model';
+import { Piece, createPiece, mergePieceListAndDefault } from 'src/app/chess-service/state/piece/piece.model';
 import { GameQuery } from 'src/app/chess-service/state/game/game.query';
-import { map, tap, last, concatMap, mergeMap } from 'rxjs/operators';
-import { Observable, concat, of } from 'rxjs';
+import { map, tap, last, concatMap, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { Observable, concat, of, from, Subscription } from 'rxjs';
 import { PieceQuery } from 'src/app/chess-service/state/piece/piece.query';
+import { PositionService } from 'src/app/chess-service/state/position/position.service';
+import { IPieceTemplate } from 'src/app/chess-service/interfaces/templates/piece-template.model';
+import { Game } from 'src/app/chess-service/state/game/game.model';
+import { IPieceData } from 'src/app/chess-service/interfaces/ipiece-data.model';
 
 @Injectable({ providedIn: 'root' })
-export class PieceService {
+export class PieceService implements OnDestroy {
+  private makePiecesSubsciption: Subscription = new Subscription;
 
   constructor(
     private pieceStore: PieceStore,
     private gameQuery: GameQuery,
+    private positionService: PositionService,
     private pieceQuery: PieceQuery) {
   }
 
-  get() {
-    // this.http.get().subscribe((entities: ServerResponse) => {
-    // this.pieceStore.set(entities);
-    // });
+  ngOnDestroy() {
+    this.makePiecesSubsciption.unsubscribe();
   }
 
   add(piece: Piece): void {
@@ -29,21 +33,45 @@ export class PieceService {
     this.pieceStore.update(id, piece);
   }
 
-  private populatePiece(gameId: ID): Observable<Piece> {
-    return this.gameQuery.selectPieceListFromTemplate(gameId).pipe(
-      tap(() => this.pieceStore.setLoading(true)),
-      map(pieceData => createPiece(pieceData, gameId)),
-      tap(piece => this.add(piece))
+  populatePiecesInGame(gameId: ID): void {
+    const pieceList$: Observable<Piece[]> =
+      this.gameQuery.selectPieceListAndDefaultsFromTemplate(gameId).pipe(
+        tap(() => this.pieceStore.setLoading(true)),
+        map(pieceInfoList =>
+          this.PieceDataListToPieceList(pieceInfoList.pieceList, gameId, pieceInfoList.defaults)
+        ),
+        map(pieceList => this.addList(pieceList)),
+        map(pieceList => this.placePieceList(pieceList))
+      );
+    this.makePiecesSubsciption = pieceList$.subscribe(
+      pieceList => console.log(`Piece Made: ${pieceList.length}`),
+      (err) => console.log(err),
+      () => this.pieceStore.setLoading(false)
     );
   }
 
-  populateAllPieces(gameId: ID): Observable<Piece[]> {
-    return this.populatePiece(gameId).pipe(
-      last(),
-      mergeMap(piece =>
-        this.pieceQuery.selectPieceListByGameId(piece.gameId)
-      )
-    );
+  @action({ type: 'Add Piece List' })
+  @transaction()
+  private addList(pieceList: Piece[]): Piece[] {
+    pieceList.forEach(p => this.add(p));
+    return pieceList;
   }
 
+  private PieceDataListToPieceList(
+    pieceList: Partial<IPieceData>[],
+    gameId: ID,
+    defaults: Partial<IPieceData>): Piece[] {
+    const list: Piece[] = [];
+    pieceList.forEach(p => list.push(createPiece(p, gameId, defaults)));
+    return list;
+  }
+
+  @action({ type: 'Set Pieces at their Coordinates' })
+  @transaction()
+  private placePieceList(pieceList: Piece[]): Piece[] {
+    pieceList.forEach(piece =>
+      this.positionService.placePieceAtCoordinates(piece.coordinates, piece)
+    );
+    return pieceList;
+  }
 }

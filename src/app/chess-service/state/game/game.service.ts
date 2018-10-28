@@ -49,7 +49,7 @@ export class GameService implements OnDestroy {
     const newGame = createGame(gameSave);
     this.add(newGame);
     this.boardService.createBoardsFromGame(newGame.id);
-    this.pieceService.populateAllPieces(newGame.id);
+    this.pieceService.populatePiecesInGame(newGame.id);
     this.gameStore.setLoading(false);
     this.createdGameId$.next(newGame.id);
   }

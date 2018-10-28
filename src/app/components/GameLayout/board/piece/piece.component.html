@@ -1,3 +1,4 @@
-<p>
-  piece works!
-</p>
+<div *ngIf="piece$ | async as piece">
+  Type: {{piece.type}}
+  Player: {{piece.playerNumber}}
+</div>

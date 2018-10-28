@@ -28,3 +28,13 @@ export function createPiece(
     ...params
   };
 }
+
+export function mergePieceListAndDefault(
+  pieceList: Partial<IPieceData>[],
+  template: Partial<IPieceData>): { piece: Partial<IPieceData>, template: Partial<IPieceData> }[] {
+  const list: { piece: Partial<IPieceData>, template: Partial<IPieceData> }[] = new Array();
+  pieceList.forEach(
+    piece => list.push({ piece, template })
+  );
+  return list;
+}

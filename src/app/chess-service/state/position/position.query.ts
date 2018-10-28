@@ -48,6 +48,12 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
     );
   }
 
+  getPositionByCoordinates(coordinates: ICoordinates, boardId: ID): Position | undefined {
+    return this.getAll()
+      .filter(p => p.boardId === boardId)
+      .find(p => Coordinates.IsSameCoordinates(coordinates, p.coordinates));
+  }
+
   deltaPosition$(
     position: Position,
     direction: ICoordinates,

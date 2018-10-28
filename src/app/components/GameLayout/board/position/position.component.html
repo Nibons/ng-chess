@@ -3,5 +3,5 @@
 </ng-container>
 <!-- Adds a Piece, if not null -->
 <ng-container *ngIf="isOccupied$ | async">
-  <app-piece [pieceId$]="pieceId$"></app-piece>
+  <app-piece [pieceId]="pieceId$ | async"></app-piece>
 </ng-container>
