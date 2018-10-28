@@ -6,5 +6,6 @@
   "gitlens.codeLens.recentChange.enabled": false,
   "beautify.ignore": [
     "*.html"
-  ]
+  ],
+  "html.format.wrapAttributes": "force-aligned"
 }
