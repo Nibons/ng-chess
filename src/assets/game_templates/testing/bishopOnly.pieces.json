@@ -4,7 +4,7 @@
     "playerNumber": 0,
     "pieceType": "bishop",
     "coordinates": {
-      "dimensions": [1, 1]
+      "dimensions": [2, 2]
     }
   }],
   "pieceDefaults": {
