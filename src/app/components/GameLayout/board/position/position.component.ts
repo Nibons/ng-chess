@@ -13,6 +13,7 @@ const add = (a: number, b: number) => a + b as number;
 export class PositionComponent implements OnInit {
   @Input() positionCoords: ICoordinates = { dimensions: [] };
   @Input() boardId: ID = 0;
+  @Input() isDarkened = false;
 
   position$: Observable<Position> =
     this.positionQuery.selectPositionByCoordinates$(this.positionCoords, this.boardId);
@@ -41,12 +42,7 @@ export class PositionComponent implements OnInit {
 
   ngOnInit() { }
 
-  private isShaded(): boolean {
-    const array_sum: number = this.positionCoords.dimensions.reduce((a, b) => a + b);
-    return array_sum % 2 === 1;
-  }
-
-  shadeClass(): string {
-    return this.isShaded() ? 'shaded-position' : 'unshaded-position';
+  darkenedClass(): string {
+    return this.isDarkened ? 'shaded-position' : 'unshaded-position';
   }
 }
