@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { QueryEntity, ID } from '@datorama/akita';
 import { PositionStore, PositionState } from './position.store';
 import { Position } from './position.model';
-import { map, mergeMap, takeWhile, tap, filter, take, first } from 'rxjs/operators';
+import { map, mergeMap, takeWhile, tap, filter, take } from 'rxjs/operators';
 import { ICoordinates } from 'src/app/chess-service/interfaces/icoordinates.model';
 import { Coordinates } from 'src/app/chess-service/classes/coordinates';
 import { Piece } from 'src/app/chess-service/state/piece';
@@ -42,6 +42,7 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
 
   selectPositionByCoordinates(coordinates: ICoordinates, boardId: ID): Observable<Position> {
     return this.selectPositionsByBoard(boardId).pipe(
+      filter(position => Coordinates.IsSameCoordinates(position.coordinates, coordinates))
     );
   }
 
@@ -72,14 +73,14 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
     boardID: ID
   ): Observable<Position> {
     const new_coords = Coordinates.GetDelta(position.coordinates, direction);
-    return this.selectPositionByCoordinates$(new_coords, boardID);
+    return this.selectPositionByCoordinates(new_coords, boardID);
   }
 
   isEmpty$(
     coordinates: ICoordinates,
     boardId: ID
   ): Observable<boolean> {
-    return this.selectPositionByCoordinates$(coordinates, boardId)
+    return this.selectPositionByCoordinates(coordinates, boardId)
       .pipe(
         map(position => position.pieceId !== null)
       );
@@ -93,10 +94,16 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
     let still_empty = true;
     return Coordinates.GetCoordinatesInDirection$(coordinates, direction)
       .pipe(
-        mergeMap(coord => this.selectPositionByCoordinates$(coord, boardNumber)),
+        mergeMap(coord => this.selectPositionByCoordinates(coord, boardNumber)),
         takeWhile(() => still_empty),
         tap(position => still_empty = position.pieceId !== null),
         take(max)
       );
+  }
+
+  selectIsOccupiedCoordinates(coordinates: ICoordinates, boardId: ID): Observable<boolean> {
+    return this.selectPositionByCoordinates(coordinates, boardId).pipe(
+      map(position => position.pieceId !== undefined)
+    );
   }
 }
