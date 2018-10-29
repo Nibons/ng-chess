@@ -7,5 +7,6 @@
   "beautify.ignore": [
     "*.html"
   ],
+  "editor.formatOnSave": true,
   "html.format.wrapAttributes": "force-aligned"
 }
