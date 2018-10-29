@@ -28,7 +28,7 @@ export class Knight extends BasePiece implements IPieceType {
     KnightTargets.forEach(
       targetDirection => {
         const targetPosition = Coordinates.GetDelta(piece.coordinates, targetDirection);
-        const pQuery = positionQuery.selectPositionByCoordinates$(targetPosition, piece.boardNumber)
+        const pQuery = positionQuery.selectPositionByCoordinates(targetPosition, piece.boardNumber)
           .pipe(map(position => position.id));
         mergedObservable = mergedObservable.pipe(merge(pQuery));
       }

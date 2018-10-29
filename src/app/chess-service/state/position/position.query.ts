@@ -41,12 +41,7 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
     );
   }
 
-  selectPositionByCoordinates$(coordinates: ICoordinates, boardId: ID): Observable<Position> {
-    return this.positionsByBoard$(boardId).pipe(
-      filter(position =>
-        Coordinates.IsSameCoordinates(position.coordinates, coordinates)
-      ),
-      first()
+  selectPositionByCoordinates(coordinates: ICoordinates, boardId: ID): Observable<Position> {
     );
   }
 
