@@ -54,7 +54,7 @@
       "playerNumber": 0,
       "pieceType": "rook",
       "coordinates": {
-        "dimensions": [7, 1]
+        "dimensions": [8, 1]
       }
     },
     {
@@ -166,7 +166,7 @@
       "playerNumber": 1,
       "pieceType": "rook",
       "coordinates": {
-        "dimensions": [7, 8]
+        "dimensions": [8, 8]
       }
     },
     {
