@@ -21,11 +21,10 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
     return getEntityByObservableId$(this.selectAll(), positionId$);
   }
 
-  positionsByBoard$(boardId: ID): Observable<Position> {
-    return this.selectAll({
-      filterBy: position => position.boardId === boardId
-    }).pipe(
-      mergeMap(list => from(list))
+  selectPositionsByBoard(boardId: ID): Observable<Position> {
+    return this.selectAll().pipe(
+      mergeMap(list => from(list)),
+      filter(position => position.boardId === boardId)
     );
   }
 
@@ -42,6 +41,7 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
   }
 
   selectPositionByCoordinates(coordinates: ICoordinates, boardId: ID): Observable<Position> {
+    return this.selectPositionsByBoard(boardId).pipe(
     );
   }
 
