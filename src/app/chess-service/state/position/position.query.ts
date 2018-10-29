@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { QueryEntity, ID } from '@datorama/akita';
 import { PositionStore, PositionState } from './position.store';
 import { Position } from './position.model';
-import { map, mergeMap, takeWhile, tap, filter, take } from 'rxjs/operators';
+import { map, mergeMap, takeWhile, tap, filter, take, first } from 'rxjs/operators';
 import { ICoordinates } from 'src/app/chess-service/interfaces/icoordinates.model';
 import { Coordinates } from 'src/app/chess-service/classes/coordinates';
 import { Piece } from 'src/app/chess-service/state/piece';
@@ -25,7 +25,7 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
     return this.selectAll({
       filterBy: position => position.boardId === boardId
     }).pipe(
-      mergeMap(positionList => from(positionList))
+      mergeMap(list => from(list))
     );
   }
 
@@ -43,15 +43,32 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
 
   selectPositionByCoordinates$(coordinates: ICoordinates, boardId: ID): Observable<Position> {
     return this.positionsByBoard$(boardId).pipe(
-      filter(position => Coordinates.IsSameCoordinates(position.coordinates, coordinates)),
-      take(1)
+      filter(position =>
+        Coordinates.IsSameCoordinates(position.coordinates, coordinates)
+      ),
+      first()
     );
   }
 
-  getPositionByCoordinates(coordinates: ICoordinates, boardId: ID): Position | undefined {
+  getPositionsOnBoard(boardId: ID): Position[] {
     return this.getAll()
-      .filter(p => p.boardId === boardId)
+      .filter(position => position.boardId === boardId);
+  }
+
+  getPositionByCoordinates(coordinates: ICoordinates, boardId: ID): Position | undefined {
+    const positions_on_board = this.getPositionsOnBoard(boardId);
+    return positions_on_board
       .find(p => Coordinates.IsSameCoordinates(coordinates, p.coordinates));
+  }
+
+  getPieceAtCoordinates(coordinates: ICoordinates, boardId: ID): ID | undefined {
+    const position = this.getPositionByCoordinates(coordinates, boardId);
+    if (position !== undefined) {
+      const pieceId = position.pieceId;
+      if (pieceId !== null) {
+        return pieceId;
+      } else { return undefined; }
+    } else { return position; }
   }
 
   deltaPosition$(

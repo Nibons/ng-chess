@@ -1,13 +1,12 @@
 import { Position, createPosition } from './position.model';
 
 import { Injectable } from '@angular/core';
-import { ID, action, applyTransaction } from '@datorama/akita';
+import { ID, action } from '@datorama/akita';
 import { PositionStore } from './position.store';
 import { BoardQuery } from 'src/app/chess-service/state/board/board.query';
 import { Coordinates } from 'src/app/chess-service/classes/coordinates';
-import { ICoordinates } from 'src/app/chess-service/interfaces/icoordinates.model';
 import { PositionQuery } from 'src/app/chess-service/state/position/position.query';
-import { Piece } from 'src/app/chess-service/state/piece';
+import { Piece } from 'src/app/chess-service/state/piece/piece.model';
 
 @Injectable({ providedIn: 'root' })
 export class PositionService {
@@ -35,24 +34,15 @@ export class PositionService {
     this.positionStore.add(position_list);
   }
 
-  private add(position: Position) {
-    this.positionStore.add(position);
-  }
 
-  placePieceAtCoordinates(coordinates: ICoordinates,
-    piece: Piece): void {
+  placePieceAtCoordinates(piece: Piece): void {
     const board = this.boardQuery
       .getBoardByBoardNumberInGame(piece.gameId, piece.boardNumber);
 
-    const position = this.positionQuery.getPositionByCoordinates(coordinates, board.id);
+    const position = this.positionQuery.getPositionByCoordinates(piece.coordinates, board.id);
 
     if (position !== undefined) {
-      this.placePiece(position, piece.id);
+      this.positionStore.update(position.id, { pieceId: piece.id });
     }
   }
-
-  private placePiece(position: Position, pieceId: ID): void {
-    this.positionStore.update(position.id, { pieceId: pieceId });
-  }
-
 }

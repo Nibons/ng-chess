@@ -1,15 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ID, transaction, action } from '@datorama/akita';
 import { PieceStore } from './piece.store';
-import { Piece, createPiece, mergePieceListAndDefault } from 'src/app/chess-service/state/piece/piece.model';
+import { Piece, createPiece } from 'src/app/chess-service/state/piece/piece.model';
 import { GameQuery } from 'src/app/chess-service/state/game/game.query';
-import { map, tap, last, concatMap, mergeMap, withLatestFrom } from 'rxjs/operators';
-import { Observable, concat, of, from, Subscription } from 'rxjs';
-import { PieceQuery } from 'src/app/chess-service/state/piece/piece.query';
+import { map, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
 import { PositionService } from 'src/app/chess-service/state/position/position.service';
-import { IPieceTemplate } from 'src/app/chess-service/interfaces/templates/piece-template.model';
-import { Game } from 'src/app/chess-service/state/game/game.model';
 import { IPieceData } from 'src/app/chess-service/interfaces/ipiece-data.model';
+import { PositionQuery } from 'src/app/chess-service/state/position/position.query';
 
 @Injectable({ providedIn: 'root' })
 export class PieceService implements OnDestroy {
@@ -18,8 +16,7 @@ export class PieceService implements OnDestroy {
   constructor(
     private pieceStore: PieceStore,
     private gameQuery: GameQuery,
-    private positionService: PositionService,
-    private pieceQuery: PieceQuery) {
+    private positionService: PositionService) {
   }
 
   ngOnDestroy() {
@@ -70,8 +67,12 @@ export class PieceService implements OnDestroy {
   @transaction()
   private placePieceList(pieceList: Piece[]): Piece[] {
     pieceList.forEach(piece =>
-      this.positionService.placePieceAtCoordinates(piece.coordinates, piece)
+      this.positionService.placePieceAtCoordinates(piece)
     );
     return pieceList;
+  }
+
+  kill(): void {
+    // TODO implement the kill process here
   }
 }
