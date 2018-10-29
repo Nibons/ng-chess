@@ -8,8 +8,8 @@ export class Coordinates implements ICoordinates {
     compareCoordinates: ICoordinates
   ): boolean {
     let test = coordinates.dimensions.length === compareCoordinates.dimensions.length;
-    for (let d = 0; test && d > coordinates.dimensions.length; d++) {
-      test = coordinates.dimensions[d] === compareCoordinates.dimensions[d];
+    for (let d = 0; d < coordinates.dimensions.length; d++) {
+      test = test && coordinates.dimensions[d] === compareCoordinates.dimensions[d];
     }
     return test;
   }
