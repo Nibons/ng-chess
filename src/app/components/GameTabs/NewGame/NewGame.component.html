@@ -1,13 +1,18 @@
 This is the NewGame Component.
-<mat-vertical-stepper [linear]="false" #stepper>
-  <mat-step [stepControl]="gameSelectType$">
+<mat-vertical-stepper [linear]="false"
+                      #stepper>
+  <mat-step [stepControl]="gameStartType$">
     <form [formGroup]="resumeOrNewFormGroup">
       <ng-template matStepLabel>Resume or New</ng-template>
       <mat-form-field>
-        <input matInput placeholder="Last name, First name" formControlName="resumeOrNewFormGroup" required>
+        <input matInput
+               placeholder="Last name, First name"
+               formControlName="resumeOrNewFormGroup"
+               required>
       </mat-form-field>
       <div>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button
+                matStepperNext>Next</button>
       </div>
     </form>
   </mat-step>
@@ -15,11 +20,16 @@ This is the NewGame Component.
     <form [formGroup]="secondCtrl">
       <ng-template matStepLabel>Players</ng-template>
       <mat-form-field>
-        <input matInput placeholder="Players" formControlName="secondCtrl" required>
+        <input matInput
+               placeholder="Players"
+               formControlName="secondCtrl"
+               required>
       </mat-form-field>
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button
+                matStepperPrevious>Back</button>
+        <button mat-button
+                matStepperNext>Next</button>
       </div>
     </form>
   </mat-step>

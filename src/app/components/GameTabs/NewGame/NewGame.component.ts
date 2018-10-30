@@ -17,6 +17,8 @@ export class NewGameComponent implements OnInit {
     secontCtrl: new FormControl()
   });
 
+  secondCtrl = new FormGroup({});
+
 
   constructor(protected gameSaveQuery: GamesaveQuery, private _formBuilder: FormBuilder) { }
 
