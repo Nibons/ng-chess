@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BoardGridTwodComponent } from './board-grid-twod.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('BoardGridTwodComponent', () => {
   let component: BoardGridTwodComponent;
@@ -8,9 +9,10 @@ describe('BoardGridTwodComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BoardGridTwodComponent ]
+      declarations: [BoardGridTwodComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,9 +1,10 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { GameConsoleComponent } from './GameConsole.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 describe('GameConsoleComponent', () => {
   let component: GameConsoleComponent;
@@ -11,9 +12,11 @@ describe('GameConsoleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameConsoleComponent ]
+      declarations: [GameConsoleComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [HttpClientModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
