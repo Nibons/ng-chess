@@ -1,14 +1,4 @@
-[ {
-  "name": "standardChess",
-  "type": "template",
-  "rootFolder": "/assets/game_templates/standardChess/",
-  "configFiles": {
-    "boards": "standardChess.board.json",
-    "options": "standardChess.game.json",
-    "pieces": "standardChess.pieces.json",
-    "players": "standardChess.players.json"
-  }
-},{
+[{
   "name": "testing_bishopOnly",
   "type": "template",
   "rootFolder": "/assets/game_templates/testing/",
@@ -16,6 +6,16 @@
     "boards": "3x3.board.json",
     "options": "standardChess.game.json",
     "pieces": "bishopOnly.pieces.json",
+    "players": "standardChess.players.json"
+  }
+}, {
+  "name": "standardChess",
+  "type": "template",
+  "rootFolder": "/assets/game_templates/standardChess/",
+  "configFiles": {
+    "boards": "standardChess.board.json",
+    "options": "standardChess.game.json",
+    "pieces": "standardChess.pieces.json",
     "players": "standardChess.players.json"
   }
 }]
