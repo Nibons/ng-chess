@@ -8,12 +8,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 // 8 = H
 // ...
 // 26 = Z
-// 27 = AA
-// ...
-// 26^2 = ZZ
-// 26^2 + 1 = AAA
 
 const zero = '-';
+const alphabet_array: string[] = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ').split('');
 
 @Pipe({
   name: 'chessXAxisLabel'
@@ -21,8 +18,9 @@ const zero = '-';
 export class ChessXAxisLabelPipe implements PipeTransform {
 
   transform(value: number, args?: any): string {
-    // TODO fix this
-    return '';
+    return value === 0 ?
+      '-' :
+      alphabet_array[value - 1];
   }
 
 }
