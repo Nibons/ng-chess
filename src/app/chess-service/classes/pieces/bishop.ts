@@ -4,10 +4,10 @@ import { BasePiece } from 'src/app/chess-service/classes/BasePiece';
 import { Injectable } from '@angular/core';
 import { VectorLibrary } from 'src/app/chess-service/classes/vector';
 import { PieceStreamService } from 'src/app/chess-service/services/piece-stream.service';
-import { Observable } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { ID } from '@datorama/akita';
-import { PositionQuery } from 'src/app/chess-service/state/position';
-import { merge } from 'rxjs/operators';
+import { PositionQuery, Position } from 'src/app/chess-service/state/position';
+import { merge, toArray, mergeMap, reduce, map } from 'rxjs/operators';
 import { IPieceType } from 'src/app/chess-service/interfaces/ipiece-type.model';
 
 @Injectable({ providedIn: 'root' })
@@ -19,23 +19,19 @@ export class Bishop extends BasePiece implements IPieceType {
   }
   pieceType = EPieceType.bishop;
 
-  static bishopThreat(piece: Piece, positionQuery: PositionQuery, count = Number.MAX_SAFE_INTEGER): Observable<ID> {
-    let mergedObservable = Observable.create();
-    VectorLibrary.diagonalDirections.forEach(
-      direction =>
-        mergedObservable = mergedObservable.pipe(
-          merge(
-            positionQuery.nextPositionUntilOccupied$(piece, direction)
-          )
-        )
+  static bishopThreat(piece: Piece, positionQuery: PositionQuery, count = Number.MAX_SAFE_INTEGER): Observable<ID[]> {
+    return from(VectorLibrary.diagonalDirections).pipe(
+      mergeMap(direction => positionQuery.nextPositionUntilOccupied$(piece, direction, count)),
+      map((position: Position) => position.id),
+      toArray<ID>()
     );
-    return mergedObservable;
-  }
-  potentialMoveLocationIDs$(piece: Piece): Observable<ID> {
-    throw new Error('Method not implemented.');
   }
 
-  threatLocationIDs$(piece: Piece): Observable<ID> {
-    return Bishop.bishopThreat(piece, this.positionQuery);
+  threatLocationIdList$(piece: Piece, count = Number.MAX_SAFE_INTEGER): Observable<ID[]> {
+    return Bishop.bishopThreat(piece, this.positionQuery, count);
+  }
+
+  potentialMoveLocationIdList$(piece: Piece): Observable<ID[]> {
+    throw new Error('Method not implemented.');
   }
 }

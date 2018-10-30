@@ -4,11 +4,11 @@ import { IPieceData } from 'src/app/chess-service/interfaces/ipiece-data.model';
 import { ICoordinates } from 'src/app/chess-service/interfaces/icoordinates.model';
 import { EPieceType } from 'src/app/chess-service/enums/e-piece-type.enum';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
 import { map, mergeMap, reduce, withLatestFrom } from 'rxjs/operators';
 import { Coordinates } from 'src/app/chess-service/classes/coordinates';
 import { PieceStreamService } from 'src/app/chess-service/services/piece-stream.service';
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { ID } from '@datorama/akita';
 import { PositionQuery } from 'src/app/chess-service/state/position';
 import { IPieceType } from 'src/app/chess-service/interfaces/ipiece-type.model';
@@ -16,7 +16,12 @@ import { IPieceType } from 'src/app/chess-service/interfaces/ipiece-type.model';
 @Injectable({
   providedIn: 'root'
 })
-export abstract class BasePiece implements IPieceData, IPieceType {
+export abstract class BasePiece implements IPieceData, IPieceType, OnDestroy {
+  protected pieceStreamSubscription = new Subscription;
+  protected pieceStreamThreatSubscription = new Subscription;
+
+  protected pieceOfThisType$: Subject<Piece> = new Subject<Piece>();
+
   playerNumber = 0;
   pieceType: EPieceType = EPieceType.base;
   coordinates: ICoordinates = new Coordinates([0, 0]);
@@ -24,37 +29,31 @@ export abstract class BasePiece implements IPieceData, IPieceType {
   IsVital = false;
   boardNumber = 0;
 
-  pieceOfThisType$: Observable<Piece>;
-
-  static PieceFactory(pieceTemplate: Partial<IPieceData>, pieceDefaults: Partial<IPieceData>, gameService: GameService) {
-    const pieceInfo = BasePiece.combine(pieceTemplate, pieceDefaults) as Piece;
-    gameService.publishToPieceList(pieceInfo);
-  }
-
-  private static combine(
-    pieceTemplate: Partial<IPieceData>,
-    pieceDefaults: Partial<IPieceData>
-  ): IPieceData {
-    return { ...pieceDefaults, ...pieceTemplate } as IPieceData;
-  }
-
   constructor(
     protected pieceStreamService: PieceStreamService,
     protected positionQuery: PositionQuery
   ) {
-    this.pieceOfThisType$ = pieceStreamService.piecesFilteredByType$(this.pieceType);
-
+    this.pieceStreamSubscription =
+      pieceStreamService.piecesFilteredByType$(this.pieceType)
+        .subscribe(piece => this.pieceOfThisType$.next(piece));
   }
 
-  public selectPieceWithThreatList(pieceStream$: Observable<Piece>): Observable<Piece> {
+  ngOnDestroy() {
+    this.pieceStreamSubscription.unsubscribe();
+    this.pieceStreamThreatSubscription.unsubscribe();
+  }
+
+  startProcessingThreat() {
+    this.pieceStreamThreatSubscription =
+      this.ActOnPieceStreamThreatList(this.pieceOfThisType$);
+  }
+
+  protected ActOnPieceStreamThreatList(pieceStream$: Observable<Piece>): Subscription {
     return pieceStream$.pipe(
-      mergeMap(piece => this.threatList$(piece)),
-      withLatestFrom(pieceStream$),
-      map(
-        ([positionList, piece]) => {
-          piece.threatList = positionList;
-          return piece;
-        })
+      mergeMap(piece => this.threatLocationIdList$(piece)),
+      withLatestFrom(pieceStream$)
+    ).subscribe(
+      ([list, piece]) => this.pieceStreamService.pushPieceWithThreatList(piece, list)
     );
   }
 
@@ -71,17 +70,6 @@ export abstract class BasePiece implements IPieceData, IPieceType {
   //   );
   // }
 
-  abstract threatLocationIDs$(piece: Piece): Observable<ID>;
-  private threatList$(piece: Piece): Observable<ID[]> {
-    const accumulator = function (piece_list: ID[], piece_id: ID) {
-      piece_list.push(piece_id);
-      return piece_list;
-    };
-    return this.threatLocationIDs$(piece)
-      .pipe(
-        reduce(accumulator, new Array())
-      );
-  }
-
-  abstract potentialMoveLocationIDs$(piece: Piece): Observable<ID>;
+  abstract threatLocationIdList$(piece: Piece): Observable<ID[]>;
+  abstract potentialMoveLocationIdList$(piece: Piece): Observable<ID[]>;
 }

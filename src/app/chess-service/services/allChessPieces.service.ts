@@ -9,19 +9,25 @@ import { IPieceType } from 'src/app/chess-service/interfaces/ipiece-type.model';
 })
 export class AllChessPiecesService {
   pieceTypes: IPieceType[];
-  constructor(bishop: Bishop, rook: Rook, pawn: Pawn, queen: Queen, knight: Knight, king: King) {
-    this.pieceTypes = [bishop, rook, pawn, queen, knight, king];
+  constructor(
+    bishop: Bishop,
+    // rook: Rook,
+    // pawn: Pawn,
+    // queen: Queen,
+    // knight: Knight,
+    // king: King
+  ) {
+    this.pieceTypes = [bishop,
+      // rook,
+      // pawn,
+      // queen,
+      // knight,
+      // king
+    ];
+    this.startProcessingThreat();
   }
 
-  SelectPiecesWithThreatList(pieces$: Observable<Piece>): Observable<Piece> {
-    let mergedPieces = Observable.create();
-    this.pieceTypes.forEach(
-      pieceType => {
-        mergedPieces = mergedPieces.pipe(
-          merge(pieceType.selectPieceWithThreatList(pieces$))
-        );
-      }
-    );
-    return mergedPieces;
+  startProcessingThreat() {
+    this.pieceTypes.forEach(piece_type => piece_type.startProcessingThreat());
   }
 }

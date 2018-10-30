@@ -4,6 +4,7 @@ import { PositionQuery } from 'src/app/chess-service/state/position';
 import { Observable } from 'rxjs';
 import { EPieceType } from 'src/app/chess-service/enums/e-piece-type.enum';
 import { filter, map } from 'rxjs/operators';
+import { ID } from '@datorama/akita';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,9 @@ export class PieceStreamService {
     return this.pieceStream$.pipe(
       filter(piece => piece.pieceType === pieceType)
     );
+  }
+
+  public pushPieceWithThreatList(piece: Piece, IdList: ID[]): void {
+    this.pieceService.update(piece.id, { threatList: IdList });
   }
 }

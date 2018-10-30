@@ -14,13 +14,13 @@ export class ChessGameService {
   }
 
   onPiecesCreated() {
-    this.subscribeToPiecesThreatList();
+    // this.subscribeToPiecesThreatList();
   }
 
-  private subscribeToPiecesThreatList() {
-    this.allChessPieces.SelectPiecesWithThreatList(this.piecesQuery.getAllPieces$())
-      .subscribe(
-        piece => this.piecesService.update(piece.id, piece)
-      );
-  }
+  // private subscribeToPiecesThreatList() {
+  //   this.allChessPieces.SelectPiecesWithThreatList(this.piecesQuery.getAllPieces$())
+  //     .subscribe(
+  //       piece => this.piecesService.update(piece.id, piece)
+  //     );
+  // }
 }
