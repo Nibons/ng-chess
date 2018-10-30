@@ -1,17 +1,17 @@
 <div class="wrapper">
   <div class="top">
     <div class="wrapper-inner">
-      <div *ngFor="let i of columnIterate" class="box-inner">{{i}}</div>
+      <div *ngFor="let i of columnIterate"
+           class="box-inner">{{i | chessXAxisLabel}}</div>
     </div>
   </div>
-  <app-board-grid-twod
-    [boardId]="boardId"
-    [columnList]="columnIterate"
-    [rowList]="rowIterate"
-  ></app-board-grid-twod>
+  <app-board-grid-twod [boardId]="boardId"
+                       [columnList]="columnIterate"
+                       [rowList]="rowIterate"></app-board-grid-twod>
   <div class="bottom">
     <div class="wrapper-inner">
-      <div *ngFor="let i of columnIterate" class="box-inner">{{i}}</div>
+      <div *ngFor="let i of columnIterate"
+           class="box-inner">{{i | chessXAxisLabel}}</div>
     </div>
   </div>
 </div>

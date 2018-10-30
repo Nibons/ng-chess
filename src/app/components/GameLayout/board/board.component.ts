@@ -4,6 +4,7 @@ import { ID } from '@datorama/akita';
 import { Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { tag } from 'rxjs-spy/operators';
+import { ChessXAxisLabelPipe } from 'src/app/chess-service/pipes/chess-x-axis-label.pipe';
 
 @Component({
   selector: 'app-board',
@@ -23,12 +24,12 @@ export class BoardComponent implements OnInit, OnDestroy {
     );
   private rowIterate$: Observable<number[]> =
     this.boardQuery$.selectBoardDimensionIterate(this.boardId, 1).pipe(
-    // this makes the graph look like this, which is how i wrote everything else
-    // [0,1][1,1]
-    // [0,0][1,0]
-    map(rowNumberList => rowNumberList.reverse()),
-    tag('board-rowIterate')
-  );
+      // this makes the graph look like this, which is how i wrote everything else
+      // [0,1][1,1]
+      // [0,0][1,0]
+      map(rowNumberList => rowNumberList.reverse()),
+      tag('board-rowIterate')
+    );
   private columnCount$: Observable<number> =
     this.boardQuery$.selectBoardDimensionCount(this.boardId, 0);
   private rowCount$: Observable<number> =
@@ -51,7 +52,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     );
   }
 
-   ngOnDestroy(): void {
-     this.subscriptionList.unsubscribe();
+  ngOnDestroy(): void {
+    this.subscriptionList.unsubscribe();
   }
 }
