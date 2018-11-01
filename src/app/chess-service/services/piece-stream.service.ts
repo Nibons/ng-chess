@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { PieceQuery, PieceService, Piece, } from 'src/app/chess-service/state/piece';
 import { PositionQuery } from 'src/app/chess-service/state/position';
-import { Observable } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { EPieceType } from 'src/app/chess-service/enums/e-piece-type.enum';
-import { filter, map } from 'rxjs/operators';
-import { ID } from '@datorama/akita';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
