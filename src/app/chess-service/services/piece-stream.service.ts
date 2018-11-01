@@ -10,7 +10,10 @@ import { filter } from 'rxjs/operators';
 })
 export class PieceStreamService {
 
-  pieceStream$: Observable<Piece>;
+  private pieceUpdateSubscription: Subscription;
+  private pieceStream$: Observable<Piece>;
+
+  private pieceUpdate$: Subject<Piece> = new Subject<Piece>();
 
   constructor(
     public pieceQuery: PieceQuery,
@@ -18,15 +21,27 @@ export class PieceStreamService {
     private pieceService: PieceService
   ) {
     this.pieceStream$ = pieceQuery.getAllPieces$();
+    this.pieceUpdateSubscription = this.pieceUpdate$.subscribe(
+      piece => this.updatePiece(piece),
+      err => console.log(err),
+      () => this.destructor()
+    );
   }
-
-  public piecesFilteredByType$(pieceType: EPieceType): Observable<Piece> {
+  piecesFilteredByType$(pieceType: EPieceType): Observable<Piece> {
     return this.pieceStream$.pipe(
       filter(piece => piece.pieceType === pieceType)
     );
   }
 
-  public pushPieceWithThreatList(piece: Piece, IdList: ID[]): void {
-    this.pieceService.update(piece.id, { threatList: IdList });
+  update(piece: Piece): void {
+    this.pieceUpdate$.next(piece);
+  }
+
+  private destructor() {
+    this.pieceUpdateSubscription.unsubscribe();
+  }
+
+  private updatePiece(piece: Piece): void {
+    this.pieceService.update(piece.id, piece);
   }
 }

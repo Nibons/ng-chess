@@ -1,5 +1,4 @@
 import { Piece } from 'src/app/chess-service/state/piece';
-import { GameService } from 'src/app/chess-service/classes/GameService';
 import { IPieceData } from 'src/app/chess-service/interfaces/ipiece-data.model';
 import { ICoordinates } from 'src/app/chess-service/interfaces/icoordinates.model';
 import { EPieceType } from 'src/app/chess-service/enums/e-piece-type.enum';
@@ -51,9 +50,13 @@ export abstract class BasePiece implements IPieceData, IPieceType, OnDestroy {
   protected ActOnPieceStreamThreatList(pieceStream$: Observable<Piece>): Subscription {
     return pieceStream$.pipe(
       mergeMap(piece => this.threatLocationIdList$(piece)),
-      withLatestFrom(pieceStream$)
+      withLatestFrom(pieceStream$),
+      map(([list, piece]) => {
+        piece.threatList = list;
+        return piece;
+      })
     ).subscribe(
-      ([list, piece]) => this.pieceStreamService.pushPieceWithThreatList(piece, list)
+      piece => this.pieceStreamService.update(piece)
     );
   }
 
