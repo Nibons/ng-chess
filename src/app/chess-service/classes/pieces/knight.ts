@@ -9,7 +9,7 @@ import { Observable, merge } from 'rxjs';
 import { ID } from '@datorama/akita';
 import { ICoordinates } from 'src/app/chess-service/interfaces/icoordinates.model';
 import { Coordinates } from 'src/app/chess-service/classes/coordinates';
-import { map } from 'rxjs/operators';
+import { map, toArray } from 'rxjs/operators';
 
 const KnightTargets: ICoordinates[] = [];
 
@@ -35,11 +35,11 @@ export class Knight extends BasePiece implements IPieceType {
     );
     return mergedObservable;
   }
-  potentialMoveLocationIDs$(piece: Piece): Observable<ID> {
+  potentialMoveLocationIdList$(piece: Piece): Observable<ID[]> {
     throw new Error('Method not implemented.');
   }
 
-  threatLocationIDs$(piece: Piece): Observable<ID> {
-    return Knight.knightThreat(piece, this.positionQuery);
+  threatLocationIdList$(piece: Piece): Observable<ID[]> {
+    return Knight.knightThreat(piece, this.positionQuery).pipe(toArray());
   }
 }

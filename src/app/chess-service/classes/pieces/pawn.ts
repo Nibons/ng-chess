@@ -9,6 +9,7 @@ import { Observable, merge } from 'rxjs';
 import { ID } from '@datorama/akita';
 import { ICoordinates } from 'src/app/chess-service/interfaces/icoordinates.model';
 import { Coordinates } from 'src/app/chess-service/classes/coordinates';
+import { toArray } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class Pawn extends BasePiece implements IPieceType {
@@ -34,12 +35,12 @@ export class Pawn extends BasePiece implements IPieceType {
       )
     );
   }
-  potentialMoveLocationIDs$(piece: Piece): Observable<ID> {
+  potentialMoveLocationIdList$(piece: Piece): Observable<ID[]> {
     throw new Error('Method not implemented.');
   }
 
-  threatLocationIDs$(piece: Piece): Observable<ID> {
-    return Pawn.pawnThreat(piece, this.positionQuery);
+  threatLocationIdList$(piece: Piece): Observable<ID[]> {
+    return Pawn.pawnThreat(piece, this.positionQuery).pipe(toArray());
   }
 }
 

@@ -8,12 +8,13 @@ import { ID } from '@datorama/akita';
 import { Piece } from 'src/app/chess-service/state/piece/piece.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { VectorLibrary } from 'src/app/chess-service/classes/vector';
-import { merge } from 'rxjs/operators';
+import { merge, toArray } from 'rxjs/operators';
 import { Rook } from 'src/app/chess-service/classes/pieces/rook';
 import { Bishop } from 'src/app/chess-service/classes/pieces/bishop';
 
 @Injectable({ providedIn: 'root' })
 export class Queen extends BasePiece implements IPieceType {
+
   constructor(
     pieceStreamService: PieceStreamService,
     positionQuery: PositionQuery,
@@ -29,10 +30,12 @@ export class Queen extends BasePiece implements IPieceType {
       )
     );
   }
-  threatLocationIDs$(piece: Piece): Observable<ID> {
-    return Queen.queenThreat(piece, this.positionQuery);
+  threatLocationIdList$(piece: Piece): Observable<ID[]> {
+    return Queen.queenThreat(piece, this.positionQuery).pipe(
+      toArray()
+    );
   }
-  potentialMoveLocationIDs$(piece: Piece): Observable<ID> {
+  potentialMoveLocationIdList$(piece: Piece): Observable<ID[]> {
     throw new Error('Method not implemented.');
   }
 }

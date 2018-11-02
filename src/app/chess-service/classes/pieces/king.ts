@@ -8,6 +8,7 @@ import { ID } from '@datorama/akita';
 import { Piece } from 'src/app/chess-service/state/piece/piece.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { Queen } from 'src/app/chess-service/classes/pieces/queen';
+import { toArray } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class King extends BasePiece implements IPieceType {
@@ -21,10 +22,10 @@ export class King extends BasePiece implements IPieceType {
   static kingThreat(piece: Piece, positionQuery: PositionQuery): Observable<ID> {
     return Queen.queenThreat(piece, positionQuery, 1);
   }
-  threatLocationIDs$(piece: Piece): Observable<ID> {
-    return King.kingThreat(piece, this.positionQuery);
-  }
-  potentialMoveLocationIDs$(piece: Piece): Observable<ID> {
+  potentialMoveLocationIdList$(piece: Piece): Observable<ID[]> {
     throw new Error('Method not implemented.');
+  }
+  threatLocationIdList$(piece: Piece): Observable<ID[]> {
+    return King.kingThreat(piece, this.positionQuery).pipe(toArray());
   }
 }

@@ -11,18 +11,18 @@ export class AllChessPiecesService {
   pieceTypes: IPieceType[];
   constructor(
     bishop: Bishop,
-    // rook: Rook,
-    // pawn: Pawn,
-    // queen: Queen,
-    // knight: Knight,
-    // king: King
+    rook: Rook,
+    pawn: Pawn,
+    queen: Queen,
+    knight: Knight,
+    king: King
   ) {
     this.pieceTypes = [bishop,
-      // rook,
-      // pawn,
-      // queen,
-      // knight,
-      // king
+      rook,
+      pawn,
+      queen,
+      knight,
+      king
     ];
     this.startProcessingThreat();
   }
