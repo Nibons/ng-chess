@@ -27,9 +27,11 @@ export class Bishop extends BasePiece implements IPieceType {
     );
   }
 
-  threatLocationIdList$(piece: Piece, count = Number.MAX_SAFE_INTEGER): Observable<ID[]> {
-    return Bishop.bishopThreat(piece, this.positionQuery, count);
+  threatPositionIdList(piece: Piece): ID[] {
+
   }
+
+
 
   potentialMoveLocationIdList$(piece: Piece): Observable<ID[]> {
     throw new Error('Method not implemented.');

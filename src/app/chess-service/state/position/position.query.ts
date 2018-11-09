@@ -17,9 +17,12 @@ export class PositionQuery extends QueryEntity<PositionState, Position> {
     super(store);
   }
 
-  positionById$(positionId$: Observable<ID>): Observable<Position> {
-    return getEntityByObservableId$(this.selectAll(), positionId$);
+  getPositionsInDirectionUntilOccupied(positionId: ID, boardId: ID, count: number = Number.MAX_SAFE_INTEGER): ID[] {
+    const position_list: ID[] = new Array<ID>();
+
+    return position_list;
   }
+
 
   selectPositionsByBoard(boardId: ID): Observable<Position> {
     return this.selectAll().pipe(
